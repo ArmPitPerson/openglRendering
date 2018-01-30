@@ -8,6 +8,10 @@
 #include <string>
 
 
+template<typename T, unsigned M>
+class vecM;
+
+
 class Shader final {
 public:
 	Shader(const std::string& shaderName);
@@ -19,6 +23,13 @@ public:
 	void unbind() const;
 
 	void setUniform1f(const std::string& name, float value);
+
+	void setUniform2f(const std::string& name, const vecM<float, 2>& value);
+
+	void setUniform3f(const std::string& name, const vecM<float, 3>& value);
+
+	void setUniform4f(const std::string& name, const vecM<float, 4>& value);
+
 
 private:
 	unsigned compileShader(const std::string& sourceFile, unsigned type);

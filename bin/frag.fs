@@ -2,6 +2,7 @@
 layout (location=0) out vec4 color;
 
 uniform float uTime;
+uniform vec2 uMousePos;
 
 in vec4 fs_color;
 in vec2 fs_texCoord;

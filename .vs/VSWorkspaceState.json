@@ -1,9 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\ext\\spdlog",
+    "\\ext\\spdlog\\include",
+    "\\ext\\spdlog\\include\\spdlog",
+    "\\ext\\spdlog\\include\\spdlog\\fmt",
     "\\include",
     "\\src"
   ],
-  "SelectedNode": "\\CMakeLists.txt",
+  "SelectedNode": "\\include\\linalg.h",
   "PreviewInSolutionExplorer": false
 }

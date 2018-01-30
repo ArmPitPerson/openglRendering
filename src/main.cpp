@@ -59,11 +59,6 @@ int main() {
 
 	unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
-	constexpr vec2 fVec1(2.f, 5.f);
-	constexpr vec2 fVec2 = fVec1;
-	const vec2 fVec3 = fVec1 + fVec2;
-	const vec2 fVec4 = fVec2 - fVec1;
-
 	// OpenGL Debug Messages
 	unsigned unusedID = 0;
 	gl::Enable(gl::DEBUG_OUTPUT_SYNCHRONOUS);
@@ -98,13 +93,22 @@ int main() {
 		Shader shader("vertex.vs", "frag.fs");
 		shader.bind();
 
+		double xMouse, yMouse;		
+		vec2 mousePos;
+		constexpr vec2 winSize{ 1280.f, 720.f };
+
 		// Main Loop
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
+			glfwGetCursorPos(window, &xMouse, &yMouse);
+			mousePos = vec2(static_cast<float>(xMouse), static_cast<float>(-yMouse));
+
 			gl::Clear(gl::COLOR_BUFFER_BIT);
 
 			gl::BindVertexArray(vao);
 			shader.setUniform1f("uTime", glfwGetTime());
+			shader.setUniform2f("uMousePos", mousePos);
+			shader.setUniform2f("uWindowSize", winSize);
 			gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
 
 			glfwSwapBuffers(window);

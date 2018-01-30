@@ -1,5 +1,6 @@
 #include "shader.h"
 #include "files.h"
+#include "linalg.h"
 #include "logging.h"
 #include "gl_cpp.hpp"
 #include "spdlog/fmt/fmt.h"
@@ -42,6 +43,24 @@ void Shader::setUniform1f(const std::string& name, float value) {
 	const auto location = getUniformLocation(name);
 	if (location != -1)
 		gl::Uniform1f(location, value);
+}
+
+void Shader::setUniform2f(const std::string& name, const vec2& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::Uniform2fv(location, 1, value.data());
+}
+
+void Shader::setUniform3f(const std::string& name, const vec3& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::Uniform3fv(location, 1, value.data());
+}
+
+void Shader::setUniform4f(const std::string& name, const vec4& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::Uniform4fv(location, 1, value.data());
 }
 
 unsigned Shader::compileShader(const std::string& sourceFile, unsigned type) {
@@ -118,4 +137,3 @@ int Shader::getUniformLocation(const std::string& name) {
 	
 	return location;
 }
-
