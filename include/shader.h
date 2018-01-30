@@ -18,6 +18,8 @@ public:
 
 	void unbind() const;
 
+	void setUniform1f(const std::string& name, float value);
+
 private:
 	unsigned compileShader(const std::string& sourceFile, unsigned type);
 
@@ -30,6 +32,8 @@ private:
 	bool validateShaderCompilation(unsigned shader);
 
 	void makeProgramAndCleanup(const unsigned vertexShader, const unsigned fragmentShader);
+
+	int getUniformLocation(const std::string& name);
 
 private:
 	// OpenGL Name

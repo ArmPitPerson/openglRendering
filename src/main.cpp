@@ -39,7 +39,7 @@ void APIENTRY cppGLDebug(GLenum source, GLenum type, GLuint id, GLenum severity,
 
 
 int main() {
-	glfwInit();
+	glfwInit();	
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
@@ -87,7 +87,7 @@ int main() {
 	gl::EnableVertexArrayAttrib(vao, 0);
 	gl::EnableVertexArrayAttrib(vao, 1);
 	gl::EnableVertexArrayAttrib(vao, 2);
-
+		
 	{
 		Shader shader("vertex.vs", "frag.fs");
 		shader.bind();
@@ -98,6 +98,7 @@ int main() {
 			gl::Clear(gl::COLOR_BUFFER_BIT);
 
 			gl::BindVertexArray(vao);
+			shader.setUniform1f("uTime", glfwGetTime());
 			gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
 
 			glfwSwapBuffers(window);

@@ -38,6 +38,12 @@ void Shader::unbind() const {
 	gl::UseProgram(0);
 }
 
+void Shader::setUniform1f(const std::string& name, float value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::Uniform1f(location, value);
+}
+
 unsigned Shader::compileShader(const std::string& sourceFile, unsigned type) {
 	// Load source code
 	const auto& sourceStr = readFile(sourceFile);
@@ -93,5 +99,23 @@ void Shader::makeProgramAndCleanup(const unsigned vertexShader, const unsigned f
 	// Cleanup
 	gl::DeleteShader(vertexShader);
 	gl::DeleteShader(fragmentShader);
+}
+
+int Shader::getUniformLocation(const std::string& name) {
+	// Check Cache
+	if (mUniformCache.find(name) != mUniformCache.end())
+		return mUniformCache.at(name);
+	
+	// Get Location
+	const int location = gl::GetUniformLocation(mName, name.data());
+
+	// If invalid log error
+	if (location == -1)
+		logCustom()->warn("Uniform {} does not exist or is not in use!", name);
+
+	// Cache for future calls
+	mUniformCache[name] = location;
+	
+	return location;
 }
 
