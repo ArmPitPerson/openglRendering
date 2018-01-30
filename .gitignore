@@ -2,7 +2,11 @@
 
 # Folders
 /build
+/ext/glfw/docs
 
 # File types
 *.exe
 *.suo
+*.svg
+*.dox
+
