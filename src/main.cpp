@@ -3,6 +3,7 @@
 #include "spdlog/spdlog.h"
 #include "logging.h"
 #include "shader.h"
+#include "linalg.h"
 #include <string>
 
 
@@ -57,6 +58,11 @@ int main() {
 			     {-.5f, .5f, 0.f, 0.f, 0.f, 1.f, 0.0f, 1.f } };
 
 	unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
+
+	constexpr vec2 fVec1(2.f, 5.f);
+	constexpr vec2 fVec2 = fVec1;
+	const vec2 fVec3 = fVec1 + fVec2;
+	const vec2 fVec4 = fVec2 - fVec1;
 
 	// OpenGL Debug Messages
 	unsigned unusedID = 0;

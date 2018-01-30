@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project("OpenGL")
 
+##############################################################################
 # Varaibles
+##############################################################################
+
 set(cmake_cxx_standard 17)
 set(cmake_cxx_standard REQUIRED ON)
 set(INCLUDE_DIRS "include")
 set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp")
+
+##############################################################################
+# Libraries 
+##############################################################################
 
 # GLFW
 add_subdirectory("ext/glfw")
@@ -17,7 +24,10 @@ set(INCLUDE_DIRS ${INCLUDE_DIRS} "ext/spdlog/include")
 include_directories(${INCLUDE_DIRS} "ext/gl/include")
 set(SOURCE_FILES ${SOURCE_FILES} "ext/gl/src/gl_cpp.cpp")
 
+##############################################################################
 # Build Targets
+##############################################################################
+
 add_executable(${PROJECT_NAME} "src/main.cpp" ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 
