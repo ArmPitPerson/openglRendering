@@ -5,7 +5,7 @@ project("OpenGL")
 set(cmake_cxx_standard 17)
 set(cmake_cxx_standard REQUIRED ON)
 set(INCLUDE_DIRS "include")
-set(SOURCE_FILES "src/glUtility.cpp" "src/logging.cpp")
+set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp")
 
 # GLFW
 add_subdirectory("ext/glfw")

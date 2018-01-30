@@ -2,9 +2,7 @@
 #include "GLFW/glfw3.h"
 #include "spdlog/spdlog.h"
 #include "logging.h"
-#include <sstream>
-#include <iostream>
-#include <fstream>
+#include "shader.h"
 #include <string>
 
 
@@ -20,19 +18,6 @@ struct Vertex {
 	float u;
 	float v;
 };
-
-
-const std::string readFile(const std::string& filepath) {
-	std::stringstream out;
-	std::ifstream file(filepath);
-	if (file.is_open()) {
-		out << file.rdbuf();
-		return out.str();
-	}
-	logCustom()->warn("Failed to read file: {}", filepath);
-	return std::string("");
-}
-
 
 void APIENTRY cppGLDebug(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
 	switch (severity) {
@@ -103,54 +88,25 @@ int main() {
 	gl::EnableVertexArrayAttrib(vao, 1);
 	gl::EnableVertexArrayAttrib(vao, 2);
 
-	// Create Shader
- 	unsigned vertexShader = gl::CreateShader(gl::VERTEX_SHADER);
- 	unsigned fragmentShader = gl::CreateShader(gl::FRAGMENT_SHADER);
- 	unsigned program = gl::CreateProgram();
- 
- 	const auto& vertexSourceString = readFile("vertex.vs");
- 	const auto* vertexSource = vertexSourceString.data();
-	const auto& fragmentSourceString = readFile("frag.fs");
- 	const auto* fragmentSource = fragmentSourceString.data();
+	{
+		Shader shader("vertex.vs", "frag.fs");
+		shader.bind();
 
- 	gl::ShaderSource(vertexShader, 1, &vertexSource, nullptr);
- 	gl::ShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
- 
- 	gl::CompileShader(vertexShader);
- 	gl::CompileShader(fragmentShader);
+		// Main Loop
+		while (!glfwWindowShouldClose(window)) {
+			glfwPollEvents();
+			gl::Clear(gl::COLOR_BUFFER_BIT);
 
-	int out, len;
-	gl::GetShaderiv(fragmentShader, gl::COMPILE_STATUS, &out);
-	gl::GetShaderiv(fragmentShader, gl::INFO_LOG_LENGTH, &len);
-	GLchar message[1024];
-	gl::GetShaderInfoLog(vertexShader, 1024, &len, message);
-	logCustom()->error("Shader Compile Error: {}", message);
- 
- 	gl::AttachShader(program, vertexShader);
- 	gl::AttachShader(program, fragmentShader);
- 	gl::LinkProgram(program);
- 	gl::ValidateProgram(program);
- 
- 	gl::DeleteShader(vertexShader);
- 	gl::DeleteShader(fragmentShader);
- 	
- 	gl::UseProgram(program);
+			gl::BindVertexArray(vao);
+			gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
 
-	// Main Loop
-	while (!glfwWindowShouldClose(window)) {
-		glfwPollEvents();
-		gl::Clear(gl::COLOR_BUFFER_BIT);
+			glfwSwapBuffers(window);
+		}
 
-		gl::BindVertexArray(vao);
-		gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
-
-		glfwSwapBuffers(window);
+		// Cleanup
+		gl::DeleteVertexArrays(1, &vao);
+		gl::DeleteBuffers(1, &vbo);
 	}
-
-	// Cleanup
-	gl::DeleteVertexArrays(1, &vao);
-	gl::DeleteBuffers(1, &vbo);
-	gl::DeleteProgram(program);
 	glfwTerminate();
 	return 0;
 }
