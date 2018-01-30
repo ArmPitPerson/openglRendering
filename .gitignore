@@ -1,0 +1,8 @@
+# OpenGL Rendering Gitignore
+
+# Folders
+/build
+
+# File types
+*.exe
+*.suo
