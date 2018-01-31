@@ -10,7 +10,7 @@ out vec4 fs_color;
 out vec2 fs_texCoord;
 
 void main() {
-    gl_Position = aPosition - vec4(0.5f, -0.5f, 0, 0) + vec4(uMousePos / uWindowSize, 0, 0);
+    gl_Position = aPosition - vec4(0.5f, -0.5f, 0, 0) + vec4((uMousePos - .5f) / uWindowSize, 0, 0);
     fs_color = aColor;
     fs_texCoord = aTexCoord;
 }

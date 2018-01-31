@@ -95,7 +95,14 @@ using vec4u = vecM<unsigned, 4>;
 template<typename T, unsigned M>
 class matM {
 public:
-	
+	constexpr matM() = default;
+
+	template<typename... U, typename V = std::enable_if_t<(sizeof...(U) <= M * M)>>
+	constexpr matM(U... values) : mData({ values... }) {}
+
+	constexpr matM(const vecM<T, M>& col1, const vecM<T, M>& col2, const vecM<T, M>& col3, const vecM<T, M>& col4) {
+
+	}
 
 	// Get ptr to data
 	const T* data() const { return mData.data(); }
