@@ -63,6 +63,24 @@ void Shader::setUniform4f(const std::string& name, const vec4& value) {
 		gl::Uniform4fv(location, 1, value.data());
 }
 
+void Shader::setUniformMat2(const std::string& name, const matM<float, 2>& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::UniformMatrix2fv(location, 1, gl::FALSE_, value.data());
+}
+
+void Shader::setUniformMat3(const std::string& name, const matM<float, 3>& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::UniformMatrix3fv(location, 1, gl::FALSE_, value.data());
+}
+
+void Shader::setUniformMat4(const std::string& name, const matM<float, 4>& value) {
+	const auto location = getUniformLocation(name);
+	if (location != -1)
+		gl::UniformMatrix4fv(location, 1, gl::FALSE_, value.data());
+}
+
 unsigned Shader::compileShader(const std::string& sourceFile, unsigned type) {
 	// Load source code
 	const auto& sourceStr = readFile(sourceFile);
@@ -137,3 +155,4 @@ int Shader::getUniformLocation(const std::string& name) {
 	
 	return location;
 }
+

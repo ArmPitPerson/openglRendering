@@ -52,15 +52,12 @@ int main() {
 	auto debugLog = spdlog::stdout_color_st("DEBUG");
 	debugLog->set_pattern("[%H:%M:%S.%e] >> %v");
 
-	Vertex vertices[] = {{-.5f, -.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f},
-			     {.5f, -.5f, 0.f, 0.f, 1.f, 0.f, 1.f, 0.f},
-			     {.5f, .5f, 0.f, 0.f, 0.f, 1.f, 1.f, 1.f},
-			     {-.5f, .5f, 0.f, 0.f, 0.f, 1.f, 0.0f, 1.f } };
+	Vertex vertices[] = {{-100.f, -100.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f},
+			     {100.f, -100.f, 0.f, 0.f, 1.f, 0.f, 1.f, 0.f},
+			     {100.f, 100.f, 0.f, 0.f, 0.f, 1.f, 1.f, 1.f},
+			     {-100.f, 100.f, 0.f, 0.f, 0.f, 1.f, 0.0f, 1.f } };
 
 	unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
-
-	matM<float, 3> matrix{ 1, 8, 28, 2, 10, 32, 3, 12, 36 };
-	matrix = mat3::identity();
 
 	// OpenGL Debug Messages
 	unsigned unusedID = 0;
@@ -100,6 +97,8 @@ int main() {
 		vec2 mousePos;
 		constexpr vec2 winSize{ 1280.f, 720.f };
 
+		const mat4 transformMatrix = { 1 / 1280.f, 0, 0, 0, 0, 1 / 720.f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+
 		// Main Loop
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
@@ -109,6 +108,7 @@ int main() {
 			gl::Clear(gl::COLOR_BUFFER_BIT);
 
 			gl::BindVertexArray(vao);
+			shader.setUniformMat4("uTransform", transformMatrix);
 			gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
 
 			glfwSwapBuffers(window);
@@ -118,6 +118,7 @@ int main() {
 		gl::DeleteVertexArrays(1, &vao);
 		gl::DeleteBuffers(1, &vbo);
 	}
+
 	glfwTerminate();
 	return 0;
 }

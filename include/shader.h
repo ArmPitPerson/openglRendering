@@ -11,6 +11,9 @@
 template<typename T, unsigned M>
 class vecM;
 
+template<typename T, unsigned M>
+class matM;
+
 
 class Shader final {
 public:
@@ -29,6 +32,12 @@ public:
 	void setUniform3f(const std::string& name, const vecM<float, 3>& value);
 
 	void setUniform4f(const std::string& name, const vecM<float, 4>& value);
+
+	void setUniformMat2(const std::string& name, const matM<float, 2>& value);
+
+	void setUniformMat3(const std::string& name, const matM<float, 3>& value);
+
+	void setUniformMat4(const std::string& name, const matM<float, 4>& value);
 
 
 private:

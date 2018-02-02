@@ -214,6 +214,20 @@ public:
 		return outMatrix;
 	}
 
+	// Return the an orthographic projection matrix
+	static matM orthographic(float left, float right, float bottom, float top, float close, float away) {
+		static_assert(M == 4, "Can not create orthographic matrix for other sizes than 4x4 matrices");
+		matM outMatrix{ 0 };
+		outMatrix(0, 0) = 2.f / (right - left);
+		outMatrix(1, 1) = 2.f / (top - bottom);
+		outMatrix(2, 2) = 2.f / (close - away);
+		outMatrix(3, 3) = 1.f;
+		outMatrix(0, 3) = (left + right) / (left - right);
+		outMatrix(1, 3) = (bottom + top) / (bottom - top);
+		outMatrix(2, 3) = (close + away) / (away - close);
+		return outMatrix;
+	}
+
 	// Get ptr to data
 	const T* data() const { return mData.data(); }
 
