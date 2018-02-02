@@ -10,6 +10,12 @@ set(cmake_cxx_standard REQUIRED ON)
 set(INCLUDE_DIRS "include")
 set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp")
 
+# MSVC C++ 17
+if(MSVC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+add_definitions(-D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
+endif()
+
 ##############################################################################
 # Libraries 
 ##############################################################################

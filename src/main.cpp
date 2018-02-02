@@ -59,6 +59,9 @@ int main() {
 
 	unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
+	matM<float, 3> matrix{ 1, 8, 28, 2, 10, 32, 3, 12, 36 };
+	matrix = mat3::identity();
+
 	// OpenGL Debug Messages
 	unsigned unusedID = 0;
 	gl::Enable(gl::DEBUG_OUTPUT_SYNCHRONOUS);
@@ -106,9 +109,6 @@ int main() {
 			gl::Clear(gl::COLOR_BUFFER_BIT);
 
 			gl::BindVertexArray(vao);
-			shader.setUniform1f("uTime", glfwGetTime());
-			shader.setUniform2f("uMousePos", mousePos);
-			shader.setUniform2f("uWindowSize", winSize);
 			gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, nullptr);
 
 			glfwSwapBuffers(window);
