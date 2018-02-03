@@ -4,6 +4,8 @@
 #ifndef GLFWAPPLICATION_H
 #define GLFWAPPLICATION_H
 
+#include "inputManager.h"
+
 struct GLFWwindow;
 
 
@@ -17,6 +19,9 @@ public:
 private:
 	// Application Window
 	GLFWwindow* mWindow = nullptr;
+
+	// Input Manager
+	InputManager mInputManager;
 
 };
 

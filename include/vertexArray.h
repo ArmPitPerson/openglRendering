@@ -14,9 +14,12 @@ public:
 	VertexArray(const VertexBuffer& vbo, const IndexBuffer& ibo);
 	~VertexArray();
 
+
 	void bind() const;
 
 	void unbind() const;
+	
+	const unsigned name() const { return mName; }
 
 	void addAttribute(int size, unsigned type, unsigned offset, bool normalize = false);
 
