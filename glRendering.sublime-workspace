@@ -523,7 +523,16 @@
 			"file": "bin/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 422,
+				"buffer_size": 482,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
+			"settings":
+			{
+				"buffer_size": 8232,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -845,6 +854,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_01/Report/Report.tex",
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_01/Python/problem03_mfr.py",
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_01/Python/problem01_mfr.py",
@@ -971,8 +981,7 @@
 		"/C/Python36/Lib/site-packages/PyQt5/QtWidgets.pyd",
 		"/C/Python36/Lib/site-packages/PyQt5/__init__.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/.gitignore",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/__init__.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/LabelledPromptWindow.py"
+		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/__init__.py"
 	],
 	"find":
 	{
@@ -1026,7 +1035,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1035,15 +1044,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 422,
+						"buffer_size": 482,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								390,
-								390
+								211,
+								211
 							]
 						],
 						"settings":
@@ -1056,6 +1065,34 @@
 					},
 					"stack_index": 1,
 					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8011,
+								8011
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3513.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
 				}
 			]
 		},
@@ -1064,7 +1101,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "bin/frag.fs",
 					"semi_transient": false,
 					"settings":
@@ -1076,8 +1113,8 @@
 						"selection":
 						[
 							[
-								129,
-								129
+								133,
+								133
 							]
 						],
 						"settings":
@@ -1088,7 +1125,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1122,7 +1159,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.656826568266,
 			1.0
 		],
 		"rows":
@@ -1190,7 +1227,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1198,7 +1235,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 267.0,
+	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
