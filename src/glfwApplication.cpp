@@ -12,9 +12,9 @@
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	static InputManager* inputManager = ServiceLocator<InputManager>::get();
 	if (action == GLFW_PRESS || action == GLFW_REPEAT)
-		inputManager->triggerKey(key);
+		inputManager->pressKey(key);
 	else if (action == GLFW_RELEASE)
-		inputManager->unTriggerKey(key);
+		inputManager->releaseKey(key);
 }
 
 
@@ -71,7 +71,9 @@ void GLFWApplication::run() {
 	while (!glfwWindowShouldClose(mWindow)) {
 		mInputManager.clear();
 		glfwPollEvents();
-		if (mInputManager.wasPressed(GLFW_KEY_O)) {
+		if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
+			glfwSetWindowShouldClose(mWindow, true);
+		if (mInputManager.wasPressed(GLFW_KEY_O, GLFW_KEY_I)) {
 			if (bUseBufferA) {
 				vao.setBuffer(vbo2);
 				bUseBufferA = false;
@@ -80,6 +82,18 @@ void GLFWApplication::run() {
 				vao.setBuffer(vbo);
 				bUseBufferA = true;
 			}
+		}
+		if (mInputManager.arePressed(GLFW_KEY_RIGHT)) {
+			transformMatrix(0, 3) += 0.001f;
+		}
+		if (mInputManager.arePressed(GLFW_KEY_LEFT)) {
+			transformMatrix(0, 3) -= 0.001f;
+		}
+		if (mInputManager.arePressed(GLFW_KEY_UP)) {
+			transformMatrix(1, 3) += 0.001f;
+		}
+		if (mInputManager.arePressed(GLFW_KEY_DOWN)) {
+			transformMatrix(1, 3) -= 0.001f;
 		}
 
 		gl::Clear(gl::COLOR_BUFFER_BIT);

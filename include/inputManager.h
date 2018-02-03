@@ -5,6 +5,7 @@
 #define INPUTMANAGER_H
 
 #include <array>
+#include <type_traits>
 
 
 class InputManager {
@@ -14,21 +15,19 @@ public:
 	// Clear pressed input mask
 	void clear() { mPressedKeyMask.fill(0); }
 
-	// Set a key to have been pressed
-	void triggerKey(unsigned key) { ++mInputMask[key]; mPressedKeyMask[key] = 1u; }
+	// Tell input manager that the given key has been pressed
+	void pressKey(unsigned key) { ++mInputMask[key]; mPressedKeyMask[key] = 1u; }
 
-	// Set a key to have been released
-	void unTriggerKey(unsigned key) { mInputMask[key] = 0; mPressedKeyMask[key] = 0; }
+	// Tell input manager that the given key has been released
+	void releaseKey(unsigned key) { mInputMask[key] = 0; mPressedKeyMask[key] = 0; }
 
-	// Check if a key is being repeated
-	const bool isKeyRepeating(unsigned key) const { return mInputMask[key] > 1; }
-
-	// Check if all given keys are pressed down
+	// Check if all given keys are currently in a pressed state or repeating [live]
 	template<typename... Keys>
-	const bool areKeysDown(Keys... keys) const { return (... && mInputMask[keys]); }
+	const bool arePressed(Keys... keys) const { return (... && mInputMask[keys]); }
 
-	// Check if a key was pressed for the first time
-	const bool wasPressed(unsigned key) const { return mPressedKeyMask[key] == 1; }
+	// Check if all given keys were pressed down this frame [event-based]
+	template<typename... Keys>
+	const bool wasPressed(Keys... keys) const { return (... && (mPressedKeyMask[keys] == 1)); }
 
 private:
 	// Input Mask for keyboard keys and mouse buttons [live]
