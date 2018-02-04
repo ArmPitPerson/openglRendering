@@ -4,6 +4,7 @@
 #include "logging.h"
 #include "gl_cpp.hpp"
 #include "spdlog/fmt/fmt.h"
+#include <memory>
 
 
 Shader::Shader(const std::string& shaderName) {
@@ -116,9 +117,9 @@ bool Shader::validateShaderCompilation(unsigned shader) {
 	if (didCompile != gl::TRUE_) {
 		int length;
 		gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &length);
-		std::unique_ptr<char> mMessage(new char[length + 1]);
-		gl::GetShaderInfoLog(shader, length + 1, &length, mMessage.get());
-		logCustom()->error("Shader Compile Error: {}", *mMessage);
+		std::unique_ptr<char> message(new char[length]);
+		gl::GetShaderInfoLog(shader, length, &length, message.get());
+		logCustom()->error("Shader Compile Error: {}", message.get());
 		return false;
 	}
 	return true;

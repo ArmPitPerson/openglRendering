@@ -47,6 +47,36 @@ private:
 
 };
 
+/// Specialization for Element buffer to provide the count of indices
+template<>
+class Buffer<EBufferType::Element> {
+public:
+	Buffer() { gl::CreateBuffers(1, &mName); }
+
+	~Buffer() { gl::DeleteBuffers(1, &mName); }
+
+	Buffer(const void* data, ptrdiff_t dataSize, unsigned count) : mCount(count) {
+		gl::CreateBuffers(1, &mName);
+		gl::NamedBufferStorage(mName, dataSize, data, 0);
+	};
+
+	const unsigned name() const { return mName; }
+
+	void bind() const { gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, mName); }
+
+	void unbind() const { gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0); }
+
+	const unsigned getCount() const { return mCount; }
+
+private:
+	// The OpenGL Name
+	unsigned mName = 0;
+
+	// Number of indices
+	unsigned mCount = 0;
+};
+
+
 template<EBufferType type>
 Buffer<type>::Buffer(const void* data, ptrdiff_t dataSize) {
 	gl::CreateBuffers(1, &mName);
