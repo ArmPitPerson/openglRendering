@@ -5,41 +5,27 @@
 #define BUFFER_H
 
 #include "gl_cpp.hpp"
+#include <string>
+#include "spdlog/fmt/fmt.h"
 
 
-/* Buffer Type Wrapper */
-enum class EBufferType {
-	Array,
-//	AtomicCounter,
-// 	CopyRead,
-// 	CopyWrite,
-// 	DispatchIndirect,
-// 	DrawIndirect,
-	Element,
-// 	PixelPack,
-// 	PixelUnpack,
-// 	Query,
-// 	ShaderStorage,
-// 	Texture,
-// 	TransformFeedback,
-	Uniform
-};
 
-
-template<EBufferType type>
-class Buffer {
+class VertexBuffer {
 public:
-	Buffer() { gl::CreateBuffers(1, &mName); }
+	VertexBuffer() { gl::CreateBuffers(1, &mName); }
 
-	~Buffer() { gl::DeleteBuffers(1, &mName); }
+	~VertexBuffer() { gl::DeleteBuffers(1, &mName); }
 
-	Buffer(const void* data, ptrdiff_t dataSize);
+	VertexBuffer(const void* data, ptrdiff_t dataSize) {
+		gl::CreateBuffers(1, &mName);
+		gl::NamedBufferStorage(mName, dataSize, data, 0);
+	}
+
+	void bind() const { gl::BindBuffer(gl::ARRAY_BUFFER, mName); }
+
+	void unbind() const { gl::BindBuffer(gl::ARRAY_BUFFER, 0); }
 
 	const unsigned name() const { return mName; }
-
-	void bind() const;
-	
-	void unbind() const;
 
 private:
 	// The OpenGL Name
@@ -47,26 +33,25 @@ private:
 
 };
 
-/// Specialization for Element buffer to provide the count of indices
-template<>
-class Buffer<EBufferType::Element> {
+
+class IndexBuffer {
 public:
-	Buffer() { gl::CreateBuffers(1, &mName); }
+	IndexBuffer() { gl::CreateBuffers(1, &mName); }
 
-	~Buffer() { gl::DeleteBuffers(1, &mName); }
+	~IndexBuffer() { gl::DeleteBuffers(1, &mName); }
 
-	Buffer(const void* data, ptrdiff_t dataSize, unsigned count) : mCount(count) {
+	IndexBuffer(const void* data, ptrdiff_t dataSize, unsigned count) : mCount(count) {
 		gl::CreateBuffers(1, &mName);
 		gl::NamedBufferStorage(mName, dataSize, data, 0);
 	};
 
 	const unsigned name() const { return mName; }
 
+	const unsigned getCount() const { return mCount; }
+
 	void bind() const { gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, mName); }
 
 	void unbind() const { gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0); }
-
-	const unsigned getCount() const { return mCount; }
 
 private:
 	// The OpenGL Name
@@ -77,51 +62,54 @@ private:
 };
 
 
-template<EBufferType type>
-Buffer<type>::Buffer(const void* data, ptrdiff_t dataSize) {
-	gl::CreateBuffers(1, &mName);
-	gl::NamedBufferStorage(mName, dataSize, data, 0);
-}
+class UniformBuffer {
+public:
+	UniformBuffer(ptrdiff_t size, unsigned program) : mProgram(program) {
+		gl::CreateBuffers(1, &mName);
+		gl::NamedBufferStorage(mName, size, nullptr , gl::DYNAMIC_STORAGE_BIT);
+	};
 
-template<EBufferType type>
-void Buffer<type>::bind() const {
-	if constexpr(type == EBufferType::Array) {
-		gl::BindBuffer(gl::ARRAY_BUFFER, mName);
-	}
-	else if constexpr (type == EBufferType::Element) {
-		gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, mName);
-	}
-	else if constexpr(type == EBufferType::Uniform) {
-		gl::BindBuffer(gl::UNIFORM_BUFFER, mName);
-	}
-	else {
-		static_assert(false, "The binding is invalid!");
-	}
-}
+	~UniformBuffer() { gl::DeleteBuffers(1, &mName); }
 
-template<EBufferType type>
-void Buffer<type>::unbind() const {
-	if constexpr(type == EBufferType::Array) {
-		gl::BindBuffer(gl::ARRAY_BUFFER, 0);
-	}
-	else if constexpr (type == EBufferType::Element) {
-		gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
-	}
-	else if constexpr(type == EBufferType::Uniform) {
-		gl::BindBuffer(gl::UNIFORM_BUFFER, 0);
-	}
-	else {
-		static_assert(false, "The binding is invalid!");
-	}
-}
+	const unsigned name() const { return mName; }
 
-/// Buffer Aliases
+	void setUniformBlock(const std::string& blockName) {
+		mUniformBlock = blockName;
+		unsigned blockIndex = gl::GetUniformBlockIndex(mProgram, mUniformBlock.data());
+		gl::UniformBlockBinding(mProgram, blockIndex, 1);
+	}
 
-using VertexBuffer = Buffer<EBufferType::Array>;
-using IndexBuffer = Buffer<EBufferType::Element>;
-using UniformBuffer = Buffer<EBufferType::Uniform>;
+	void setBlockData(const std::string& uniformName, const void* data, ptrdiff_t dataSize) {
+		// Prepare the name of the uniform
+		const std::string toGet = fmt::format("{}.{}", mUniformBlock, uniformName);
+		const char* glStrToGet = toGet.data();
+		
+		// Get the index of the uniform
+		unsigned uniformIndex;
+		gl::GetUniformIndices(mProgram, 1, &glStrToGet, &uniformIndex);
+		
+		// Get the offset of that uniform
+		int uniformOffset;
+		gl::GetActiveUniformsiv(mProgram, 1, &uniformIndex, gl::UNIFORM_OFFSET, &uniformOffset);
 
-///
+		// Make OpenGL Write the data to that location
+		gl::NamedBufferSubData(mName, uniformOffset, dataSize, data);
+	}
+
+	void bind() const { gl::BindBufferBase(gl::UNIFORM_BUFFER, 1, mName); }
+
+	void unbind() const { gl::BindBufferBase(gl::UNIFORM_BUFFER, 1, 0); }
+
+private:
+	// The OpenGL Name
+	unsigned mName = 0;
+
+	// The bound program
+	unsigned mProgram = 0;
+
+	// The name of the uniform block this buffer will fill
+	std::string mUniformBlock;
+};
 
 
 #endif // BUFFER_H

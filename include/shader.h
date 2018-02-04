@@ -25,6 +25,8 @@ public:
 
 	void unbind() const;
 
+	const unsigned name() const { return mName; }
+
 	void setUniform1f(const std::string& name, float value);
 
 	void setUniform2f(const std::string& name, const vecM<float, 2>& value);

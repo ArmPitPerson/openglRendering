@@ -39,34 +39,46 @@ GLFWApplication::~GLFWApplication() {
 }
 
 void GLFWApplication::run() {
-	Vertex vertices[] = { { -300.f, -300.f, 0.f, 0.f, 1.f, 0.f,  0.f, 0.f },
-			      {    0.f, -300.f, 0.f, 1.f, 0.f, 0.f,  1.f, 0.f },
-			      {    0.f, -200.f, 0.f, 0.f, 0.f, 1.f,  1.f, 1.f },
-			      { -150.f, -250.f, 0.f, 1.f, 1.f, 1.f, 0.5f, .5f },
-			      { -300.f, -200.f, 0.f, 0.f, 1.f, 1.f, 0.0f, 1.f } };
+	Vertex vertices[] = { { -1280.f, -720.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f },
+			      {  1280.f, -720.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f },
+			      {  1280.f,  720.f, 0.f, 0.f, 0.f, 1.f, 1.f, 1.f },
+			      { -1280.f,  720.f, 0.f, 0.f, 1.f, 1.f, .0f, 1.f } };
 
-	unsigned indices[] = { 0, 1, 3, 1, 2, 3, 3, 4, 0};
+	unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
 	// Buffers and Arrays
 	VertexBuffer vbo(vertices, sizeof(vertices));
-	IndexBuffer ibo(indices, sizeof(indices), 9);
+	IndexBuffer ibo(indices, sizeof(indices), 6);
 	VertexArray vao(vbo, ibo);
 	vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
 	vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, r));
 	vao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
-
+	
 	Shader shader("vertex.vs", "frag.fs");
 	shader.bind();
+	
+	UniformBuffer worldBlock(160, shader.name());
+	worldBlock.setUniformBlock("WorldInfo");
+	float windowSize[2] = { 1280.f, 720.f };
+	worldBlock.bind();
+	worldBlock.setBlockData("windowSize", windowSize, sizeof(windowSize));
 	
 	mat4 transformMatrix = mat4::identity();
 	transformMatrix(0, 0) = 1.f / 1280.f;
 	transformMatrix(1, 1) = 1.f / 720.f;
 
-	bool bUseBufferA = true;
+	double mX, mY;
+	vec2 mousePos;
 
 	while (!glfwWindowShouldClose(mWindow)) {
 		mInputManager.clear();
 		glfwPollEvents();
+		float glTime = static_cast<float>(glfwGetTime());
+		glfwGetCursorPos(mWindow, &mX, &mY);
+		mousePos[0] = mX; mousePos[1] = mY;
+		worldBlock.setBlockData("time", &glTime, sizeof(glTime));
+		worldBlock.setBlockData("mousePos", mousePos.data(), 2 * sizeof(float));
+		worldBlock.setBlockData("transformMatrix", transformMatrix.data(), 16 * sizeof(float));
 
 		if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
 			glfwSetWindowShouldClose(mWindow, true);
