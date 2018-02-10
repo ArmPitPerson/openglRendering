@@ -12,6 +12,7 @@
 #include "camera.h"
 #include <memory>
 #include <iostream>
+#include "texture.h"
 
 
 // GLFW Key Callback
@@ -49,10 +50,10 @@ void GLFWApplication::run() {
 			{  .5f, -.5f, 0.f, 1.f, 0.f, 1.f, 1.f, 0.f, },
 			{  .5f,  .5f, 0.f, 0.f, 0.f, 1.f, 1.f, 1.f, },
 			{ -.5f,  .5f, 0.f, 1.f, 1.f, 0.f, 0.f, 1.f, },
-			{ -.5f, -.5f, 1.f, .5f, 1.f, .5f, 0.f, 0.f, },
-			{  .5f, -.5f, 1.f, 1.f, .6f, 0.f, 1.f, 0.f, },
-			{  .5f,  .5f, 1.f, 1.f, .4f, 0.f, 1.f, 1.f, },
-			{ -.5f,  .5f, 1.f, 0.f, .8f, 1.f, 0.f, 1.f } };
+			{ -.5f, -.5f, 1.f, .5f, 1.f, .5f, 1.f, 0.f, },
+			{  .5f, -.5f, 1.f, 1.f, .6f, 0.f, 0.f, 0.f, },
+			{  .5f,  .5f, 1.f, 1.f, .4f, 0.f, 0.f, 1.f, },
+			{ -.5f,  .5f, 1.f, 0.f, .8f, 1.f, 1.f, 1.f } };
 
 	unsigned indices[] = { 0, 1, 2, 2, 3, 0, // For that cube
 			       0, 4, 7, 7, 3, 0,
@@ -79,7 +80,7 @@ void GLFWApplication::run() {
 	matrixBuffer.setUniformBlock("Matrices");
 	matrixBuffer.bind();
 
-	uniformBlockData.modelView = mat4::translate(0.f, 0.f, -2.f);
+	uniformBlockData.modelView = mat4::translate(0.f, 0.f, -1.5f);
 	uniformBlockData.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
 	matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
 
@@ -88,33 +89,12 @@ void GLFWApplication::run() {
 
 	logCustom()->info("Block size: {}", sizeof(uniformBlockData));
 
+	Texture image("kaowa.png");
+	image.bind();
+
 	gl::Enable(gl::DEPTH_TEST);
 	gl::DepthFunc(gl::LEQUAL);
-
-	// Textures
-	unsigned texture;
-	float* texData = new float[256 * 256 * 4];
-	for (int x = 0; x != 256; ++x) {
-		for (int y = 0; y != 256; ++y) {
-			texData[(x * 256 + y) * 4 + 0] = (float)((x & y) & 0xFF) / 255.0f;
-			texData[(x * 256 + y) * 4 + 1] = (float)((x | y) & 0xFF) / 255.0f;
-			texData[(x * 256 + y) * 4 + 2] = (float)((x ^ y) & 0xFF) / 255.0f;
-			texData[(x * 256 + y) * 4 + 3] = 1.0f;
-		}		
-	}
-
-	gl::CreateTextures(gl::TEXTURE_2D, 1, &texture);
-	gl::TextureStorage2D(texture, 1, gl::RGBA32F, 256, 256);
-	gl::TextureSubImage2D(texture, 0, 0, 0, 256, 256, gl::RGBA, gl::FLOAT, texData);
- 	gl::TextureParameteri(texture, gl::TEXTURE_WRAP_S, gl::REPEAT);
- 	gl::TextureParameteri(texture, gl::TEXTURE_WRAP_T, gl::REPEAT);
- 	gl::TextureParameteri(texture, gl::TEXTURE_MIN_FILTER, gl::LINEAR);
- 	gl::TextureParameteri(texture, gl::TEXTURE_MAG_FILTER, gl::LINEAR);
-	gl::BindTexture(gl::TEXTURE_2D, texture);
-
-	delete[] texData;
-
-	gl::PointSize(20.f);
+	gl::PointSize(32.f);
 
 	while (!glfwWindowShouldClose(mWindow)) {
 		// Event Processing
@@ -126,16 +106,16 @@ void GLFWApplication::run() {
 			glfwSetWindowShouldClose(mWindow, true);
 
 		// Updating
-		uniformBlockData.modelView *= mat4::rotate(0.5f, 0.f, 1.f, 0.f);
+		uniformBlockData.modelView *= mat4::rotate(0.5f, 1.f, 1.f, 0.f);
 		matrixBuffer.setPartialBlockData("modelView", uniformBlockData.modelView.data(), 64);
 
 		// Drawing
 		gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 		gl::DrawElements(gl::TRIANGLES, ibo.getCount(), gl::UNSIGNED_INT, nullptr);
+		gl::DrawElements(gl::POINTS, ibo.getCount(), gl::UNSIGNED_INT, nullptr);
+
 
 		glfwSwapBuffers(mWindow);
 	}
-
-	gl::DeleteTextures(1, &texture);
 }
 

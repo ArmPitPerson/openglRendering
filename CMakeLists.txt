@@ -10,7 +10,7 @@ set(cmake_cxx_standard REQUIRED ON)
 set(INCLUDE_DIRS "include")
 set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp"
 				 "src/glfwApplication.cpp" "src/vertexArray.cpp"
-				 "src/camera.cpp" "src/ext/stb_image.cpp")
+				 "src/camera.cpp" "src/ext/stb_image.cpp" "src/texture.cpp")
 
 # MSVC C++ 17
 if(MSVC)
