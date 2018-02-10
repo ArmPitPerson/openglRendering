@@ -1,10 +1,12 @@
-///  by Carl Findahl (C) 2018
-/// A Kukon Development Project
+/// OpenGL Rendering by Carl Findahl (C) 2018
 
 #ifndef LINALG_H
 #define LINALG_H
 
+#include <cmath>
 #include <array>
+#include <iomanip>
+#include <ostream>
 #include <type_traits>
 
 
@@ -57,6 +59,19 @@ public:
 	// Sub
 	friend vecM operator-(vecM lhs, const vecM& rhs) { return lhs -= rhs; }
 
+	// Scalar-Ass Division
+	vecM& operator/=(T rhs) {
+		for (unsigned i = 0; i != M; ++i) {
+			mData[i] /= rhs;
+		}
+		return *this;
+	}
+
+	// Scalar Division
+	friend vecM operator/(vecM lhs, T rhs) {
+		return lhs /= rhs;
+	}
+
 	// Scalar-Ass multiplication
 	vecM& operator*=(T rhs) {
 		for (unsigned i = 0; i != M; ++i)
@@ -81,6 +96,14 @@ public:
 	constexpr T& operator[](std::size_t idx) { return mData[idx]; }
 	constexpr const T& operator[](std::size_t idx) const { return mData[idx]; }
 
+	// Get the length of the vector
+	const T length() const {
+		T product{};
+		for (const auto& val : mData)
+			product += val * val;
+		return std::sqrt(product);
+	}
+
 	// Get ptr to data
 	const T* data() const { return mData.data(); }
 
@@ -89,7 +112,6 @@ private:
 	std::array<T, M> mData;
 
 };
-
 
 /// Vector Type Aliases
 
@@ -114,7 +136,7 @@ public:
 	using valueType = T;
 
 	// Default
-	constexpr matM() = default;
+	constexpr matM() { mData.fill(0); }
 
 	~matM() {}
 	
@@ -139,6 +161,16 @@ public:
 	// Const call operator (to get value at R, C)
 	const T& operator()(unsigned row, unsigned col) const {
 		return mData[row + col * M];
+	}
+
+	// Subscript into a specific matrix slot
+	T& operator[](const unsigned index) {
+		return mData[index];
+	}
+
+	// Subscript into a specific matrix slot [const]
+	const T& operator[](const unsigned index) const {
+		return mData[index];
 	}
 
 	// Move
@@ -176,9 +208,9 @@ public:
 			for (int j = 0; j != M; ++j) {		// Column
 				T sum{};			// Dot product
 				for (int k = 0; k != M; ++k) {	// Component
-					sum += mData(i, k) * rhs.mData(k, j);
+					sum += (*this)(i, k) * rhs(k, j);
 				}
-				newData(i, j) = sum;
+				newData[i + j * M] = sum;
 			}
 		}
 		mData = std::move(newData);
@@ -188,6 +220,17 @@ public:
 	// Multiply
 	friend matM operator* (matM lhs, const matM& rhs) {
 		return lhs *= rhs;
+	}
+
+	// Ostream Operator
+	friend std::ostream& operator<<(std::ostream& os, const matM& mat) {
+		for (int i = 0; i != M; ++i) {
+			for (int j = 0; j != M; ++j) {
+				os << std::setw(8) << mat(i, j);
+			}
+			os << '\n';
+		}
+		return os;
 	}
 
 	// Transpose matrix in place
@@ -214,6 +257,51 @@ public:
 		return outMatrix;
 	}
 
+	// Return the matrix that translates by x, y and z
+	static matM translate(T x, T y, T z) {
+		static_assert(M == 4, "Can not create translation matrix for other sizes than 4x4 matrices");
+		matM outMatrix = matM::identity();
+		outMatrix(0, 3) = x;
+		outMatrix(1, 3) = y;
+		outMatrix(2, 3) = z;
+		return outMatrix;
+	}
+
+	// Return matrix that scales by x, y and z
+	static matM scale(T x, T y, T z) {
+		static_assert(M == 4, "Can not create scale matrix for other sizes than 4x4 matrices");
+		matM outMatrix = matM::identity();
+		outMatrix(0, 0) = x;
+		outMatrix(1, 1) = y;
+		outMatrix(2, 2) = z;
+		return outMatrix;
+	}
+
+	// Return matrix that rotates angle around axis x, y and z
+	static matM rotate(T angle, T x, T y, T z) {
+		matM outMatrix{ 0 };
+		const T x2{ x * x };
+		const T y2{ y * y };
+		const T z2{ z * z };
+		float rads = float(angle) * 0.0174532925f;
+		const float c = std::cosf(rads);
+		const float s = std::sinf(rads);
+		const float omc = 1.0f - c;
+
+		outMatrix[0] = (x2 * omc + c);
+		outMatrix[4] = (y * x * omc + z * s);
+		outMatrix[8] = (x * z * omc - y * s);
+		outMatrix[1] = (x * y * omc - z * s);
+		outMatrix[5] = (y2 * omc + c);
+		outMatrix[9] = (y * z * omc + x * s);
+		outMatrix[2] = (x * z * omc + y * s);
+		outMatrix[6] = (y * z * omc - x * s);
+		outMatrix[10] = (z2 * omc + c);
+		outMatrix[15] = 1;
+
+		return outMatrix;
+	}
+
 	// Return the an orthographic projection matrix
 	static matM orthographic(float left, float right, float bottom, float top, float close, float away) {
 		static_assert(M == 4, "Can not create orthographic matrix for other sizes than 4x4 matrices");
@@ -228,6 +316,24 @@ public:
 		return outMatrix;
 	}
 
+	// Return a perspective projection matrix
+	static matM perspective(float fov, float aspect, float zNear, float zFar) {
+		static_assert(M == 4, "Can not create perspective matrix for other sizes than 4x4 matrices");
+		matM outMatrix{ 0 };
+		float top = std::tan((fov / 2.f) * zNear);
+		float bottom = -top;
+		float right = top * aspect;
+		float left = -top * aspect;
+		outMatrix(0, 0) = (2 * zNear) / (right - left);
+		outMatrix(0, 2) = (right + left) / (right - left);
+		outMatrix(1, 1) = (2 * zNear) / (top - bottom);
+		outMatrix(1, 2) = (top + bottom) / (top - bottom);
+		outMatrix(2, 2) = -(zFar + zNear) / (zFar - zNear);
+		outMatrix(2, 3) = -(2 * zFar * zNear) / (zFar - zNear);
+		outMatrix(3, 2) = -1.f;
+		return outMatrix;
+	}
+
 	// Get ptr to data
 	const T* data() const { return mData.data(); }
 
@@ -236,7 +342,7 @@ private:
 	std::array<T, M * M> mData;
 
 	// Size of the matrix data
-	const unsigned mSize = M * M;
+	static constexpr unsigned mSize = M * M;
 
 };
 
@@ -257,4 +363,22 @@ using mat4u = matM<unsigned, 4>;
 
 ///
 
+
+/// Vector Operations
+
+// Get cross product of given vector
+template<typename T, unsigned M>
+vecM<T, M> cross(const vecM<T, M>& u, const vecM<T, M>& v) {
+	return vecM<T, M>{ u[1] * v[2] - u[2] * v[1],
+			   u[2] * v[0] - u[0] * v[2],
+			   u[0] * v[1] - u[1] * v[0] };
+}
+
+// Get length of given vector
+template<typename T, unsigned M>
+T length(const vecM<T, M>& u) {
+	return u.length();
+}
+
 #endif // LINALG_H
+
