@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"out",
+				"outColor"
+			],
+			[
 				"only",
 				"onlyUniqueValues\tfunction"
 			],
@@ -510,30 +514,19 @@
 			[
 				"Contr",
 				"ControlledCreature"
-			],
-			[
-				"App",
-				"AppendCreature"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"contents": "#version 450 core\nlayout (location=0) in vec4 aPosition;\nlayout (location=1) in vec4 aColor;\nlayout (location=1) in vec2 aTexCoord;\n\nlayout(std140) uniform Matrices {\n    mat4 modelView;\n    mat4 projection;\n} mats;\n\nout vec4 fs_color;\nout vec2 fs_texCoord;\n\nvoid main() {\n    gl_Position = mats .projection * mats.modelView * aPosition;\n    fs_color = aColor;\n    fs_texCoord = aTexCoord;\n}\n",
 			"file": "bin/vertex.vs",
+			"file_size": 409,
+			"file_write_time": 131626905610271088,
 			"settings":
 			{
-				"buffer_size": 482,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
-			"settings":
-			{
-				"buffer_size": 8232,
-				"encoding": "UTF-8",
+				"buffer_size": 392,
 				"line_ending": "Windows"
 			}
 		},
@@ -541,7 +534,7 @@
 			"file": "bin/frag.fs",
 			"settings":
 			{
-				"buffer_size": 133,
+				"buffer_size": 174,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -999,6 +992,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"texture",
+			",",
+			"T",
+			"permute",
+			"distanceFromCenter",
+			"distFromMouse",
 			"onlyUniqueValues",
 			"onlyUniqueCardValues",
 			"onlyUniqueValues",
@@ -1035,7 +1034,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1044,15 +1043,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 482,
+						"buffer_size": 392,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								211,
-								211
+								296,
+								296
 							]
 						],
 						"settings":
@@ -1061,34 +1060,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8232,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8011,
-								8011
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3513.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1101,20 +1072,20 @@
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "bin/frag.fs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 133,
+						"buffer_size": 174,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								133,
-								133
+								145,
+								145
 							]
 						],
 						"settings":
@@ -1125,7 +1096,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1159,7 +1130,7 @@
 		"cols":
 		[
 			0.0,
-			0.656826568266,
+			0.460593275435,
 			1.0
 		],
 		"rows":

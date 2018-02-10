@@ -2,9 +2,6 @@
 #include "spdlog/spdlog.h"
 #include "glfwApplication.h"
 #include "logging.h"
-#include "shader.h"
-#include "buffer.h"
-#include "linalg.h"
 #include <string>
 
 

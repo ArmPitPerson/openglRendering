@@ -4,8 +4,9 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include "gl_cpp.hpp"
+#include "shader.h"
 #include <string>
+#include "gl_cpp.hpp"
 #include "spdlog/fmt/fmt.h"
 
 
@@ -64,7 +65,7 @@ private:
 
 class UniformBuffer {
 public:
-	UniformBuffer(ptrdiff_t size, unsigned program) : mProgram(program) {
+	UniformBuffer(ptrdiff_t size, const Shader& program) : mProgram(program.name()) {
 		gl::CreateBuffers(1, &mName);
 		gl::NamedBufferStorage(mName, size, nullptr , gl::DYNAMIC_STORAGE_BIT);
 	};
@@ -73,13 +74,25 @@ public:
 
 	const unsigned name() const { return mName; }
 
-	void setUniformBlock(const std::string& blockName) {
+	// Bind the given uniform block to the given bind point, default = 1
+	void setUniformBlock(const std::string& blockName, const int bindPoint = 1) {
 		mUniformBlock = blockName;
-		unsigned blockIndex = gl::GetUniformBlockIndex(mProgram, mUniformBlock.data());
-		gl::UniformBlockBinding(mProgram, blockIndex, 1);
+ 		unsigned blockIndex = gl::GetUniformBlockIndex(mProgram, mUniformBlock.data());
+ 		gl::UniformBlockBinding(mProgram, blockIndex, bindPoint);
 	}
 
-	void setBlockData(const std::string& uniformName, const void* data, ptrdiff_t dataSize) {
+	// Update the program
+	void setProgram(const Shader& newProgram) {
+		mProgram = newProgram.name();
+	}
+
+	// Set the data of the whole uniform block (see uniformBlocks.h for presets)
+	void setBlockData(const void* data, ptrdiff_t dataSize) {
+		gl::NamedBufferSubData(mName, 0, dataSize, data);
+	}
+
+	// Set the data for a subset of the uniform with the given name
+	void setPartialBlockData(const std::string& uniformName, const void* data, ptrdiff_t dataSize) {
 		// Prepare the name of the uniform
 		const std::string toGet = fmt::format("{}.{}", mUniformBlock, uniformName);
 		const char* glStrToGet = toGet.data();
@@ -96,9 +109,11 @@ public:
 		gl::NamedBufferSubData(mName, uniformOffset, dataSize, data);
 	}
 
-	void bind() const { gl::BindBufferBase(gl::UNIFORM_BUFFER, 1, mName); }
+	// Bind uniform buffer to given bind point, default = 1
+	void bind(const int n = 1) const { gl::BindBufferBase(gl::UNIFORM_BUFFER, n, mName); }
 
-	void unbind() const { gl::BindBufferBase(gl::UNIFORM_BUFFER, 1, 0); }
+	// Unbind uniform from given bind point, default = 1
+	void unbind(const int n = 1) const { gl::BindBufferBase(gl::UNIFORM_BUFFER, n, 0); }
 
 private:
 	// The OpenGL Name
