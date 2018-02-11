@@ -6,14 +6,20 @@
 #include <string>
 
 
-class Texture {
+class Texture
+{
 public:
 	Texture(const std::string& filepath);
 	~Texture();
 
+	// Bind texture to the provided bindingPoint [0-32]
 	void bind(const int bindingPoint = 0) const;
 
+	// Unbind from the last bound binding point
 	void unbind() const;
+
+	// Get the OpenGL name of the texture
+	const unsigned name() const { return mName; }
 
 private:
 	// Load texture from file

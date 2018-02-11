@@ -3,7 +3,8 @@
 #include "ext/stb_image.h"
 
 
-Texture::Texture(const std::string& filepath) {
+Texture::Texture(const std::string& filepath)
+{
 	gl::CreateTextures(gl::TEXTURE_2D, 1, &mName);
 	gl::TextureParameteri(mName, gl::TEXTURE_MIN_FILTER, gl::LINEAR);
 	gl::TextureParameteri(mName, gl::TEXTURE_MAG_FILTER, gl::LINEAR);
@@ -12,22 +13,24 @@ Texture::Texture(const std::string& filepath) {
 	loadFromFile(filepath);
 }
 
-Texture::~Texture() {
+Texture::~Texture()
+{
 	gl::DeleteTextures(1, &mName);
 }
 
-void Texture::bind(const int bindingPoint /*= 0*/) const {
-	gl::ActiveTexture(gl::TEXTURE0 + bindingPoint);
-	gl::BindTexture(gl::TEXTURE_2D, mName);
+void Texture::bind(const int bindingPoint /*= 0*/) const
+{
+	gl::BindTextureUnit(bindingPoint, mName);
 	mBindingPoint = bindingPoint;
 }
 
-void Texture::unbind() const {
-	gl::ActiveTexture(gl::TEXTURE0 + mBindingPoint);
-	gl::BindTexture(gl::TEXTURE_2D, 0);
+void Texture::unbind() const
+{
+	gl::BindTextureUnit(mBindingPoint, 0);
 }
 
-void Texture::loadFromFile(const std::string& filepath) {
+void Texture::loadFromFile(const std::string& filepath)
+{
 	int w, h, comp;
 	unsigned char* imageData = stbi_load(filepath.c_str(), &w, &h, &comp, STBI_rgb_alpha);
 	gl::TextureStorage2D(mName, 1, gl::RGBA8, w, h);
