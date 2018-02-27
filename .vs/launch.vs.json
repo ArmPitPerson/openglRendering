@@ -8,6 +8,12 @@
       "projectTarget": "OpenGL.exe",
       "name": "OpenGL Project",
       "currentDir": "${workspaceRoot}/bin"
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "OpenGL.exe (bin\\OpenGL.exe)",
+      "name": "OpenGL.exe (bin\\OpenGL.exe)"
     }
   ]
 }

@@ -1,4 +1,4 @@
-///  by Carl Findahl (C) 2018
+///  GL Rendering by Carl Findahl (C) 2018
 
 #ifndef TEXTURE_H
 #define TEXTURE_H
@@ -36,11 +36,15 @@ enum class ETextureFilterMode
  *	MIP 0: filename.png
  *	MIP 1: filename_1.png
  *	MIP N: filename_N.png
+ *
+ * For Array Textures:
+ *  Layer 0: filename-0.png
+ *  Layer N: filename-n.png
  */
 class Texture
 {
 public:
-	Texture(const std::string& filepath, unsigned levels = 1);
+	Texture(const std::string& filepath, unsigned mipLevels = 1, unsigned arrayLevels = 1);
 	~Texture();
 
 	// Bind texture to the provided bindingPoint [0-32]
@@ -60,7 +64,10 @@ public:
 
 private:
 	// Load texture from file
-	void loadFromFile(const std::string& filepath);
+	void loadFromFile(const std::string& basePath);
+
+    // Load array texture from file
+    void loadArrayFromFile(const std::string& basePath);
 
 private:
 	// OpenGL name
@@ -68,6 +75,9 @@ private:
 
 	// MipMap Levels
 	unsigned mLevels = 0;
+
+    // Array Depth
+    unsigned mArrayLevels = 0;
 
 	// Bound to binding point
 	mutable unsigned mBindingPoint = 0;	

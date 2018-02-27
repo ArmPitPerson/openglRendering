@@ -5,17 +5,18 @@
 #define VERTEX_H
 
 
-struct Vertex {
-	float x;
-	float y;
-	float z;
+struct Vertex
+{
+    float x;
+    float y;
+    float z;
 
-	float r;
-	float g;
-	float b;
+    float r;
+    float g;
+    float b;
 
-	float u;
-	float v;
+    float u;
+    float v;
 };
 
 

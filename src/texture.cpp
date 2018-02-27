@@ -6,16 +6,29 @@
 
 using namespace std::experimental;
 
-Texture::Texture(const std::string& filepath, unsigned levels/*=1*/) : mLevels(levels)
+// #TODO - Swap texture after construction
+// #TODO - Copy constructor etc.
+
+Texture::Texture(const std::string& filepath, unsigned mipLevels, unsigned arrayLevels) : mLevels(mipLevels), mArrayLevels(arrayLevels)
 {
-	gl::CreateTextures(gl::TEXTURE_2D, 1, &mName);
+    if (arrayLevels <= 1)
+    {   // Create regular texture at 0 or 1 array level
+        if (arrayLevels == 0) logWarn("Array level should not be 0!");
+        gl::CreateTextures(gl::TEXTURE_2D, 1, &mName);
+    }
+    else
+    {   // Create Array texture when more than 1 array level
+        gl::CreateTextures(gl::TEXTURE_2D_ARRAY, 1, &mName);
+    }
+
 	gl::TextureParameteri(mName, gl::TEXTURE_MIN_FILTER, gl::LINEAR_MIPMAP_LINEAR); // Trilinear
 	gl::TextureParameteri(mName, gl::TEXTURE_MAG_FILTER, gl::LINEAR);
 	gl::TextureParameteri(mName, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE);
 	gl::TextureParameteri(mName, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE);
 
 	// Only load if it mipmap levels are valid
-	if (levels == 0) logErr("Texture mipmap levels can not be 0!");
+	if (mipLevels == 0) logErr("Texture mipmap levels can not be 0!");
+    else if (mArrayLevels > 1) loadArrayFromFile(filepath);
 	else loadFromFile(filepath);
 }
 
@@ -86,25 +99,25 @@ void Texture::setFilterMode(ETextureFilterMode mode)
 	}
 }
 
-void Texture::loadFromFile(const std::string& filepath)
+void Texture::loadFromFile(const std::string& basePath)
 {
-	int w, h, comp;
+	int width, height, comp;
 	
 	// Always load MipMap level 0
-	unsigned char* mipBase = stbi_load(filepath.c_str(), &w, &h, &comp, STBI_rgb_alpha);
-	gl::TextureStorage2D(mName, mLevels, gl::RGBA8, w, h);
-	gl::TextureSubImage2D(mName, 0, 0, 0, w, h, gl::RGBA, gl::UNSIGNED_BYTE, mipBase);
+	unsigned char* mipBase = stbi_load(basePath.c_str(), &width, &height, &comp, STBI_rgb_alpha);
+	gl::TextureStorage2D(mName, mLevels, gl::RGBA8, width, height);
+	gl::TextureSubImage2D(mName, 0, 0, 0, width, height, gl::RGBA, gl::UNSIGNED_BYTE, mipBase);
 	
 	// Load any further MipMaps
 	for (unsigned i = 1; i < mLevels; ++i)
 	{
 		// Find new path based on naming convention
-		const std::string mipPath = filepath.substr(0, filepath.find(".png")) + "_" + std::to_string(i) + ".png";
-		if (filesystem::v1::exists(mipPath))
+		const std::string mipPath = basePath.substr(0, basePath.find(".png")) + "_" + std::to_string(i) + ".png";
+		if (filesystem::v1::exists(mipPath)) // #TODO Swap to non-experimental when available
 		{
 			// Load and send data to OpenGL
-			unsigned char* mipData = stbi_load(mipPath.c_str(), &w, &h, &comp, STBI_rgb_alpha);
-			gl::TextureSubImage2D(mName, i, 0, 0, w, h, gl::RGBA, gl::UNSIGNED_BYTE, mipData);
+			unsigned char* mipData = stbi_load(mipPath.c_str(), &width, &height, &comp, STBI_rgb_alpha);
+			gl::TextureSubImage2D(mName, i, 0, 0, width, height, gl::RGBA, gl::UNSIGNED_BYTE, mipData);
 			stbi_image_free(mipData);
 		}
 		else
@@ -117,4 +130,9 @@ void Texture::loadFromFile(const std::string& filepath)
 	}
 	
 	stbi_image_free(mipBase);
+}
+
+void Texture::loadArrayFromFile(const std::string& basePath)
+{
+
 }

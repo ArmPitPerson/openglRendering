@@ -11,7 +11,8 @@
 
 
 template<typename T, unsigned M>
-class vecM {
+class vecM
+{
 public:
 	using valueType = T;
 
@@ -29,18 +30,19 @@ public:
 
 	// Copy
 	constexpr vecM(const vecM& other) : mData(other.mData) {}
-	
+
 	// Move
-	constexpr vecM(vecM&& other) : mData(std::move(other.mData)) { }
+	constexpr vecM(vecM&& other) : mData(std::move(other.mData)) {}
 
 	// Copy-Ass
 	constexpr vecM& operator=(const vecM& other) { if (this == &other) return *this; mData = other.mData; return *this; }
-	
+
 	// Move-Ass
 	constexpr vecM& operator=(vecM&& other) { if (this == &other) return *this; mData = std::move(other.mData); return *this; }
 
 	// Add-Ass
-	vecM& vecM::operator+=(const vecM& other) {
+	vecM& vecM::operator+=(const vecM& other)
+	{
 		for (unsigned i = 0; i != M; ++i)
 			mData[i] += other[i];
 		return *this;
@@ -50,7 +52,8 @@ public:
 	friend vecM operator+(vecM lhs, const vecM& rhs) { return lhs += rhs; }
 
 	// Sub-Ass
-	vecM& vecM::operator-=(const vecM& other) {
+	vecM& vecM::operator-=(const vecM& other)
+	{
 		for (unsigned i = 0; i != M; ++i)
 			mData[i] -= other[i];
 		return *this;
@@ -60,32 +63,38 @@ public:
 	friend vecM operator-(vecM lhs, const vecM& rhs) { return lhs -= rhs; }
 
 	// Scalar-Ass Division
-	vecM& operator/=(T rhs) {
-		for (unsigned i = 0; i != M; ++i) {
+	vecM& operator/=(T rhs)
+	{
+		for (unsigned i = 0; i != M; ++i)
+		{
 			mData[i] /= rhs;
 		}
 		return *this;
 	}
 
 	// Scalar Division
-	friend vecM operator/(vecM lhs, T rhs) {
+	friend vecM operator/(vecM lhs, T rhs)
+	{
 		return lhs /= rhs;
 	}
 
 	// Scalar-Ass multiplication
-	vecM& operator*=(T rhs) {
+	vecM& operator*=(T rhs)
+	{
 		for (unsigned i = 0; i != M; ++i)
 			mData[i] *= rhs;
 		return *this;
 	}
 
 	// Scalar multiplication
-	friend vecM operator*(vecM lhs, T rhs) {
+	friend vecM operator*(vecM lhs, T rhs)
+	{
 		return lhs *= rhs;
 	}
 
 	// Multiplication (dot product)
-	friend constexpr const T operator*(const vecM& lhs, const vecM& rhs) {
+	friend constexpr const T operator*(const vecM& lhs, const vecM& rhs)
+	{
 		T sum{}; // Init to 0
 		for (unsigned i = 0; i != M; ++i)
 			sum += lhs[i] * rhs[i];
@@ -97,7 +106,8 @@ public:
 	constexpr const T& operator[](std::size_t idx) const { return mData[idx]; }
 
 	// Get the length of the vector
-	const T length() const {
+	const T length() const
+	{
 		T product{};
 		for (const auto& val : mData)
 			product += val * val;
@@ -131,7 +141,8 @@ using vec4u = vecM<unsigned, 4>;
 ///
 
 template<typename T, unsigned M>
-class matM final {
+class matM final
+{
 public:
 	using valueType = T;
 
@@ -139,10 +150,10 @@ public:
 	constexpr matM() { mData.fill(0); }
 
 	~matM() {}
-	
+
 	// All components have the same value
 	explicit matM(T valueForAll) { mData.fill(valueForAll); }
-	
+
 	// Initialize each component in format [row0col0 row0col1 row0col2 row1col0 ...]
 	template<typename... U, typename = std::enable_if_t<(sizeof...(U) <= M * M)>>
 	constexpr matM(U... values) : mData({ static_cast<T>(values)... }) { transpose(); }
@@ -152,62 +163,74 @@ public:
 
 	// Copy-Ass
 	constexpr matM& operator=(const matM& other) { if (this == &other) return *this; mData = other.mData; return *this; }
-	
+
 	// Call operator (to get value at R, C)
-	T& operator()(unsigned row, unsigned col) {
+	T& operator()(unsigned row, unsigned col)
+	{
 		return mData[row + col * M];
 	}
 
 	// Const call operator (to get value at R, C)
-	const T& operator()(unsigned row, unsigned col) const {
+	const T& operator()(unsigned row, unsigned col) const
+	{
 		return mData[row + col * M];
 	}
 
 	// Subscript into a specific matrix slot
-	T& operator[](const unsigned index) {
+	T& operator[](const unsigned index)
+	{
 		return mData[index];
 	}
 
 	// Subscript into a specific matrix slot [const]
-	const T& operator[](const unsigned index) const {
+	const T& operator[](const unsigned index) const
+	{
 		return mData[index];
 	}
 
 	// Move
 	constexpr matM(matM&& other) : mData(std::move(other.mData)) {}
-	
+
 	// Move-Ass
 	constexpr matM& operator=(matM&& other) { if (this == &other) return *this; mData = std::move(other.mData); return *this; }
 
 	// Add-Ass
-	matM& operator+=(const matM& rhs) {
+	matM& operator+=(const matM& rhs)
+	{
 		int(unsigned i = 0; i != mSize; ++i)
 			mData[i] += rhs[i];
 	}
 
 	// Add
-	friend matM operator+(matM lhs, const matM& rhs) {
+	friend matM operator+(matM lhs, const matM& rhs)
+	{
 		return lhs += rhs;
 	}
 
 	// Sub-Ass
-	matM& operator-=(const matM& rhs) {
+	matM& operator-=(const matM& rhs)
+	{
 		int(unsigned i = 0; i != mSize; ++i)
 			mData[i] += rhs[i];
 	}
 
 	// Sub
-	friend matM operator-(matM lhs, const matM& rhs) {
+	friend matM operator-(matM lhs, const matM& rhs)
+	{
 		return lhs -= rhs;
 	}
 
 	// Multiply-Ass
-	matM& operator*=(const matM& rhs) {
+	matM& operator*=(const matM& rhs)
+	{
 		std::array<T, M * M> newData;
-		for (int i = 0; i != M; ++i) {			// Row
-			for (int j = 0; j != M; ++j) {		// Column
+		for (int i = 0; i != M; ++i)
+		{			// Row
+			for (int j = 0; j != M; ++j)
+			{		// Column
 				T sum{};			// Dot product
-				for (int k = 0; k != M; ++k) {	// Component
+				for (int k = 0; k != M; ++k)
+				{	// Component
 					sum += (*this)(i, k) * rhs(k, j);
 				}
 				newData[i + j * M] = sum;
@@ -218,14 +241,18 @@ public:
 	}
 
 	// Multiply
-	friend matM operator* (matM lhs, const matM& rhs) {
+	friend matM operator* (matM lhs, const matM& rhs)
+	{
 		return lhs *= rhs;
 	}
 
 	// Ostream Operator
-	friend std::ostream& operator<<(std::ostream& os, const matM& mat) {
-		for (int i = 0; i != M; ++i) {
-			for (int j = 0; j != M; ++j) {
+	friend std::ostream& operator<<(std::ostream& os, const matM& mat)
+	{
+		for (int i = 0; i != M; ++i)
+		{
+			for (int j = 0; j != M; ++j)
+			{
 				os << std::setw(8) << mat(i, j);
 			}
 			os << '\n';
@@ -234,10 +261,13 @@ public:
 	}
 
 	// Transpose matrix in place
-	matM& transpose() {
+	matM& transpose()
+	{
 		const auto mCopy = *this;			// Copy data
-		for(int i = 0; i != M; ++i){			// Row
-			for (int j = 0; j != M; ++j) {		// Column
+		for (int i = 0; i != M; ++i)
+		{			// Row
+			for (int j = 0; j != M; ++j)
+			{		// Column
 				(*this)(i, j) = mCopy(j, i);	// Assign
 			}
 		}
@@ -245,12 +275,14 @@ public:
 	}
 
 	// Return the zero matrix
-	static matM zero() {
+	static matM zero()
+	{
 		return matM{ 0 };
 	}
 
 	// Return the identity matrix
-	static matM identity() {
+	static matM identity()
+	{
 		matM outMatrix{ 0 };
 		for (int i = 0; i != M; ++i)
 			outMatrix(i, i) = 1;
@@ -258,7 +290,8 @@ public:
 	}
 
 	// Return the matrix that translates by x, y and z
-	static matM translate(T x, T y, T z) {
+	static matM translate(T x, T y, T z)
+	{
 		static_assert(M == 4, "Can not create translation matrix for other sizes than 4x4 matrices");
 		matM outMatrix = matM::identity();
 		outMatrix(0, 3) = x;
@@ -268,7 +301,8 @@ public:
 	}
 
 	// Return matrix that scales by x, y and z
-	static matM scale(T x, T y, T z) {
+	static matM scale(T x, T y, T z)
+	{
 		static_assert(M == 4, "Can not create scale matrix for other sizes than 4x4 matrices");
 		matM outMatrix = matM::identity();
 		outMatrix(0, 0) = x;
@@ -278,7 +312,8 @@ public:
 	}
 
 	// Return matrix that rotates angle around axis x, y and z
-	static matM rotate(T angle, T x, T y, T z) {
+	static matM rotate(T angle, T x, T y, T z)
+	{
 		matM outMatrix{ 0 };
 		const T x2{ x * x };
 		const T y2{ y * y };
@@ -303,7 +338,8 @@ public:
 	}
 
 	// Return the an orthographic projection matrix
-	static matM orthographic(float left, float right, float bottom, float top, float close, float away) {
+	static matM orthographic(float left, float right, float bottom, float top, float close, float away)
+	{
 		static_assert(M == 4, "Can not create orthographic matrix for other sizes than 4x4 matrices");
 		matM outMatrix{ 0 };
 		outMatrix(0, 0) = 2.f / (right - left);
@@ -317,7 +353,8 @@ public:
 	}
 
 	// Return a perspective projection matrix
-	static matM perspective(float fov, float aspect, float zNear, float zFar) {
+	static matM perspective(float fov, float aspect, float zNear, float zFar)
+	{
 		static_assert(M == 4, "Can not create perspective matrix for other sizes than 4x4 matrices");
 		matM outMatrix{ 0 };
 		float top = std::tan((fov / 2.f) * zNear);
@@ -348,9 +385,9 @@ private:
 
 /// Matrix Type Aliases
 
-using mat2 =  matM<float, 2>;
-using mat3 =  matM<float, 3>;
-using mat4 =  matM<float, 4>;
+using mat2 = matM<float, 2>;
+using mat3 = matM<float, 3>;
+using mat4 = matM<float, 4>;
 using mat2d = matM<double, 2>;
 using mat3d = matM<double, 3>;
 using mat4d = matM<double, 4>;
@@ -368,15 +405,17 @@ using mat4u = matM<unsigned, 4>;
 
 // Get cross product of given vector
 template<typename T, unsigned M>
-vecM<T, M> cross(const vecM<T, M>& u, const vecM<T, M>& v) {
+vecM<T, M> cross(const vecM<T, M>& u, const vecM<T, M>& v)
+{
 	return vecM<T, M>{ u[1] * v[2] - u[2] * v[1],
-			   u[2] * v[0] - u[0] * v[2],
-			   u[0] * v[1] - u[1] * v[0] };
+		u[2] * v[0] - u[0] * v[2],
+		u[0] * v[1] - u[1] * v[0] };
 }
 
 // Get length of given vector
 template<typename T, unsigned M>
-T length(const vecM<T, M>& u) {
+T length(const vecM<T, M>& u)
+{
 	return u.length();
 }
 

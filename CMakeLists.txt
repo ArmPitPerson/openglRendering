@@ -8,6 +8,7 @@ project("OpenGL")
 set(cmake_cxx_standard 17)
 set(cmake_cxx_standard REQUIRED ON)
 set(INCLUDE_DIRS "include")
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp"
 				 "src/glfwApplication.cpp" "src/vertexArray.cpp"
 				 "src/camera.cpp" "src/ext/stb_image.cpp" "src/texture.cpp")
@@ -19,7 +20,7 @@ add_definitions(-D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
 endif()
 
 ##############################################################################
-# Libraries 
+# Libraries
 ##############################################################################
 
 # GLFW
@@ -42,6 +43,5 @@ target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 if(WIN32)
 target_link_libraries(${PROJECT_NAME} opengl32.lib)
 else()
-message("Please find the correct settings for Linux OpenGL linking!")
-target_compile_options(${PROJECT_NAME} PRIVATE "-lGL")
+target_link_libraries(${PROJECT_NAME} OpenGL)
 endif()

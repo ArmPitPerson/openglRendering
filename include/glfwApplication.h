@@ -9,7 +9,8 @@
 struct GLFWwindow;
 
 
-class GLFWApplication {
+class GLFWApplication
+{
 public:
 	GLFWApplication();
 	~GLFWApplication();
@@ -18,7 +19,7 @@ public:
 
 private:
 	// Application Window
-	GLFWwindow* mWindow = nullptr;
+	GLFWwindow * mWindow = nullptr;
 
 	// Input Manager
 	InputManager mInputManager;
