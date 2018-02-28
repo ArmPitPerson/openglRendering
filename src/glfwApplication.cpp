@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "texture.h"
 
+#include "randomEngine.h"
 
 // GLFW Key Callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -52,29 +53,20 @@ GLFWApplication::~GLFWApplication()
 
 void GLFWApplication::run()
 {
-    Vertex vertices[] = {			// For a Cube
+    Vertex vertices[] = { // For a Plane
             { -.5f, -.5f, 0.f, 1.f, 1.f, 1.f, 0.f, 0.f, },
-            {  .5f, -.5f, 0.f, 1.f, 0.f, 1.f, 1.f, 0.f, },
-            {  .5f,  .5f, 0.f, 0.f, 0.f, 1.f, 1.f, 1.f, },
-            { -.5f,  .5f, 0.f, 1.f, 1.f, 0.f, 0.f, 1.f, },
-            { -.5f, -.5f, 1.f, .5f, 1.f, .5f, 1.f, 0.f, },
-            {  .5f, -.5f, 1.f, 1.f, .6f, 0.f, 0.f, 0.f, },
-            {  .5f,  .5f, 1.f, 1.f, .4f, 0.f, 0.f, 1.f, },
-            { -.5f,  .5f, 1.f, 0.f, .8f, 1.f, 1.f, 1.f } };
+            {  .5f, -.5f, 0.f, 1.f, 1.f, 1.f, 1.f, 0.f, },
+            {  .5f,  .5f, 0.f, 1.f, 1.f, 1.f, 1.f, 1.f, },
+            { -.5f,  .5f, 0.f, 1.f, 1.f, 1.f, 0.f, 1.f, } };
 
-    unsigned indices[] = { 0, 1, 2, 2, 3, 0, // For that cube
-                   0, 4, 7, 7, 3, 0,
-                   4, 5, 6, 6, 7, 4,
-                   1, 5, 6, 6, 2, 1,
-                   2, 3, 7, 7, 6, 2,
-                   0, 1, 5, 5, 4, 0 };
+    unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
     // Buffers and Arrays
     VertexBuffer vbo(vertices, sizeof(vertices));
     IndexBuffer ibo(indices, sizeof(indices), 36);
     VertexArray vao(vbo, ibo);
     vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
-    vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
+    vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, r));
     vao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
     vao.bind();
 
@@ -87,12 +79,16 @@ void GLFWApplication::run()
     matrixBuffer.setUniformBlock("Matrices");
     matrixBuffer.bind();
 
-    uniformBlockData.modelView = mat4::translate(0.f, 0.f, -1.5f);
+    RandomEngine rng;
+
+    uniformBlockData.worldView = mat4::translate(0.f, 0.f, -1.5f);
     uniformBlockData.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
+    for(int i = 0; i != 64; ++i)
+        uniformBlockData.modelWorld[i] = mat4::translate(rng.uniform(-6.0, 6.0), -2.0f + rng.uniform(-5.0, 0.5), rng.uniform(-0.25, 0.6));
     matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
 
-    Texture image("kaowa.png", 3);
-    image.bind(1);
+    Texture image("karray.png", 1, 12);
+    image.bind();
 
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
@@ -106,24 +102,34 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
-        if (mInputManager.arePressed(GLFW_KEY_W))
-            uniformBlockData.modelView(2, 3) += 0.1f;
-        else if (mInputManager.arePressed(GLFW_KEY_S))
-            uniformBlockData.modelView(2, 3) -= 0.1f;
-        else if (mInputManager.arePressed(GLFW_KEY_D))
-            uniformBlockData.modelView(0, 3) += 0.1f;
-        else if (mInputManager.arePressed(GLFW_KEY_A))
-            uniformBlockData.modelView(0, 3) -= 0.1f;
+//         if (mInputManager.arePressed(GLFW_KEY_W))
+//             uniformBlockData.worldView(1, 3) += 0.1f;
+//         if (mInputManager.arePressed(GLFW_KEY_S))
+//             uniformBlockData.worldView(1, 3) -= 0.1f;
+//         if (mInputManager.arePressed(GLFW_KEY_D))
+//             uniformBlockData.worldView(0, 3) += 0.1f;
+//         if (mInputManager.arePressed(GLFW_KEY_A))
+//             uniformBlockData.worldView(0, 3) -= 0.1f;
 
         // Updating
-        uniformBlockData.modelView *= mat4::rotate(0.2f, 0.f, 1.f, 0.f);
-        matrixBuffer.setPartialBlockData("modelView", uniformBlockData.modelView.data(), 64);
+        matrixBuffer.setPartialBlockData("worldView", uniformBlockData.worldView.data(), 64);
 
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        gl::DrawElements(gl::TRIANGLES, ibo.getCount(), gl::UNSIGNED_INT, nullptr);
+        for (int i = 0; i != 64; ++i)
+        {
+            uniformBlockData.kaowaIndex = i;
+            uniformBlockData.modelWorld[i] *= mat4::translate(0.f, 0.01f, 0.f);
+            if (uniformBlockData.modelWorld[i](1, 3) > 3.5f)
+            {
+                uniformBlockData.modelWorld[i](0, 3) = rng.uniform(-6.0, 6.0);
+                uniformBlockData.modelWorld[i](1, 3) = rng.uniform(-5.0, -3.0);
+                uniformBlockData.modelWorld[i](2, 3) = rng.uniform(-0.25, 0.65);
+            }
+            matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
+            gl::DrawElements(gl::TRIANGLES, ibo.getCount(), gl::UNSIGNED_INT, nullptr);
+        }
 
         glfwSwapBuffers(mWindow);
     }
 }
-

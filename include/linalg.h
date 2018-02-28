@@ -197,8 +197,9 @@ public:
 	// Add-Ass
 	matM& operator+=(const matM& rhs)
 	{
-		int(unsigned i = 0; i != mSize; ++i)
+		for (unsigned i = 0; i != mSize; ++i)
 			mData[i] += rhs[i];
+        return *this;
 	}
 
 	// Add
@@ -210,8 +211,9 @@ public:
 	// Sub-Ass
 	matM& operator-=(const matM& rhs)
 	{
-		int(unsigned i = 0; i != mSize; ++i)
+        for (unsigned i = 0; i != mSize; ++i)
 			mData[i] += rhs[i];
+        return *this;
 	}
 
 	// Sub

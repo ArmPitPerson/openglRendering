@@ -11,7 +11,8 @@ set(INCLUDE_DIRS "include")
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(SOURCE_FILES "src/logging.cpp" "src/shader.cpp" "src/files.cpp"
 				 "src/glfwApplication.cpp" "src/vertexArray.cpp"
-				 "src/camera.cpp" "src/ext/stb_image.cpp" "src/texture.cpp")
+				 "src/camera.cpp" "src/ext/stb_image.cpp" "src/texture.cpp"
+                 "src/randomEngine.cpp")
 
 # MSVC C++ 17
 if(MSVC)
@@ -32,6 +33,9 @@ set(INCLUDE_DIRS ${INCLUDE_DIRS} "ext/spdlog/include")
 # GL LOAD GEN
 include_directories(${INCLUDE_DIRS} "ext/gl/include")
 set(SOURCE_FILES ${SOURCE_FILES} "ext/gl/src/gl_cpp.cpp")
+
+# PCG
+include_directories(${INCLUDE_DIRS} "ext/PCG")
 
 ##############################################################################
 # Build Targets
