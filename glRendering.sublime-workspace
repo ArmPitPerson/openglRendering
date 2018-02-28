@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"include",
+				"include_directories\tcommand"
+			],
+			[
 				"fs_",
 				"fs_texCoord"
 			],
@@ -26,10 +30,6 @@
 			[
 				"begintabl",
 				"\\begin{table*}[placement]                         \tlatex-document"
-			],
-			[
-				"include",
-				"\\includegraphics[options]{name}                   \tlatex-document"
 			],
 			[
 				"includegra",
@@ -523,25 +523,8 @@
 			"file": "bin/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 391,
+				"buffer_size": 535,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 1565,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_02/data.txt",
-			"settings":
-			{
-				"buffer_size": 307,
 				"line_ending": "Windows"
 			}
 		},
@@ -549,7 +532,7 @@
 			"file": "bin/frag.fs",
 			"settings":
 			{
-				"buffer_size": 193,
+				"buffer_size": 233,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -873,6 +856,9 @@
 	],
 	"file_history":
 	[
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
+		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
+		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_02/data.txt",
 		"/E/Project Files/ArnonSideScroller/README.md",
 		"/E/Project Files/ArnonSideScroller/overview.md",
 		"/C/Users/Carl/AppData/Roaming/Trine1/options.txt",
@@ -997,10 +983,7 @@
 		"/E/Project Files/Visual Studio/ShadowBreaker/ShadowBreaker/Levels/Level7.txt",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QProgressTaskWidget.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QLabelledPromptWidget.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QMultipleChoiceWidget.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QLabelledPromptWindow.py",
-		"/C/Python36/Lib/site-packages/PyQt5/QtWidgets.pyd",
-		"/C/Python36/Lib/site-packages/PyQt5/__init__.py"
+		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QMultipleChoiceWidget.py"
 	],
 	"find":
 	{
@@ -1018,6 +1001,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"modelView",
 			"texture",
 			",",
 			"T",
@@ -1060,7 +1044,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1069,76 +1053,20 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 391,
+						"buffer_size": 535,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								388,
-								388
+								530,
+								530
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1565,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1510,
-								1510
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 345.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_02/data.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 307,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								307,
-								307
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1154,20 +1082,20 @@
 			"sheets":
 			[
 				{
-					"buffer": 3,
+					"buffer": 1,
 					"file": "bin/frag.fs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 193,
+						"buffer_size": 233,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								193,
-								193
+								230,
+								230
 							]
 						],
 						"settings":
@@ -1178,7 +1106,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1212,7 +1140,7 @@
 		"cols":
 		[
 			0.0,
-			0.698138840441,
+			0.63070263145,
 			1.0
 		],
 		"rows":

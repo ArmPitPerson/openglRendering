@@ -11,7 +11,18 @@ This repository contains my implementations of a graphics rendering pipeline fro
 ### 1.0 Contributing
 If any OpenGL gurus stumble upon this project and would like to provide feedback or guidance, please create an issue with your feedback and what I could to to fix it. I will attempt to close it by following your advice.
 
-### 1.1 Example Renders
+### 1.1 What I Have Learned
+ * Vertex Attributes
+ * Vertex Arrays
+ * Index Buffers
+ * Shaders
+ * Uniforms
+ * Uniform Blocks
+ * Textures
+ * Samplers
+ * Array Textures
+
+### 1.2 Example Renders
 This section contains a few example screenshots of what I've achieved with this project so far. There is no particular order, and is mostly provided to see progress. The images are dated.
 
 ![Cubes](https://i.imgur.com/4QPWegm.png)
@@ -19,3 +30,6 @@ This section contains a few example screenshots of what I've achieved with this 
 
 ![Koala](https://i.imgur.com/PuFr1BQ.png)
 *February 11th 2018 - First Textured Cube*
+
+![Koala Rain](https://i.imgur.com/oLVctDc.png)
+*February 28th 2018 - Infinite rain of Koalas using 2D Array Texture*
