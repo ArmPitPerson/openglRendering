@@ -11,7 +11,7 @@
 
 
 template<typename T, unsigned M>
-class vecM
+class vecM final
 {
 public:
 	using valueType = T;

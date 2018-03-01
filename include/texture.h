@@ -3,29 +3,9 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+#include "enums.h"
+
 #include <string>
-
-
-// Texture repeat modes
-enum class ETextureRepeatMode
-{
-	Repeat,
-	MirrorRepeat,
-	ClampToEdge,
-	ClampToBorder,
-	MirroredClampToEdge
-};
-
-
-// Texture filtering modes
-enum class ETextureFilterMode
-{
-	NearestNearest,
-	NearestLinear,
-	LinearNearest,
-	Trilinear	
-};
-
 
 /*
  * For loading and binding Textures to the OpenGL context.

@@ -13,6 +13,7 @@
 #include "texture.h"
 
 #include "randomEngine.h"
+#include "../include/image.h"
 
 // GLFW Key Callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -24,7 +25,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         inputManager->releaseKey(key);
 }
 
-
 GLFWApplication::GLFWApplication()
 {
     ServiceLocator<InputManager>::provide(&mInputManager);
@@ -35,7 +35,7 @@ GLFWApplication::GLFWApplication()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 2); // 2x MSAA
-    mWindow = glfwCreateWindow(1280, 720, "Open GL Rendering", nullptr, nullptr);
+    mWindow = glfwCreateWindow(1920, 1080, "Open GL Rendering", glfwGetPrimaryMonitor(), nullptr);
     glfwSetKeyCallback(mWindow, key_callback);
     glfwMakeContextCurrent(mWindow);
 
@@ -86,6 +86,9 @@ void GLFWApplication::run()
     for(int i = 0; i != 64; ++i)
         uniformBlockData.modelWorld[i] = mat4::translate(rng.uniform(-6.0, 6.0), -2.0f + rng.uniform(-5.0, 0.5), rng.uniform(-0.25, 0.6));
     matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
+
+    Image drawTarget({ 1920.f, 1080.f }, EImageMode::WriteOnly);
+    drawTarget.bind();
 
     Texture image("karray.png", 1, 12);
     image.bind();
