@@ -13,7 +13,7 @@
 #include "texture.h"
 
 #include "randomEngine.h"
-#include "../include/image.h"
+#include "image.h"
 
 // GLFW Key Callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

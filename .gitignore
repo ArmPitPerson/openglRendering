@@ -1,6 +1,9 @@
 # OpenGL Rendering Gitignore
 
 # Folders
+/bin/Debug
+/bin/Release
+
 /build
 /ext/glfw/docs
 
@@ -9,4 +12,5 @@
 *.suo
 *.svg
 *.dox
-
+*.pdb
+*.ilk
