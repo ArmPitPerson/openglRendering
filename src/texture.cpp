@@ -95,7 +95,6 @@ void Texture::setFilterMode(ETextureFilterMode mode)
         break;
     default:
         break;
-
     }
 }
 

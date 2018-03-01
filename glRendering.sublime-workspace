@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"dir",
+				"dir_util\tmodule"
+			],
+			[
+				"parse",
+				"parse_args\tfunction"
+			],
+			[
+				"Ar",
+				"ArgumentParser\tclass"
+			],
+			[
 				"add_custom",
 				"add_custom_command\tcommand"
 			],
@@ -384,10 +396,6 @@
 				"color_pair\tfunction"
 			],
 			[
-				"dir",
-				"direction\tparam"
-			],
-			[
 				"Bin",
 				"BindEvent\tfunction"
 			],
@@ -506,19 +514,29 @@
 			[
 				"Game",
 				"GameObject"
-			],
-			[
-				"Crea",
-				"Creatures"
-			],
-			[
-				"Wor",
-				"World\tstatement"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "res/vertex.vs",
+			"settings":
+			{
+				"buffer_size": 490,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "res/frag.fs",
+			"settings":
+			{
+				"buffer_size": 1216,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -635,10 +653,22 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 215.0,
-		"last_filter": "boxy",
+		"height": 357.0,
+		"last_filter": "pep",
 		"selected_items":
 		[
+			[
+				"pep",
+				"Anaconda: Autoformat PEP8 Errors"
+			],
+			[
+				"pep8",
+				"Anaconda: Autoformat PEP8 Errors"
+			],
+			[
+				"sspy",
+				"Set Syntax: Python"
+			],
 			[
 				"boxy",
 				"Boxy Theme: Configuration"
@@ -678,18 +708,6 @@
 			[
 				"list ",
 				"Package Control: List Packages"
-			],
-			[
-				"pep",
-				"Anaconda: Autoformat PEP8 Errors"
-			],
-			[
-				"sspy",
-				"Set Syntax: Python"
-			],
-			[
-				"pep8",
-				"Anaconda: Autoformat PEP8 Errors"
 			],
 			[
 				"install",
@@ -835,20 +853,22 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/bin",
 		"/E/Project Files/Visual Studio/GL_Rendering/res"
 	],
 	"file_history":
 	[
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
+		"/E/Project Files/Visual Studio/GL_Rendering/build/res/vertex.vs",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
+		"/E/Project Files/Visual Studio/GL_Rendering/resourceCopy.py",
+		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/bin/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/bin/res/frag.fs",
-		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/bin/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/bin/frag.fs",
 		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_02/data.txt",
 		"/E/Project Files/ArnonSideScroller/README.md",
 		"/E/Project Files/ArnonSideScroller/overview.md",
@@ -964,10 +984,7 @@
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/QProgressTaskDialog.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/QMultipleChoiceWidget.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/.gitignore",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/testScript.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/__init__.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/resources/fonts/UBUNTU FONT LICENCE.txt",
-		"/C/Users/Carl/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings"
+		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/testScript.py"
 	],
 	"find":
 	{
@@ -985,6 +1002,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cursorPosition",
 			"cpp",
 			"modelView",
 			"texture",
@@ -1029,8 +1047,71 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "res/vertex.vs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 490,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								424,
+								424
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "res/frag.fs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1216,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1078,
+								1078
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1051,11 +1132,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":

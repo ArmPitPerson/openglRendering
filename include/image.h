@@ -9,7 +9,7 @@
 class Image
 {
 public:
-    Image(const vec2& size, EImageMode mode);
+    Image(const vec2i& size, EImageMode mode);
 
     ~Image();
 

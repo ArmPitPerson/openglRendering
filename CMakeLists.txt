@@ -55,5 +55,8 @@ endif()
 ##############################################################################
 
 # Move resource folder to binary dir
-message(STATUS "Copying resource directory to binary path")
-FILE(COPY "${CMAKE_SOURCE_DIR}/res" DESTINATION "${CMAKE_BINARY_DIR}")
+add_custom_command(
+  TARGET ${PROJECT_NAME} PRE_BUILD
+  COMMAND python ${CMAKE_SOURCE_DIR}/resourceCopy.py ${CMAKE_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res
+  COMMENT "Copy resource files into ${CMAKE_BINARY_DIR}/res"
+)

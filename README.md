@@ -18,18 +18,22 @@ If any OpenGL gurus stumble upon this project and would like to provide feedback
  * Shaders
  * Uniforms
  * Uniform Blocks
+ * Array Textures
  * Textures
  * Samplers
- * Array Textures
+ * Images
 
 ### 1.2 Example Renders
 This section contains a few example screenshots of what I've achieved with this project so far. There is no particular order, and is mostly provided to see progress. The images are dated.
 
-![Cubes](https://i.imgur.com/4QPWegm.png)
-*February 4th 2018 - First Cube*
+![Drawing Application](https://i.imgur.com/iTRnW7r.png)
+*March 1st 2018 - Drawing using shader writable image*
+
+![Koala Rain](https://i.imgur.com/oLVctDc.png)
+*February 28th 2018 - Infinite rain of Koalas using 2D Array Texture*
 
 ![Koala](https://i.imgur.com/PuFr1BQ.png)
 *February 11th 2018 - First Textured Cube*
 
-![Koala Rain](https://i.imgur.com/oLVctDc.png)
-*February 28th 2018 - Infinite rain of Koalas using 2D Array Texture*
+![Cubes](https://i.imgur.com/4QPWegm.png)
+*February 4th 2018 - First Cube*
