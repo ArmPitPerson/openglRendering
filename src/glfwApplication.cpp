@@ -11,9 +11,9 @@
 #include "linalg.h"
 #include "camera.h"
 #include "texture.h"
-
 #include "randomEngine.h"
 #include "image.h"
+#include "files.h"
 
 // GLFW Key Callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -42,7 +42,7 @@ GLFWApplication::GLFWApplication()
     /// Print max textures
     int maxTextures;
     gl::GetIntegerv(gl::MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextures);
-    logCustom()->info("Max bound textures: {}", maxTextures);
+    logCustom()->info("Max bound textures: {}", maxTextures);    
 }
 
 GLFWApplication::~GLFWApplication()
@@ -71,7 +71,7 @@ void GLFWApplication::run()
     vao.bind();
 
     // Uniforms and Shaders
-    Shader shader("vertex.vs", "frag.fs");
+    Shader shader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
     shader.bind();
 
     UMatrices uniformBlockData;
@@ -90,7 +90,7 @@ void GLFWApplication::run()
     Image drawTarget({ 1920.f, 1080.f }, EImageMode::WriteOnly);
     drawTarget.bind();
 
-    Texture image("karray.png", 1, 12);
+    Texture image(getResourcePath("karray.png"), 1, 12);
     image.bind();
 
     gl::Enable(gl::DEPTH_TEST);

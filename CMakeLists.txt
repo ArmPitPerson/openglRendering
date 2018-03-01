@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project("OpenGL")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 
 ##############################################################################
 # Varaibles
@@ -20,7 +20,9 @@ endif()
 # Build Targets
 ##############################################################################
 
-add_executable(${PROJECT_NAME} "ext/gl/src/gl_cpp.cpp" "ext/gl/include/gl_cpp.h") # Until I bother with add_subdirectory
+# Until I bother with add_subdirectory, add those manually
+add_executable(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/ext/gl/src/gl_cpp.cpp"
+               "${CMAKE_SOURCE_DIR}/ext/gl/include/gl_cpp.hpp")
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 
 ##############################################################################
@@ -47,3 +49,11 @@ target_link_libraries(${PROJECT_NAME} "opengl32.lib")
 else()
 target_link_libraries(${PROJECT_NAME} "OpenGL")
 endif()
+
+##############################################################################
+# Resource Management
+##############################################################################
+
+# Move resource folder to binary dir
+message(STATUS "Copying resource directory to binary path")
+FILE(COPY "${CMAKE_SOURCE_DIR}/res" DESTINATION "${CMAKE_BINARY_DIR}")

@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"add_custom",
+				"add_custom_command\tcommand"
+			],
+			[
 				"include",
 				"include_directories\tcommand"
 			],
@@ -510,33 +514,11 @@
 			[
 				"Wor",
 				"World\tstatement"
-			],
-			[
-				"Hand",
-				"HandleInput"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "bin/vertex.vs",
-			"settings":
-			{
-				"buffer_size": 535,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bin/frag.fs",
-			"settings":
-			{
-				"buffer_size": 233,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -852,12 +834,21 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering"
+		"/E/Project Files/Visual Studio/GL_Rendering",
+		"/E/Project Files/Visual Studio/GL_Rendering/bin",
+		"/E/Project Files/Visual Studio/GL_Rendering/res"
 	],
 	"file_history":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
+		"/E/Project Files/Visual Studio/GL_Rendering/bin/res/vertex.vs",
+		"/E/Project Files/Visual Studio/GL_Rendering/bin/res/frag.fs",
 		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/bin/vertex.vs",
+		"/E/Project Files/Visual Studio/GL_Rendering/bin/frag.fs",
+		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
+		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_02/data.txt",
 		"/E/Project Files/ArnonSideScroller/README.md",
 		"/E/Project Files/ArnonSideScroller/overview.md",
@@ -976,14 +967,7 @@
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/testScript.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/__init__.py",
 		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/resources/fonts/UBUNTU FONT LICENCE.txt",
-		"/C/Users/Carl/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt5_CWidgets/source/QLabelledPromptWidget.py",
-		"/D/Games/Shadow Breaker/Legal/AudioLicense.txt",
-		"/E/Project Files/Visual Studio/ShadowBreaker/x64/Release/Audio/MusicLicense.txt",
-		"/E/Project Files/Visual Studio/ShadowBreaker/ShadowBreaker/Levels/Level7.txt",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QProgressTaskWidget.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QLabelledPromptWidget.py",
-		"/D/Google Drive/Programmer/Personal_Modules/PyQt_Utils/QMultipleChoiceWidget.py"
+		"/C/Users/Carl/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings"
 	],
 	"find":
 	{
@@ -1001,6 +985,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cpp",
 			"modelView",
 			"texture",
 			",",
@@ -1044,71 +1029,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "bin/vertex.vs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 535,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								530,
-								530
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 1,
-					"file": "bin/frag.fs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 233,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								230,
-								230
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1129,18 +1051,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.63070263145,
 			1.0
 		],
 		"rows":
