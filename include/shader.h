@@ -21,6 +21,9 @@ public:
 	Shader(const std::string& vertexShader, const std::string& fragmentShader);
 	~Shader();
 
+    Shader(const Shader& other) = delete;
+    Shader& operator=(const Shader& other) = delete;
+
 	void bind() const;
 
 	void unbind() const;

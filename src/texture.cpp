@@ -1,35 +1,86 @@
 #include "texture.h"
 #include "gl_cpp.hpp"
-#include "ext/stb_image.h"
 #include "logging.h"
+
+#include <memory>
 #include <experimental/filesystem>
+
+#include "ext/stb_image.h"
 
 using namespace std::experimental;
 
 // #TODO - Swap texture after construction
-// #TODO - Copy constructor etc.
 
 Texture::Texture(const std::string& filepath, unsigned mipLevels, unsigned arrayLevels) : mLevels(mipLevels), mArrayLevels(arrayLevels)
 {
-    if (arrayLevels <= 1)
-    {   // Create regular texture at 0 or 1 array level
-        if (arrayLevels == 0) logWarn("Array level should not be 0!");
-        gl::CreateTextures(gl::TEXTURE_2D, 1, &mName);
-    }
-    else
-    {   // Create Array texture when more than 1 array level
-        gl::CreateTextures(gl::TEXTURE_2D_ARRAY, 1, &mName);
-    }
-
-    gl::TextureParameteri(mName, gl::TEXTURE_MIN_FILTER, gl::LINEAR_MIPMAP_LINEAR); // Trilinear
-    gl::TextureParameteri(mName, gl::TEXTURE_MAG_FILTER, gl::LINEAR);
-    gl::TextureParameteri(mName, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE);
-    gl::TextureParameteri(mName, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE);
+    init();
 
     // Only load if mipmap levels are valid
     if (mipLevels == 0) logErr("Texture mipmap levels can not be 0!");
     else if (mArrayLevels > 1) loadArrayFromFile(filepath);
     else loadFromFile(filepath);
+}
+
+Texture::Texture(Texture&& other) : mName(other.mName), mLevels(other.mLevels),
+                                    mArrayLevels(other.mArrayLevels), mBindingPoint(other.mBindingPoint)
+{
+    // Make it not manage the GL Resource anymore
+    other.mName = 0;
+}
+
+Texture::Texture(const Texture& other) : mLevels(other.mLevels), mArrayLevels(other.mArrayLevels)
+{
+    if (mArrayLevels > 1)
+    {
+        logWarn("Array textures can not currently be copied!");
+    }
+    else
+    {
+        init();
+        copyTextureData(other);
+    }
+}
+
+Texture& Texture::operator=(const Texture& other)
+{
+    // Don't need to do anything if copying to self
+    if (this == &other) return *this;
+
+    // Clean up currently managed texture
+    gl::DeleteTextures(1, &mName);
+    mName = 0;
+
+    // Copy data from other
+    mLevels = other.mLevels;
+    mArrayLevels = other.mArrayLevels;
+
+    // Copy texture data and make new GL name to manage
+    if (mArrayLevels > 1)
+    {
+        logWarn("Array textures can not currently be copy assigned!");
+    }
+    else
+    {
+        init();
+        copyTextureData(other);
+    }
+}
+
+Texture& Texture::operator=(Texture&& other)
+{
+    // No point moving a temporary to itself
+    if (this == &other) return *this;
+
+    // Member-Wise Copy
+    mName = other.mName;
+    mLevels = other.mLevels;
+    mArrayLevels = other.mArrayLevels;
+    mBindingPoint = other.mBindingPoint;
+
+    // Make it not manage the GL Resource anymore
+    other.mName = 0;
+
+    return *this;
 }
 
 Texture::~Texture()
@@ -46,6 +97,14 @@ void Texture::bind(const int bindingPoint /*= 0*/) const
 void Texture::unbind() const
 {
     gl::BindTextureUnit(mBindingPoint, 0);
+}
+
+const vec2i Texture::getSize(const unsigned level /*= 0*/) const
+{
+    vec2i dimensions;
+    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_WIDTH, &dimensions[0]);
+    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_HEIGHT, &dimensions[1]);
+    return dimensions;
 }
 
 void Texture::setRepeatMode(ETextureRepeatMode mode)
@@ -95,6 +154,45 @@ void Texture::setFilterMode(ETextureFilterMode mode)
         break;
     default:
         break;
+    }
+}
+
+void Texture::init()
+{
+    if (mArrayLevels <= 1)
+    {   // Create regular texture at 0 or 1 array level
+        if (mArrayLevels == 0) logWarn("Array level should not be 0!");
+        gl::CreateTextures(gl::TEXTURE_2D, 1, &mName);
+    }
+    else
+    {   // Create Array texture when more than 1 array level
+        gl::CreateTextures(gl::TEXTURE_2D_ARRAY, 1, &mName);
+    }
+
+    gl::TextureParameteri(mName, gl::TEXTURE_MIN_FILTER, gl::LINEAR_MIPMAP_LINEAR); // Trilinear
+    gl::TextureParameteri(mName, gl::TEXTURE_MAG_FILTER, gl::LINEAR);
+    gl::TextureParameteri(mName, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE);
+    gl::TextureParameteri(mName, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE);
+}
+
+void Texture::copyTextureData(const Texture& other)
+{
+    auto size = other.getSize();
+    gl::TextureStorage2D(mName, mLevels, gl::RGBA8, size[0], size[1]);
+
+    // #TODO support Array Texture copying (with and without mipmaps)
+
+    // For each mip-map layer, copy the contents
+    for (int i = 0; i != mLevels; ++i)
+    {
+        // Get size info and allocate space for the texture
+        size = other.getSize(i);
+        const auto dataSize = size[0] * size[1] * 4;
+        std::unique_ptr<unsigned char[]> imageData = std::make_unique<unsigned char[]>(dataSize);
+
+        // Retrieve texture data and copy it to the new texture
+        gl::GetTextureImage(other.mName, i, gl::RGBA, gl::UNSIGNED_BYTE, dataSize, imageData.get());
+        gl::TextureSubImage2D(mName, i, 0, 0, size[0], size[1], gl::RGBA, gl::UNSIGNED_BYTE, imageData.get());
     }
 }
 

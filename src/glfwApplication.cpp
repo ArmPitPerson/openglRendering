@@ -87,6 +87,11 @@ void GLFWApplication::run()
     uniformBlockData.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
     matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
 
+    Texture koalaTex(getResourcePath("kaowa.png"), 3);
+    Texture newTexture(koalaTex);
+    koalaTex = newTexture;
+    koalaTex.bind();
+    
     Image drawTarget({ 1280, 720 }, EImageMode::ReadWrite);
     drawTarget.bind(0);
 

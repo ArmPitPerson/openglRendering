@@ -11,7 +11,28 @@ Image::Image(const vec2i& size, EImageMode mode) : mMode(mode)
     gl::TextureParameteri(mName, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE);
     gl::TextureParameteri(mName, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE);
 
-    gl::TextureStorage2D(mName, 1, gl::RGBA8, size[0], size[1]);
+    gl::TextureStorage2D(mName, 1, gl::RGBA8, size[0], size[1]);    
+}
+
+Image::Image(Image&& other) : mName(other.mName), mMode(other.mMode)
+{
+    other.mName = 0;
+}
+
+Image::Image(const Image& other)
+{
+    // #TODO Implement using glGetTextureSubImage
+}
+
+Image& Image::operator=(Image&& other)
+{
+    if (this == &other) return *this;
+
+    mMode = other.mMode;
+    mName = other.mName;
+
+    other.mName = 0;
+    return *this;
 }
 
 Image::~Image()

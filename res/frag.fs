@@ -3,6 +3,7 @@ layout(origin_upper_left) in vec4 gl_FragCoord;
 
 layout (location=0) out vec4 color;
 layout (binding=0, rgba8) uniform image2D image;
+layout (binding=0) uniform sampler2D tex;
 
 layout(std140) uniform Matrices {
     mat4 modelWorld;
@@ -41,5 +42,5 @@ void main() {
     }
 
     memoryBarrier();
-    color = imageLoad(image, ivec2(gl_FragCoord.xy));
+    color = imageLoad(image, ivec2(gl_FragCoord.xy)) + texture(tex, fs_texCoord);
 }

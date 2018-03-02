@@ -4,8 +4,10 @@
 #define TEXTURE_H
 
 #include "enums.h"
+#include "linalg.h"
 
 #include <string>
+
 
 /*
  * For loading and binding Textures to the OpenGL context.
@@ -25,6 +27,19 @@ class Texture
 {
 public:
 	Texture(const std::string& filepath, unsigned mipLevels = 1, unsigned arrayLevels = 1);
+
+    // Move Constructor
+    Texture(Texture&& other);
+
+    // Move Assignment
+    Texture& operator=(Texture&& other);
+
+    // Copy Constructor
+    Texture(const Texture& other);
+
+    // Copy Assignment
+    Texture& operator=(const Texture& other);
+
 	~Texture();
 
 	// Bind texture to the provided bindingPoint [0-32]
@@ -32,6 +47,9 @@ public:
 
 	// Unbind from the last bound binding point
 	void unbind() const;
+
+    // Get width and height of the texture at the given mipmap level
+    const vec2i getSize(const unsigned level = 0) const;
 
 	// Set the repeat mode of the texture
 	void setRepeatMode(ETextureRepeatMode mode);
@@ -43,6 +61,12 @@ public:
 	const unsigned name() const { return mName; }
 
 private:
+    // Init the texture and create the appropriate GL Object
+    void init();
+
+    // Copies texture data from the other texture
+    void copyTextureData(const Texture& other);
+
 	// Load texture from file
 	void loadFromFile(const std::string& basePath);
 

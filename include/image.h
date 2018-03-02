@@ -10,6 +10,12 @@ class Image
 {
 public:
     Image(const vec2i& size, EImageMode mode);
+    
+    Image(const Image& other);
+    
+    Image(Image&& other);
+    
+    Image& operator=(Image&& other);
 
     ~Image();
 
