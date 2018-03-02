@@ -20,29 +20,71 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    {
         inputManager->pressKey(key);
+        logCustom()->debug("Pressed key: {}", key);
+    }
     else if (action == GLFW_RELEASE)
+    {
         inputManager->releaseKey(key);
+        logCustom()->debug("Released key: {}", key);
+    }
+}
+
+// GLFW Mouse Button Callback
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    static InputManager* inputManager = ServiceLocator<InputManager>::get();
+    if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    {
+        inputManager->pressKey(button);
+        logCustom()->debug("Pressed mouse button: {}", button);
+    }
+    else if (action == GLFW_RELEASE)
+    {
+        inputManager->releaseKey(button);
+        logCustom()->debug("Released mouse button: {}", button);
+    }
+
+}
+
+// GLFW Cursor Position Callback
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    static InputManager* inputManager = ServiceLocator<InputManager>::get();
+    inputManager->moveCursor({ xpos, ypos });
+    logCustom()->debug("Cursor at: X[{}] Y[{}]", xpos, ypos);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    static InputManager* inputManager = ServiceLocator<InputManager>::get();
+    inputManager->scrollMouse({ xoffset, yoffset });
+    logCustom()->info("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
 }
 
 GLFWApplication::GLFWApplication()
 {
     ServiceLocator<InputManager>::provide(&mInputManager);
     glfwInit();
+
+    // Context Hints
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 2); // 2x MSAA
+
+    // Context Creation
     mWindow = glfwCreateWindow(1280, 720, "Open GL Rendering", nullptr, nullptr);
-    glfwSetKeyCallback(mWindow, key_callback);
     glfwMakeContextCurrent(mWindow);
 
-    /// Print max textures
-    int maxTextures;
-    gl::GetIntegerv(gl::MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextures);
-    logCustom()->info("Max bound textures: {}", maxTextures);
+    // Input Callbacks
+    glfwSetKeyCallback(mWindow, key_callback);
+    glfwSetMouseButtonCallback(mWindow, mouse_button_callback);
+    glfwSetCursorPosCallback(mWindow, cursor_position_callback);
+    glfwSetScrollCallback(mWindow, scroll_callback);
 }
 
 GLFWApplication::~GLFWApplication()
@@ -109,7 +151,7 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
-        if (mInputManager.arePressed(GLFW_KEY_SPACE))
+        if (mInputManager.arePressed(GLFW_MOUSE_BUTTON_LEFT))
             uniformBlockData.cursorPosition[2] = 1;
         if (mInputManager.arePressed(GLFW_KEY_Q))
             uniformBlockData.drawColor[0] += 0.01f;
@@ -125,9 +167,8 @@ void GLFWApplication::run()
             uniformBlockData.drawColor[2] -= 0.01f;
 
         // Updating
-        double x, y;
-        glfwGetCursorPos(mWindow, &x, &y);
-        uniformBlockData.cursorPosition = { x, y, uniformBlockData.cursorPosition[2] };
+        auto cpost = mInputManager.getCursorPosition();
+        uniformBlockData.cursorPosition = { cpost[0], cpost[1], uniformBlockData.cursorPosition[2] };
         matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
 
         // Drawing
