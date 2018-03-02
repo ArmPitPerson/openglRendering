@@ -15,37 +15,60 @@
 #include "image.h"
 #include "files.h"
 
+#include "imgui.h"
+#include "imgui_glfw.h"
+
+// ImGui extern for input management
+extern bool g_MouseJustPressed[3];
+
 // GLFW Key Callback
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
+
+    ImGuiIO& io = ImGui::GetIO();
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
-        inputManager->pressKey(key);
+        if(!io.WantCaptureKeyboard) // If ImGui is not reserving input
+            inputManager->pressKey(key);
+        io.KeysDown[key] = true; // ImGui
         logCustom()->debug("Pressed key: {}", key);
     }
     else if (action == GLFW_RELEASE)
     {
         inputManager->releaseKey(key);
+        io.KeysDown[key] = false; // ImGui
         logCustom()->debug("Released key: {}", key);
     }
+
+    (void)mods; // Modifiers are not reliable across systems
+    io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+    io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+    io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+    io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
 }
 
 // GLFW Mouse Button Callback
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
+    ImGuiIO& io = ImGui::GetIO();
+
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
-        inputManager->pressKey(button);
+        if(!io.WantCaptureMouse) // If ImGui is not reserving input
+            inputManager->pressKey(button);
         logCustom()->debug("Pressed mouse button: {}", button);
+
+        // ImGui Interaction
+        if (button >= 0 && button < 3)
+            g_MouseJustPressed[button] = true;
     }
     else if (action == GLFW_RELEASE)
     {
         inputManager->releaseKey(button);
         logCustom()->debug("Released mouse button: {}", button);
     }
-
 }
 
 // GLFW Cursor Position Callback
@@ -56,11 +79,22 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
     logCustom()->debug("Cursor at: X[{}] Y[{}]", xpos, ypos);
 }
 
+// GLFW Mouse Scroll Wheel Callback
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     inputManager->scrollMouse({ xoffset, yoffset });
     logCustom()->info("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
+
+    // ImGui Interaction
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseWheel += (float)yoffset;
+}
+
+// GLFW Error Callback
+static void error_callback(int error, const char* description)
+{
+    logCustom()->error("GLFW Error #{}: {}", error, description);
 }
 
 GLFWApplication::GLFWApplication()
@@ -80,15 +114,27 @@ GLFWApplication::GLFWApplication()
     mWindow = glfwCreateWindow(1280, 720, "Open GL Rendering", nullptr, nullptr);
     glfwMakeContextCurrent(mWindow);
 
-    // Input Callbacks
+    // GLFW Callbacks
+    glfwSetErrorCallback(error_callback);
     glfwSetKeyCallback(mWindow, key_callback);
     glfwSetMouseButtonCallback(mWindow, mouse_button_callback);
     glfwSetCursorPosCallback(mWindow, cursor_position_callback);
     glfwSetScrollCallback(mWindow, scroll_callback);
+
+    // ImGui Setup
+    mImGuiContext = ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui_ImplGlfwGL3_Init(mWindow);
+    ImGui::StyleColorsDark();
+
+    auto fontPath = getResourcePath("ProggyTiny.ttf");
+    io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 10.f);
 }
 
 GLFWApplication::~GLFWApplication()
 {
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext(mImGuiContext);
     glfwDestroyWindow(mWindow);
     glfwTerminate();
 }
@@ -121,7 +167,7 @@ void GLFWApplication::run()
     matrixBuffer.setUniformBlock("Matrices");
     matrixBuffer.bind();
 
-    uniformBlockData.drawColor = { 0.2f, 0.1f, 0.1f, 1.f };
+    uniformBlockData.drawColor = { 0.5f, 0.1f, 0.1f, 1.f };
 
     RandomEngine rng;
 
@@ -133,7 +179,7 @@ void GLFWApplication::run()
     Texture newTexture(koalaTex);
     koalaTex = newTexture;
     koalaTex.bind();
-    
+
     Image drawTarget({ 1280, 720 }, EImageMode::ReadWrite);
     drawTarget.bind(0);
 
@@ -145,13 +191,14 @@ void GLFWApplication::run()
         // Event Processing
         mInputManager.clear();
         glfwPollEvents();
+        ImGui_ImplGlfwGL3_NewFrame();
 
         uniformBlockData.cursorPosition[2] = 0;
 
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
-        if (mInputManager.arePressed(GLFW_MOUSE_BUTTON_LEFT))
+        if (mInputManager.arePressed(GLFW_MOUSE_BUTTON_LEFT) || mInputManager.arePressed(GLFW_KEY_SPACE))
             uniformBlockData.cursorPosition[2] = 1;
         if (mInputManager.arePressed(GLFW_KEY_Q))
             uniformBlockData.drawColor[0] += 0.01f;
@@ -171,9 +218,13 @@ void GLFWApplication::run()
         uniformBlockData.cursorPosition = { cpost[0], cpost[1], uniformBlockData.cursorPosition[2] };
         matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
 
+        ImGui::Text("Raowpist!");
+
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
         gl::DrawElements(gl::TRIANGLES, ibo.getCount(), gl::UNSIGNED_INT, nullptr);
+        ImGui::Render();
+        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(mWindow);
     }
 }

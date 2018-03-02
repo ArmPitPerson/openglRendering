@@ -6,6 +6,7 @@
 
 /build
 /ext/glfw/docs
+/ext/imgui/extra_fonts
 
 # File types
 *.exe

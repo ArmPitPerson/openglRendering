@@ -41,6 +41,11 @@ include_directories(${INCLUDE_DIRS} "ext/gl/include")
 # PCG
 include_directories(${INCLUDE_DIRS} "ext/PCG")
 
+# ImGui
+include_directories(${INCLUDE_DIRS} "ext/imgui")
+include("ext/imgui/CMakeLists.txt")
+
+# Main Project Files
 include("src/CMakeLists.txt")
 include("include/CMakeLists.txt")
 

@@ -7,6 +7,7 @@
 #include "inputManager.h"
 
 struct GLFWwindow;
+struct ImGuiContext;
 
 
 class GLFWApplication
@@ -20,6 +21,9 @@ public:
 private:
 	// Application Window
 	GLFWwindow * mWindow = nullptr;
+
+    // ImGui Context
+    ImGuiContext* mImGuiContext = nullptr;
 
 	// Input Manager
 	InputManager mInputManager;
