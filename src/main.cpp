@@ -9,10 +9,12 @@
 
 void APIENTRY cppGLDebug(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
 	switch (severity) {
-	case gl::DEBUG_SEVERITY_LOW:
 	case gl::DEBUG_SEVERITY_NOTIFICATION:
-		logCustom()->info("OpenGL Info: {}", message);
+		logCustom()->debug("OpenGL Debug Info: {}", message);
 		break;
+	case gl::DEBUG_SEVERITY_LOW:
+        logCustom()->info("OpenGL Info: {}", message);
+        break;
 	case gl::DEBUG_SEVERITY_MEDIUM:
 		logCustom()->warn("OpenGL Warning: {}", message);
 		break;
@@ -25,10 +27,10 @@ void APIENTRY cppGLDebug(GLenum source, GLenum type, GLuint id, GLenum severity,
 	}
 }
 
-
 int main() {
 	auto debugLog = spdlog::stdout_color_st("DEBUG");
 	debugLog->set_pattern("[%H:%M:%S.%e] >> %v");
+    debugLog->info("Application Start Entry");
 
 	GLFWApplication application;
 
@@ -40,5 +42,6 @@ int main() {
 
 	application.run();
 	
+    debugLog->info("Application Terminate Entry");
 	return 0;
 }
