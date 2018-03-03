@@ -32,7 +32,7 @@ public:
 	constexpr vecM(const vecM& other) : mData(other.mData) {}
 
 	// Move
-	constexpr vecM(vecM&& other) : mData(std::move(other.mData)) {}
+    constexpr vecM(vecM&& other) : mData(std::move(other.mData)) { }
 
 	// Copy-Ass
 	constexpr vecM& operator=(const vecM& other) { if (this == &other) return *this; mData = other.mData; return *this; }
@@ -114,8 +114,10 @@ public:
 		return std::sqrt(product);
 	}
 
-	// Get ptr to data
+	// Get ptr to data const/non-const
 	const T* data() const { return mData.data(); }
+    T* data() { return mData.data(); }
+
 
 private:
 	// Vector Data
@@ -374,6 +376,7 @@ public:
 	}
 
 	// Get ptr to data
+    T* data() { return mData.data(); }
 	const T* data() const { return mData.data(); }
 
 private:

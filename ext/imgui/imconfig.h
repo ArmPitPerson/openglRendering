@@ -47,15 +47,32 @@
         operator MyVec4() const { return MyVec4(x,y,z,w); }
 */
 
+// Add this to your imconfig.h
+
+#include "linalg.h"
+
+#define IM_VEC2_CLASS_EXTRA                                             \
+    ImVec2(const vec2& v) : ImVec2(v[0], v[1]) {}                       \
+                                                                        \
+    operator vec2() const {                                             \
+        return vec2{x, y};                                              \
+    }
+
+#define IM_VEC4_CLASS_EXTRA                                             \
+    ImVec4(const vec4& c) : ImVec4(c[0], c[1], c[2], c[3]) { }          \
+    operator vec4() const { return vec4{x, y, z, w}; }
+
 //---- Use 32-bit vertex indices (instead of default: 16-bit) to allow meshes with more than 64K vertices
-//#define ImDrawIdx unsigned int
+#define ImDrawIdx unsigned int // Because this project uses unsigned int indices
 
 //---- Tip: You can add extra functions within the ImGui:: namespace, here or in your own headers files.
 //---- e.g. create variants of the ImGui::Value() helper for your low-level math types, or your own widgets/helpers.
+
 /*
-namespace ImGui
-{
-    void    Value(const char* prefix, const MyMatrix44& v, const char* float_format = NULL);
-}
+    namespace ImGui
+    {
+        // Extra functions added in imgui_convenience.h instead \\
+    }
 */
+
 

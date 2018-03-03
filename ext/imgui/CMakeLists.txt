@@ -11,6 +11,8 @@ target_sources(${PROJECT_NAME}
             "${CMAKE_SOURCE_DIR}/ext/imgui/imgui_draw.cpp"
             "${CMAKE_SOURCE_DIR}/ext/imgui/imgui_glfw.h"
             "${CMAKE_SOURCE_DIR}/ext/imgui/imgui_glfw.cpp"
+            "${CMAKE_SOURCE_DIR}/ext/imgui/imgui_convenience.h"
+            "${CMAKE_SOURCE_DIR}/ext/imgui/imgui_convenience.cpp"
             # "${CMAKE_SOURCE_DIR}/ext/imgui/extra_fonts/binary_to_compressed_c.cpp"
             # "${CMAKE_SOURCE_DIR}/ext/imgui/stb_rect_pack.h"
             # "${CMAKE_SOURCE_DIR}/ext/imgui/stb_textedit.h"
