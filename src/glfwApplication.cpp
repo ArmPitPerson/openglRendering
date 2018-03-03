@@ -144,10 +144,10 @@ GLFWApplication::~GLFWApplication()
 void GLFWApplication::run()
 {
     Vertex vertices[] = { // For a Plane
-            { -1.f, -1.f, 0.f, 1.f, 1.f, 1.f, 0.f, 0.f, },
-            {  1.f,-1.f, 0.f, 1.f, 1.f, 1.f, 1.f, 0.f, },
-            {  1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 1.f, 1.f, },
-            { -1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 0.f, 1.f, } };
+            { -0.5f, -0.5f, 0.f, 0.f, 1.f, 1.f, 0.f, 0.f },
+            {  0.5f, -0.5f, 0.f, 1.f, 1.f, 0.f, 1.f, 0.f },
+            {  0.5f,  0.5f, 0.f, 1.f, 0.f, 1.f, 1.f, 1.f },
+            { -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f, 0.f, 1.f } };
 
     unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
@@ -164,33 +164,34 @@ void GLFWApplication::run()
     Shader shader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
     shader.bind();
 
-    UMatrices uniformBlockData;
+    UAppData appUniforms;
+    appUniforms.frameBufferSize = { 1280.f, 720.f };
+    appUniforms.cursorPosition = mInputManager.getCursorPosition();
+
+    UniformBuffer appBuffer(sizeof(UAppData), shader);
+    appBuffer.setUniformBlock("AppData");
+    appBuffer.bind(1);
+    appBuffer.setBlockData(&appBuffer, sizeof(UAppData));
+
+    UMatrices matrixUniforms;
+    matrixUniforms.modelWorld = mat4::scale(0.5, 0.5, 1);
+    matrixUniforms.worldView = mat4::translate(0.f, 0.f, .5f);
+    matrixUniforms.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
+
     UniformBuffer matrixBuffer(sizeof(UMatrices), shader);
     matrixBuffer.setUniformBlock("Matrices");
-    matrixBuffer.bind();
+    matrixBuffer.bind(2);
+    matrixBuffer.setBlockData(&matrixUniforms, sizeof(UMatrices));
 
-    uniformBlockData.drawColor = { 0.5f, 0.1f, 0.1f, 1.f };
-
-    RandomEngine rng;
-
-    uniformBlockData.worldView = mat4::identity();
-    uniformBlockData.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
-    matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
-
-    Texture koalaTex(getResourcePath("kaowa.png"), 3);
-    Texture newTexture(koalaTex);
-    koalaTex = newTexture;
-    koalaTex.bind();
-
-    Image drawTarget({ 1280, 720 }, EImageMode::ReadWrite);
-    drawTarget.bind(0);
+    AtomicCounterBuffer counters(1);
+    counters.bind(0);
 
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
-    auto deltaTime = Clock::TimeUnit{ 1.f / 60.f };
+    auto deltaTime = Clock::TimeUnit{ 1.f / 144.f };
     auto timeSinceUpdate = Clock::TimeUnit{ 0 };
 
     while (!glfwWindowShouldClose(mWindow))
@@ -200,25 +201,9 @@ void GLFWApplication::run()
         glfwPollEvents();
         ImGui_ImplGlfwGL3_NewFrame();
 
-        uniformBlockData.cursorPosition[2] = 0;
-
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
-        if (mInputManager.arePressed(GLFW_MOUSE_BUTTON_LEFT) || mInputManager.arePressed(GLFW_KEY_SPACE))
-            uniformBlockData.cursorPosition[2] = 1;
-        if (mInputManager.arePressed(GLFW_KEY_Q))
-            uniformBlockData.drawColor[0] += 0.01f;
-        if (mInputManager.arePressed(GLFW_KEY_A))
-            uniformBlockData.drawColor[0] -= 0.01f;
-        if (mInputManager.arePressed(GLFW_KEY_W))
-            uniformBlockData.drawColor[1] += 0.01f;
-        if (mInputManager.arePressed(GLFW_KEY_S))
-            uniformBlockData.drawColor[1] -= 0.01f;
-        if (mInputManager.arePressed(GLFW_KEY_E))
-            uniformBlockData.drawColor[2] += 0.01f;
-        if (mInputManager.arePressed(GLFW_KEY_D))
-            uniformBlockData.drawColor[2] -= 0.01f;
 
         // Clock Update
         auto frameTime = deltaClock.restart();
@@ -229,10 +214,13 @@ void GLFWApplication::run()
         // Updating
         while (timeSinceUpdate > deltaTime)
         {
+            counters.unbind(0);
+            counters.reset();
+            counters.bind(0);
             timeSinceUpdate -= deltaTime;
-            auto cpost = mInputManager.getCursorPosition();
-            uniformBlockData.cursorPosition = { cpost[0], cpost[1], uniformBlockData.cursorPosition[2] };
-            matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
+            appUniforms.timeSinceStart = static_cast<float>(glfwGetTime());
+            appUniforms.cursorPosition = mInputManager.getCursorPosition();
+            appBuffer.setBlockData(&appUniforms, sizeof(UAppData));
         }
 
         // Drawing

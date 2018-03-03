@@ -5,7 +5,10 @@
 #define BUFFER_H
 
 #include "shader.h"
+
 #include <string>
+#include <memory>
+
 #include "gl_cpp.hpp"
 #include "spdlog/fmt/fmt.h"
 
@@ -134,5 +137,48 @@ private:
     std::string mUniformBlock;
 };
 
+class AtomicCounterBuffer
+{
+public:
+    // Construct a buffer with size amount of atomic counters
+    AtomicCounterBuffer(const unsigned size) : mSize(size)
+    {
+        reset();
+    }
+
+    ~AtomicCounterBuffer()
+    {
+        gl::DeleteBuffers(1, &mName);
+    }
+
+    // Reset the counter to 0
+    void reset()
+    {   // #TODO Do this more elegantly, as this feels awkward
+        gl::DeleteBuffers(1, &mName);
+        gl::CreateBuffers(1, &mName);
+        std::unique_ptr<unsigned[]> data = std::make_unique<unsigned[]>(mSize);
+        for (int i = 0; i != mSize; ++i) data[i] = 0u;
+        gl::NamedBufferStorage(mName, sizeof(unsigned) * mSize, data.get(), 0);
+    }
+
+    // Bind to the given Atomic Counter Binding
+    const void bind(const unsigned bindingPoint = 0) const
+    {
+        gl::BindBufferBase(gl::ATOMIC_COUNTER_BUFFER, bindingPoint, mName);
+    }
+
+    // Unbind from the given Atomic Counter Binding
+    const void unbind(const unsigned bindingPoint = 0) const
+    {
+        gl::BindBufferBase(gl::ATOMIC_COUNTER_BUFFER, bindingPoint, 0);
+    }
+
+private:
+    // The OpenGL Name
+    unsigned mName = 0;
+
+    // Number of Counters
+    const unsigned mSize;
+};
 
 #endif // BUFFER_H

@@ -64,6 +64,8 @@ Texture& Texture::operator=(const Texture& other)
         init();
         copyTextureData(other);
     }
+
+    return *this;
 }
 
 Texture& Texture::operator=(Texture&& other)

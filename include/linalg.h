@@ -31,6 +31,16 @@ public:
 	// Copy
 	constexpr vecM(const vecM& other) : mData(other.mData) {}
 
+    // Copy vectors of other types
+    template<typename U>
+    constexpr vecM(const vecM<U, M>& other)
+    {
+        for (int i = 0; i != M; ++i)
+        {
+            mData[i] = static_cast<T>(other[i]);
+        }
+    }
+
 	// Move
     constexpr vecM(vecM&& other) : mData(std::move(other.mData)) { }
 
