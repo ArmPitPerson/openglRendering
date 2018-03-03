@@ -9,6 +9,7 @@ target_sources(${PROJECT_NAME}
                "include/randomEngine.h"
                "include/inputManager.h"
                "include/vertexArray.h"
+               "include/textureView.h"
                "include/texture.h"
                "include/logging.h"
                "include/shader.h"

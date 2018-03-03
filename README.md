@@ -18,13 +18,18 @@ If any OpenGL gurus stumble upon this project and would like to provide feedback
  * Shaders
  * Uniforms
  * Uniform Blocks
+ * Atomic Counters
  * Array Textures
+ * Texture Views
  * Textures
  * Samplers
  * Images
 
 ### 1.2 Example Renders
 This section contains a few example screenshots of what I've achieved with this project so far. There is no particular order, and is mostly provided to see progress. The images are dated.
+
+![Dear ImGui Integration](https://i.imgur.com/xWYdnpv.png)
+*March 3rd 2018 - Texture Filtering Demo using [Dear ImGui](https://github.com/ocornut/imgui)*
 
 ![Drawing Application](https://i.imgur.com/iTRnW7r.png)
 *March 1st 2018 - Drawing using shader writable image*

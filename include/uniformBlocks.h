@@ -16,8 +16,7 @@
 /// OpenGL. They have proper padding and follow the std140 standard.
 
 struct UMatrices {
-	mat4 modelWorld;            // Offset 0
-    mat4 worldView;	            // Offset 64
+	mat4 modelView;            // Offset 0
 	mat4 projection;	        // Offset 128
 };
 

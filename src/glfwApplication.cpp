@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "texture.h"
 #include "randomEngine.h"
+#include "textureView.h"
 #include "image.h"
 #include "files.h"
 #include "clock.h"
@@ -144,10 +145,10 @@ GLFWApplication::~GLFWApplication()
 void GLFWApplication::run()
 {
     Vertex vertices[] = { // For a Plane
-            { -0.5f, -0.5f, 0.f, 0.f, 1.f, 1.f, 0.f, 0.f },
-            {  0.5f, -0.5f, 0.f, 1.f, 1.f, 0.f, 1.f, 0.f },
-            {  0.5f,  0.5f, 0.f, 1.f, 0.f, 1.f, 1.f, 1.f },
-            { -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f, 0.f, 1.f } };
+            { -1.f, -1.f, 0.f, 0.f, 1.f, 1.f, 0.f, 0.f },
+            {  1.f, -1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 0.f },
+            {  1.f,  1.f, 0.f, 1.f, 0.f, 1.f, 1.f, 1.f },
+            { -1.f,  1.f, 0.f, 1.f, 1.f, 1.f, 0.f, 1.f } };
 
     unsigned indices[] = { 0, 1, 2, 2, 3, 0 };
 
@@ -164,30 +165,33 @@ void GLFWApplication::run()
     Shader shader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
     shader.bind();
 
-    UAppData appUniforms;
-    appUniforms.frameBufferSize = { 1280.f, 720.f };
-    appUniforms.cursorPosition = mInputManager.getCursorPosition();
-
-    UniformBuffer appBuffer(sizeof(UAppData), shader);
-    appBuffer.setUniformBlock("AppData");
-    appBuffer.bind(1);
-    appBuffer.setBlockData(&appBuffer, sizeof(UAppData));
+//     UAppData appUniforms;
+//     appUniforms.frameBufferSize = { 1280.f, 720.f };
+//     appUniforms.cursorPosition = mInputManager.getCursorPosition();
+// 
+//     UniformBuffer appBuffer(sizeof(UAppData), shader);
+//     appBuffer.setUniformBlock("AppData");
+//     appBuffer.bind(1);
+//     appBuffer.setBlockData(&appBuffer, sizeof(UAppData));
 
     UMatrices matrixUniforms;
-    matrixUniforms.modelWorld = mat4::scale(0.5, 0.5, 1);
-    matrixUniforms.worldView = mat4::translate(0.f, 0.f, .5f);
+    matrixUniforms.modelView = mat4::translate(0.f, 0.f, -1.5f);
     matrixUniforms.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.1f, 100.f);
 
     UniformBuffer matrixBuffer(sizeof(UMatrices), shader);
     matrixBuffer.setUniformBlock("Matrices");
-    matrixBuffer.bind(2);
+    matrixBuffer.bind();
     matrixBuffer.setBlockData(&matrixUniforms, sizeof(UMatrices));
-
-    AtomicCounterBuffer counters(1);
-    counters.bind(0);
 
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
+
+    // Texture View
+    Texture exampleTex(getResourcePath("example.png"), 5);
+    TextureView exampleView(exampleTex, 5);
+    exampleView.bind();
+
+    bool rotate = true;
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
@@ -204,23 +208,50 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
+        if (mInputManager.arePressed(GLFW_KEY_W))
+            matrixUniforms.modelView(2, 3) += .1f * deltaTime.count();
+        else if (mInputManager.arePressed(GLFW_KEY_S))
+            matrixUniforms.modelView(2, 3) -= .1f * deltaTime.count();
+        else if (mInputManager.arePressed(GLFW_KEY_D))
+            matrixUniforms.modelView(0, 3) += .1f * deltaTime.count();
+        else if (mInputManager.arePressed(GLFW_KEY_A))
+            matrixUniforms.modelView(0, 3) -= .1f * deltaTime.count();
 
         // Clock Update
         auto frameTime = deltaClock.restart();
         timeSinceUpdate += frameTime;
 
         ImGui::Text("FPS: %.1f", 1.f / frameTime.count());
+        if (ImGui::Button("Trilinear")){
+            exampleView.setFilterMode(ETextureFilterMode::Trilinear);
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Nearest Nearest"))
+        {
+            exampleView.setFilterMode(ETextureFilterMode::NearestNearest);
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Nearest Linear"))
+        {
+            exampleView.setFilterMode(ETextureFilterMode::NearestLinear);
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Linear Nearest"))
+        {
+            exampleView.setFilterMode(ETextureFilterMode::LinearNearest);
+        }
+        ImGui::Checkbox("Enable Rotation", &rotate);
 
         // Updating
         while (timeSinceUpdate > deltaTime)
         {
-            counters.unbind(0);
-            counters.reset();
-            counters.bind(0);
             timeSinceUpdate -= deltaTime;
-            appUniforms.timeSinceStart = static_cast<float>(glfwGetTime());
-            appUniforms.cursorPosition = mInputManager.getCursorPosition();
-            appBuffer.setBlockData(&appUniforms, sizeof(UAppData));
+//             appUniforms.timeSinceStart = static_cast<float>(glfwGetTime());
+//             appUniforms.cursorPosition = mInputManager.getCursorPosition();
+//             appBuffer.setBlockData(&appUniforms, sizeof(UAppData));
+            if (rotate)
+                matrixUniforms.modelView *= mat4::rotate(45.f * deltaTime.count(), 0.f, 1.f, 0.f);
+            matrixBuffer.setBlockData(&matrixUniforms, sizeof(UMatrices));
         }
 
         // Drawing

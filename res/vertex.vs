@@ -10,16 +10,15 @@ layout (binding=0, rgba8) uniform image2D image;
 layout (binding=0) uniform atomic_uint counter;
 
 // Uniform block with generic application info
-layout(std140, binding=1) uniform AppData {
-    vec2 cursorPosition;
-    vec2 frameBufferSize;
-    float timeSinceStart;
-} appData;
+// layout(std140, binding=1) uniform AppData {
+//     vec2 cursorPosition;
+//     vec2 frameBufferSize;
+//     float timeSinceStart;
+// } appData;
 
-// Uniform block with all required matrix operations
-layout(std140, binding=2) uniform Matrices {
-    mat4 modelWorld;
-    mat4 worldView;
+// Uniform block with all required matrices
+layout(std140) uniform Matrices {
+    mat4 modelView;
     mat4 projection;
 } mats;
 
@@ -28,7 +27,7 @@ out vec4 fs_color;
 out vec2 fs_texCoord;
 
 void main() {
-    gl_Position = aPosition;
+    gl_Position = mats.projection * mats.modelView * aPosition;
     fs_color = aColor;
     fs_texCoord = aTexCoord;
 }

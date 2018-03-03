@@ -523,15 +523,28 @@
 			"file": "res/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 490,
+				"buffer_size": 780,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "res/frag.fs",
+			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 1286,
+				"buffer_size": 1591,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "#version 450 core\nlayout(origin_upper_left) in vec4 gl_FragCoord;\n\nlayout (location=0) out vec4 color;\n\nin vec4 fs_color;\nin vec2 fs_texCoord;\n\nvoid main() {\n    color = fs_color;\n}\n",
+			"file": "res/frag.fs",
+			"file_size": 245,
+			"file_write_time": 131645589521266845,
+			"settings":
+			{
+				"buffer_size": 182,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -851,8 +864,7 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/include"
+		"/E/Project Files/Visual Studio/GL_Rendering"
 	],
 	"file_history":
 	[
@@ -1052,7 +1064,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1061,20 +1073,48 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 490,
+						"buffer_size": 780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								352,
-								352
+								659,
+								659
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1591,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								985,
+								985
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1090,20 +1130,20 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "res/frag.fs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1286,
+						"buffer_size": 182,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								345,
-								345
+								103,
+								103
 							]
 						],
 						"settings":
@@ -1114,7 +1154,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]

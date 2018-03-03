@@ -6,6 +6,7 @@ target_sources(${PROJECT_NAME}
                "src/ext/stb_image.cpp"
                "src/randomEngine.cpp"
                "src/vertexArray.cpp"
+               "src/textureView.cpp"
                "src/texture.cpp"
                "src/logging.cpp"
                "src/shader.cpp"
