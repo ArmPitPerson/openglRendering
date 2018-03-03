@@ -11,6 +11,7 @@ target_sources(${PROJECT_NAME}
                "src/shader.cpp"
                "src/camera.cpp"
                "src/files.cpp"
+               "src/clock.cpp"
                "src/image.cpp"
                "src/main.cpp"
                )

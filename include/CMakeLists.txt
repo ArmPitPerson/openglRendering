@@ -19,5 +19,6 @@ target_sources(${PROJECT_NAME}
                "include/linalg.h"
                "include/files.h"
                "include/image.h"
+               "include/clock.h"
                "include/enums.h"
                )

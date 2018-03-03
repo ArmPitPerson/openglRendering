@@ -14,6 +14,7 @@
 #include "randomEngine.h"
 #include "image.h"
 #include "files.h"
+#include "clock.h"
 
 #include "imgui.h"
 #include "imgui_glfw.h"
@@ -49,7 +50,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 // GLFW Mouse Button Callback
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     ImGuiIO& io = ImGui::GetIO();
@@ -80,11 +81,11 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 }
 
 // GLFW Mouse Scroll Wheel Callback
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     inputManager->scrollMouse({ xoffset, yoffset });
-    logCustom()->info("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
+    logCustom()->debug("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
 
     // ImGui Interaction
     ImGuiIO& io = ImGui::GetIO();
@@ -113,6 +114,7 @@ GLFWApplication::GLFWApplication()
     // Context Creation
     mWindow = glfwCreateWindow(1280, 720, "Open GL Rendering", nullptr, nullptr);
     glfwMakeContextCurrent(mWindow);
+    glfwSwapInterval(0);
 
     // GLFW Callbacks
     glfwSetErrorCallback(error_callback);
@@ -186,6 +188,11 @@ void GLFWApplication::run()
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
 
+    // Delta Time Measurement
+    auto deltaClock = Clock{};
+    auto deltaTime = Clock::TimeUnit{ 1.f / 60.f };
+    auto timeSinceUpdate = Clock::TimeUnit{ 0 };
+
     while (!glfwWindowShouldClose(mWindow))
     {
         // Event Processing
@@ -213,12 +220,20 @@ void GLFWApplication::run()
         if (mInputManager.arePressed(GLFW_KEY_D))
             uniformBlockData.drawColor[2] -= 0.01f;
 
-        // Updating
-        auto cpost = mInputManager.getCursorPosition();
-        uniformBlockData.cursorPosition = { cpost[0], cpost[1], uniformBlockData.cursorPosition[2] };
-        matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
+        // Clock Update
+        auto frameTime = deltaClock.restart();
+        timeSinceUpdate += frameTime;
 
-        ImGui::Text("Raowpist!");
+        ImGui::Text("FPS: %.1f", 1.f / frameTime.count());
+
+        // Updating
+        while (timeSinceUpdate > deltaTime)
+        {
+            timeSinceUpdate -= deltaTime;
+            auto cpost = mInputManager.getCursorPosition();
+            uniformBlockData.cursorPosition = { cpost[0], cpost[1], uniformBlockData.cursorPosition[2] };
+            matrixBuffer.setBlockData(&uniformBlockData, sizeof(uniformBlockData));
+        }
 
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);

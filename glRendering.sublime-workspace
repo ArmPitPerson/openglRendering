@@ -852,18 +852,17 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/ext",
-		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui"
+		"/E/Project Files/Visual Studio/GL_Rendering/include"
 	],
 	"file_history":
 	[
+		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
 		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
 		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/ext/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/imgui_glfw.cpp",

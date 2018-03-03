@@ -1,10 +1,10 @@
-/// RandomTools by Carl Findahl (C) 2017
-/// A Kukon Project
+/// RandomTools by Carl Findahl  2017
 
 #ifndef RANDOMENGINE_H
 #define RANDOMENGINE_H
 
 #include <random>
+
 #include "PCG/pcg_random.hpp"
 
 class RandomEngine {
@@ -27,8 +27,8 @@ public:
 
 	// Shuffles the container in between the two random access iterators
 	// std::swap must be defined for the type in the container and first / last
-	// Must be random access iterators!
-	template<typename _It, typename IsIt = decltype(*std::declval<_It&>(), void(), ++std::declval<_It&>(), void())>
+	// MUST be random access iterators!
+	template<typename _It>
 	void shuffle(_It first, _It last);
 
 	// Pick a random element from the given container that support subscripting
@@ -45,7 +45,7 @@ private:
 
 };
 
-template<typename _It, typename IsIt = decltype(*std::declval<_It&>(), void(), ++std::declval<_It&>(), void())>
+template<typename _It>
 void RandomEngine::shuffle(_It first, _It last) {
 	std::shuffle(first, last, randomGenerator);
 }
