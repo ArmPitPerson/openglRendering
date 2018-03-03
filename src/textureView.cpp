@@ -13,6 +13,21 @@ TextureView::TextureView(const Texture& texture, unsigned mipmapCount)
 
 TextureView::TextureView() {}
 
+TextureView::TextureView(TextureView&& other) : mName(other.mName)
+{
+    other.mName = 0;
+}
+
+TextureView::TextureView& TextureView::operator=(TextureView&& other)
+{
+    if (this == &other) return *this;
+
+    // Clean up old texture and take ownership of the new one
+    gl::DeleteTextures(1, &mName);
+    mName = other.mName;
+    other.mName = 0;
+}
+
 TextureView::~TextureView()
 {
     gl::DeleteTextures(1, &mName);

@@ -73,13 +73,16 @@ Texture& Texture::operator=(Texture&& other)
     // No point moving a temporary to itself
     if (this == &other) return *this;
 
+    // Clean up any current textures
+    gl::DeleteTextures(1, &mName);
+
     // Member-Wise Copy
     mName = other.mName;
     mLevels = other.mLevels;
     mArrayLevels = other.mArrayLevels;
     mBindingPoint = other.mBindingPoint;
 
-    // Make it not manage the GL Resource anymore
+    // Remove the GL Resource from other
     other.mName = 0;
 
     return *this;

@@ -21,7 +21,11 @@ public:
 
     TextureView(const Texture& texture, unsigned mipmapCount = 1);
 
-    // #TODO Copy / Move
+    // #TODO Copy Construction / Assignment (if it makes sense)
+
+    TextureView(TextureView&& other);
+
+    TextureView& operator=(TextureView&& other);
 
     ~TextureView();
 
