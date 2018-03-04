@@ -7,34 +7,39 @@
 #include "buffer.h"
 
 
-class VertexArray {
+class VertexArray
+{
 public:
-	VertexArray();
-	VertexArray(const VertexBuffer& vbo);
-	VertexArray(const VertexBuffer& vbo, const IndexBuffer& ibo);
-	~VertexArray();
+    VertexArray();
+    VertexArray(const VertexBuffer& vbo);
+    VertexArray(const VertexBuffer& vbo, const IndexBuffer& ibo);
 
+    VertexArray(VertexArray&& other);
 
-	void bind() const;
+    VertexArray& operator=(VertexArray&& other);
 
-	void unbind() const;
-	
-	const unsigned name() const { return mName; }
+    ~VertexArray();
 
-	void addAttribute(int size, unsigned type, unsigned offset, bool normalize = false);
+    void bind() const;
 
-	void removeLastAttribute();
+    void unbind() const;
 
-	void setBuffer(const VertexBuffer& vbo);
+    const unsigned name() const;
 
-	void setIndexBuffer(const IndexBuffer& ibo);
+    void addAttribute(int size, unsigned type, unsigned offset, bool normalize = false);
+
+    void removeLastAttribute();
+
+    void setBuffer(const VertexBuffer& vbo);
+
+    void setIndexBuffer(const IndexBuffer& ibo);
 
 private:
-	// The OpenGL Name
-	unsigned mName = 0;
+    // The OpenGL Name
+    unsigned mName = 0;
 
-	// Next Attribute to set
-	unsigned mNextAttribute = 0;
+    // Next Attribute to set
+    unsigned mNextAttribute = 0;
 
 };
 

@@ -1,9 +1,7 @@
-///  by Carl Findahl (C) 2018
-/// A Kukon Development Project
+///  OpenGL - Carl Findahl - 2018
 
 #ifndef VERTEX_H
 #define VERTEX_H
-
 
 struct Vertex
 {
@@ -18,6 +16,5 @@ struct Vertex
     float u;
     float v;
 };
-
 
 #endif // VERTEX_H
