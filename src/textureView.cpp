@@ -18,7 +18,7 @@ TextureView::TextureView(TextureView&& other) : mName(other.mName)
     other.mName = 0;
 }
 
-TextureView::TextureView& TextureView::operator=(TextureView&& other)
+TextureView& TextureView::operator=(TextureView&& other)
 {
     if (this == &other) return *this;
 
@@ -26,6 +26,8 @@ TextureView::TextureView& TextureView::operator=(TextureView&& other)
     gl::DeleteTextures(1, &mName);
     mName = other.mName;
     other.mName = 0;
+
+    return *this;
 }
 
 TextureView::~TextureView()
