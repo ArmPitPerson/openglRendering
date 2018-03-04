@@ -16,6 +16,7 @@ target_sources(${PROJECT_NAME}
                "include/camera.h"
                "include/shader.h"
                "include/buffer.h"
+               "include/shapes.h"
                "include/vertex.h"
                "include/linalg.h"
                "include/files.h"
