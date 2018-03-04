@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}
                "src/texture.cpp"
                "src/logging.cpp"
                "src/shader.cpp"
+               "src/shapes.cpp"
                "src/camera.cpp"
                "src/files.cpp"
                "src/clock.cpp"

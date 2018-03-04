@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"fs",
+				"fs_color"
+			],
+			[
 				"include",
 				"include\tcommand"
 			],
@@ -510,10 +514,6 @@
 			[
 				"Valida",
 				"ValidateLocation"
-			],
-			[
-				"GmaeO",
-				"GameObject"
 			]
 		]
 	},
@@ -523,16 +523,7 @@
 			"file": "res/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 789,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "res/frag.fs",
-			"settings":
-			{
-				"buffer_size": 244,
+				"buffer_size": 495,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -542,6 +533,15 @@
 			"settings":
 			{
 				"buffer_size": 1746,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "res/frag.fs",
+			"settings":
+			{
+				"buffer_size": 181,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -861,13 +861,14 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering"
+		"/E/Project Files/Visual Studio/GL_Rendering",
+		"/E/Project Files/Visual Studio/GL_Rendering/src"
 	],
 	"file_history":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
-		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
@@ -1061,7 +1062,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1070,43 +1071,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 789,
+						"buffer_size": 495,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								566,
-								566
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 138.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "res/frag.fs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 244,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								241,
-								241
+								421,
+								421
 							]
 						],
 						"settings":
@@ -1117,11 +1090,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "README.md",
 					"semi_transient": false,
 					"settings":
@@ -1145,7 +1118,41 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "res/frag.fs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								169,
+								169
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1168,11 +1175,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
