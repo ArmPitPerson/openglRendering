@@ -24,6 +24,13 @@ public:
         other.mName = 0;
     }
 
+    // Construct from known data of size
+    VertexBuffer(const void* data, ptrdiff_t dataSize)
+    {
+        gl::CreateBuffers(1, &mName);
+        gl::NamedBufferStorage(mName, dataSize, data, 0);
+    }
+
     VertexBuffer& operator=(VertexBuffer&& other)
     {
         if (this == &other) return *this;
@@ -41,13 +48,6 @@ public:
     ~VertexBuffer()
     {
         gl::DeleteBuffers(1, &mName);
-    }
-
-    // Construct from known data of size
-    VertexBuffer(const void* data, ptrdiff_t dataSize)
-    {
-        gl::CreateBuffers(1, &mName);
-        gl::NamedBufferStorage(mName, dataSize, data, 0);
     }
 
     // Bind the vertex buffer to the array buffer
@@ -83,6 +83,12 @@ public:
         gl::CreateBuffers(1, &mName);
     }
     
+    IndexBuffer(const void* data, ptrdiff_t dataSize, unsigned count) : mCount(count)
+    {
+        gl::CreateBuffers(1, &mName);
+        gl::NamedBufferStorage(mName, dataSize, data, 0);
+    };
+
     IndexBuffer(IndexBuffer&& other) : mName(other.mName), mCount(other.mCount)
     {
         other.mName = 0;
@@ -103,12 +109,6 @@ public:
         
         return *this;
     }
-
-    IndexBuffer(const void* data, ptrdiff_t dataSize, unsigned count) : mCount(count)
-    {
-        gl::CreateBuffers(1, &mName);
-        gl::NamedBufferStorage(mName, dataSize, data, 0);
-    };
 
     ~IndexBuffer()
     {
@@ -147,10 +147,16 @@ private:
     unsigned mCount = 0;
 };
 
-
 class UniformBuffer
 {
 public:
+    // Remember to set program if using this constructor
+    UniformBuffer(ptrdiff_t size)
+    {
+        gl::CreateBuffers(1, &mName);
+        gl::NamedBufferStorage(mName, size, nullptr, gl::DYNAMIC_STORAGE_BIT);
+    };
+
     UniformBuffer(ptrdiff_t size, const Shader& program) : mProgram(program.name())
     {
         gl::CreateBuffers(1, &mName);

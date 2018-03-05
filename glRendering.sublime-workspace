@@ -529,15 +529,6 @@
 			}
 		},
 		{
-			"file": "README.md",
-			"settings":
-			{
-				"buffer_size": 1746,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "res/frag.fs",
 			"settings":
 			{
@@ -862,13 +853,13 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/src"
+		"/E/Project Files/Visual Studio/GL_Rendering/include"
 	],
 	"file_history":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
+		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
@@ -1078,8 +1069,8 @@
 						"selection":
 						[
 							[
-								421,
-								421
+								292,
+								292
 							]
 						],
 						"settings":
@@ -1092,34 +1083,6 @@
 					},
 					"stack_index": 0,
 					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1746,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								530,
-								530
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
 				}
 			]
 		},
@@ -1128,7 +1091,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "res/frag.fs",
 					"semi_transient": false,
 					"settings":
@@ -1140,8 +1103,8 @@
 						"selection":
 						[
 							[
-								169,
-								169
+								181,
+								181
 							]
 						],
 						"settings":

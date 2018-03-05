@@ -6,6 +6,7 @@ target_sources(${PROJECT_NAME}
                "include/serviceLocator.h"
                "include/ext/stb_image.h"
                "include/uniformBlocks.h"
+               "include/batchRenderer.h"
                "include/randomEngine.h"
                "include/inputManager.h"
                "include/vertexArray.h"

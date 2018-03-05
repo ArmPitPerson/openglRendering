@@ -21,7 +21,7 @@ VertexArray::VertexArray(const VertexBuffer& vbo, const IndexBuffer& ibo)
     setIndexBuffer(ibo);
 }
 
-VertexArray::VertexArray(VertexArray&& other) : mName(other.mName)
+VertexArray::VertexArray(VertexArray&& other) : mName(other.mName), mNextAttribute(other.mNextAttribute)
 {
     other.mName = 0;
 }
@@ -35,6 +35,7 @@ VertexArray& VertexArray::operator=(VertexArray&& other)
 
     // Steal Resources
     mName = other.mName;
+    mNextAttribute = other.mNextAttribute;
     other.mName = 0;
 
     return *this;
