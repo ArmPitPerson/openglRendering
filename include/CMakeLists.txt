@@ -4,6 +4,7 @@ target_sources(${PROJECT_NAME}
                PUBLIC
                "include/glfwApplication.h"
                "include/serviceLocator.h"
+               "include/transformation.h"
                "include/ext/stb_image.h"
                "include/uniformBlocks.h"
                "include/batchRenderer.h"

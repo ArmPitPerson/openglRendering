@@ -36,7 +36,7 @@ public:
     void push(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
     void push(const Shape2D& shape);
 
-    // Draw the batched data
+    // Draw the batched data with the provided shader
     void draw(const Shader& shader) const;
 
 private:

@@ -23,6 +23,7 @@
 
 #include <array>
 #include "batchRenderer.h"
+#include "transformation.h"
 
 // ImGui extern for input management
 extern bool g_MouseJustPressed[3];
@@ -139,6 +140,10 @@ GLFWApplication::GLFWApplication()
     glfwSetCursorPosCallback(mWindow, cursor_position_callback);
     glfwSetScrollCallback(mWindow, scroll_callback);
 
+    // GL Setup
+    gl::Enable(gl::DEPTH_TEST);
+    gl::DepthFunc(gl::LEQUAL);
+
     // ImGui Setup
     mImGuiContext = ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -159,50 +164,42 @@ GLFWApplication::~GLFWApplication()
 
 void GLFWApplication::run()
 {
-//     gl::Enable(gl::DEPTH_TEST);
-//     gl::DepthFunc(gl::LEQUAL);
-
-    Shader pongShader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
-    pongShader.bind();
-
-    Quad aiPad{ vec2{ 15.f, 120.f }, vec3(1, 0, .3f) };
-    mat4 aiTransform = mat4::translate(15.f, 360.f, 0.f);
-
-    Quad playerPad{ vec2{ 120.f, 15.f }, vec3(0, 0.8f, .4f) };
-    mat4 playerTransform = mat4::translate(1265.f, 360.f, 0.f);
-
-    Circle ball{ 4.f, 64, vec3(0.1f, 0.7f, 1.f) };
-    mat4 ballTransform = mat4::translate(640.f, 360.f, 0.f);
+    Shader basicShader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
+    basicShader.bind();
 
     UMatrices matrixUniforms;
     matrixUniforms.modelView = mat4::translate(640.f, 360.f, 0.f);
     matrixUniforms.projection = mat4::orthographic(0.f, 1280.f, 720.f, 0.f, -1.f, 1.f);
 
-    UniformBuffer matrixBuffer(sizeof(UMatrices), pongShader);
+    UniformBuffer matrixBuffer(sizeof(UMatrices), basicShader);
     matrixBuffer.setUniformBlock("Matrices");
     matrixBuffer.setBlockData(&matrixUniforms, sizeof(UMatrices));
     matrixBuffer.bind(1);
 
-    // Delta Time Measurement
-    auto deltaClock = Clock{};
+    // Objects
+    Quad testCircle{ {50.f, 50.f}, vec3{1.f, 0.f, 0.5f} };
+    Transformation circleTransform;
 
     // Renderer
-    VertexArray vao;
-    vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
-    vao.addAttribute(3, gl::FLOAT, offsetof(Vertex, r));
-    vao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
+    VertexArray batchVao;
+    batchVao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
+    batchVao.addAttribute(3, gl::FLOAT, offsetof(Vertex, r));
+    batchVao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
 
-    BatchRenderer bRender(std::move(vao));
+    BatchRenderer batchRenderer(std::move(batchVao));
+    batchRenderer.clear();
+    batchRenderer.push(testCircle);
 
-    bRender.clear();
-    bRender.push(playerPad);
-    bRender.push(aiPad);
-    bRender.push(ball);
+    // Delta Time Measurement
+    auto deltaClock = Clock{};
+    auto updateDelta = Clock::TimeUnit{ 1.f / 144.f };
+    auto timeSinceUpdate = Clock::TimeUnit{ 0.f };
 
     while (!glfwWindowShouldClose(mWindow))
     {
         // Clock Update
         const auto deltaTime = deltaClock.restart().count();
+        timeSinceUpdate += Clock::TimeUnit{ deltaTime };
 
         // Event Processing
         mInputManager.clear();
@@ -216,11 +213,17 @@ void GLFWApplication::run()
         ImGui::Text("FPS: %.2f", 1.f / deltaTime);
 
         // Updating
-
-
+        while (timeSinceUpdate > updateDelta)
+        {
+            timeSinceUpdate -= updateDelta;
+            circleTransform.rotate(20.f * updateDelta.count(), 0.f, 0.f, 1.f);
+            circleTransform.translate(vec3(200.f, 300.f, 0.f) * updateDelta.count());
+            matrixBuffer.setPartialBlockData("modelView", circleTransform.getTransform().data(), 64);
+        }
+        
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        bRender.draw(pongShader);
+        batchRenderer.draw(basicShader);
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

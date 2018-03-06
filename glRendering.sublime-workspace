@@ -524,7 +524,6 @@
 			"settings":
 			{
 				"buffer_size": 495,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -853,20 +852,20 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/include"
+		"/E/Project Files/Visual Studio/GL_Rendering/res"
 	],
 	"file_history":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
 		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
 		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/ext/imgui_glfw.cpp",
-		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/extra_fonts/README.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/imconfig.h",
@@ -1059,7 +1058,7 @@
 				{
 					"buffer": 0,
 					"file": "res/vertex.vs",
-					"semi_transient": false,
+					"semi_transient": true,
 					"settings":
 					{
 						"buffer_size": 495,
@@ -1069,8 +1068,8 @@
 						"selection":
 						[
 							[
-								292,
-								292
+								263,
+								263
 							]
 						],
 						"settings":
