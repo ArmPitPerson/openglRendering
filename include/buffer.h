@@ -7,6 +7,7 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
 
 #include "gl_cpp.hpp"
 #include "spdlog/fmt/fmt.h"
@@ -179,6 +180,7 @@ public:
         mUniformBlock = blockName;
         unsigned blockIndex = gl::GetUniformBlockIndex(mProgram, mUniformBlock.data());
         gl::UniformBlockBinding(mProgram, blockIndex, bindPoint);
+        mUniformOffsetCache.clear();
     }
 
     // Update the program
@@ -196,20 +198,25 @@ public:
     // Set the data for a subset of the uniform with the given name
     void setPartialBlockData(const std::string& uniformName, const void* data, ptrdiff_t dataSize)
     {
-        // Prepare the name of the uniform
-        const std::string toGet = fmt::format("{}.{}", mUniformBlock, uniformName);
-        const char* glStrToGet = toGet.data();
+        if (mUniformOffsetCache.find(uniformName) == mUniformOffsetCache.end())
+        {
+            // Prepare the name of the uniform
+            const std::string toGet = fmt::format("{}.{}", mUniformBlock, uniformName);
+            const char* glStrToGet = toGet.data();
 
-        // Get the index of the uniform
-        unsigned uniformIndex;
-        gl::GetUniformIndices(mProgram, 1, &glStrToGet, &uniformIndex);
+            // Get the index of the uniform
+            unsigned uniformIndex;
+            gl::GetUniformIndices(mProgram, 1, &glStrToGet, &uniformIndex);
 
-        // Get the offset of that uniform
-        int uniformOffset;
-        gl::GetActiveUniformsiv(mProgram, 1, &uniformIndex, gl::UNIFORM_OFFSET, &uniformOffset);
+            // Get the offset of that uniform
+            int uniformOffset;
+            gl::GetActiveUniformsiv(mProgram, 1, &uniformIndex, gl::UNIFORM_OFFSET, &uniformOffset);
+
+            mUniformOffsetCache[uniformName] = uniformOffset;
+        }
 
         // Make OpenGL Write the data to that location
-        gl::NamedBufferSubData(mName, uniformOffset, dataSize, data);
+        gl::NamedBufferSubData(mName, mUniformOffsetCache.at(uniformName), dataSize, data);
     }
 
     // Bind uniform buffer to given bind point, default = 1
@@ -233,6 +240,9 @@ private:
 
     // The name of the uniform block this buffer will fill
     std::string mUniformBlock;
+
+    // The cache of uniform block component indices
+    std::unordered_map<std::string, int> mUniformOffsetCache;
 };
 
 class AtomicCounterBuffer
