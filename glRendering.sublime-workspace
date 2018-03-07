@@ -520,19 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/CMakeLists.txt",
+			"file": "res/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 696,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "include/CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 989,
+				"buffer_size": 496,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -662,10 +653,26 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 357.0,
-		"last_filter": "pep",
+		"height": 281.0,
+		"last_filter": "ssgl",
 		"selected_items":
 		[
+			[
+				"ssgl",
+				"Set Syntax: GLSL"
+			],
+			[
+				"ssglsl",
+				"Set Syntax: GLSL"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove pac",
+				"Package Control: Remove Package"
+			],
 			[
 				"pep",
 				"Anaconda: Autoformat PEP8 Errors"
@@ -681,10 +688,6 @@
 			[
 				"boxy",
 				"Boxy Theme: Configuration"
-			],
-			[
-				"remove pac",
-				"Package Control: Remove Package"
 			],
 			[
 				"setcolor",
@@ -717,10 +720,6 @@
 			[
 				"list ",
 				"Package Control: List Packages"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"list",
@@ -839,7 +838,7 @@
 				"Package Control: Remove Package"
 			]
 		],
-		"width": 430.0
+		"width": 462.0
 	},
 	"console":
 	{
@@ -861,14 +860,13 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/include"
+		"/E/Project Files/Visual Studio/GL_Rendering"
 	],
 	"file_history":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
@@ -1062,61 +1060,29 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/CMakeLists.txt",
+					"file": "res/vertex.vs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 696,
+						"buffer_size": 496,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								388,
-								388
+								464,
+								464
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax",
-							"tab_size": 5,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "include/CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 989,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								528,
-								528
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax",
-							"tab_size": 5,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1132,7 +1098,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "res/frag.fs",
 					"semi_transient": false,
 					"settings":
@@ -1156,7 +1122,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

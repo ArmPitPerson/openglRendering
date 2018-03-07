@@ -1,5 +1,10 @@
-///  by Carl Findahl (C) 2018
-/// A Kukon Development Project
+/// OpenGL - Carl Findahl - 2018
+
+/*
+ * Shader contains an abstraction of 
+ * an OpenGL program with a vertex and
+ * fragment shader component.
+ */
 
 #ifndef SHADER_H
 #define SHADER_H
@@ -15,57 +20,61 @@ template<typename T, unsigned M>
 class matM;
 
 
-class Shader final {
+class Shader final
+{
 public:
-	Shader(const std::string& shaderName);
-	Shader(const std::string& vertexShader, const std::string& fragmentShader);
-	~Shader();
+    Shader(const std::string& shaderName);
+    Shader(const std::string& vertexShader, const std::string& fragmentShader);
+    ~Shader();
 
     Shader(const Shader& other) = delete;
     Shader& operator=(const Shader& other) = delete;
 
-	void bind() const;
+    // Bind Shader to context
+    void bind() const;
 
-	void unbind() const;
+    // Unbind Shader from context
+    void unbind() const;
 
-	const unsigned name() const { return mName; }
+    // Get the OpenGL name
+    const unsigned name() const;
 
-	void setUniform1f(const std::string& name, float value);
+    void setUniform1f(const std::string& name, float value);
 
-	void setUniform2f(const std::string& name, const vecM<float, 2>& value);
+    void setUniform2f(const std::string& name, const vecM<float, 2>& value);
 
-	void setUniform3f(const std::string& name, const vecM<float, 3>& value);
+    void setUniform3f(const std::string& name, const vecM<float, 3>& value);
 
-	void setUniform4f(const std::string& name, const vecM<float, 4>& value);
+    void setUniform4f(const std::string& name, const vecM<float, 4>& value);
 
-	void setUniformMat2(const std::string& name, const matM<float, 2>& value);
+    void setUniformMat2(const std::string& name, const matM<float, 2>& value);
 
-	void setUniformMat3(const std::string& name, const matM<float, 3>& value);
+    void setUniformMat3(const std::string& name, const matM<float, 3>& value);
 
-	void setUniformMat4(const std::string& name, const matM<float, 4>& value);
+    void setUniformMat4(const std::string& name, const matM<float, 4>& value);
 
-
-private:
-	unsigned compileShader(const std::string& sourceFile, unsigned type);
-
-	//************************************
-	// Method:    Shader::validateShaderCompilation
-	// Access:    private 
-	// Parameter: unsigned shader
-	// Brief:     Validate compilation, true if all is good, false if error
-	//************************************
-	bool validateShaderCompilation(unsigned shader);
-
-	void makeProgramAndCleanup(const unsigned vertexShader, const unsigned fragmentShader);
-
-	int getUniformLocation(const std::string& name);
 
 private:
-	// OpenGL Name
-	unsigned mName = 0;
+    // Compile and error check the provided source code of type (VERTEX or FRAGMENT shader)
+    const unsigned compileShader(const std::string& sourceFile, unsigned type);
 
-	// Cache of Uniform Locations
-	std::map<std::string, int> mUniformCache;
+    // Validate compilation, true if all is good
+    const bool validateShaderCompilation(unsigned shader);
+
+    // Attach shaders, link and validate the program
+    void makeProgramAndCleanup(const unsigned vertexShader, const unsigned fragmentShader);
+
+    // Validate linking, true if all is good
+    const bool validateProgramLinkage(const unsigned program);
+
+    const int getUniformLocation(const std::string& name);
+
+private:
+    // OpenGL Name
+    unsigned mName = 0;
+
+    // Cache of Uniform Locations
+    std::map<std::string, int> mUniformCache;
 
 };
 

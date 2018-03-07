@@ -177,8 +177,6 @@ void GLFWApplication::run()
     matrixBuffer.bind(1);
 
     // Objects
-    Quad testCircle{ {50.f, 50.f}, vec3{1.f, 0.f, 0.5f} };
-    Transformation circleTransform;
 
     // Renderer
     VertexArray batchVao;
@@ -188,8 +186,6 @@ void GLFWApplication::run()
 
     RenderBatch shapeBatch(std::move(batchVao));
     shapeBatch.clear();
-    shapeBatch.push(testCircle);
-    shapeBatch.commit();
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
@@ -217,14 +213,10 @@ void GLFWApplication::run()
         while (timeSinceUpdate > updateDelta)
         {
             timeSinceUpdate -= updateDelta;
-            circleTransform.rotate(20.f * updateDelta.count(), 0.f, 0.f, 1.f);
-            circleTransform.translate(vec3(200.f, 300.f, 0.f) * updateDelta.count());
-            matrixBuffer.setPartialBlockData("modelView", circleTransform.getTransform().data(), 64);
         }
         
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        mRenderer.draw(shapeBatch);
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

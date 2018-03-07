@@ -45,6 +45,11 @@ void Shader::unbind() const
     gl::UseProgram(0);
 }
 
+const unsigned Shader::name() const
+{
+    return mName;
+}
+
 void Shader::setUniform1f(const std::string& name, float value)
 {
     const auto location = getUniformLocation(name);
@@ -94,7 +99,7 @@ void Shader::setUniformMat4(const std::string& name, const matM<float, 4>& value
         gl::UniformMatrix4fv(location, 1, gl::FALSE_, value.data());
 }
 
-unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
+const unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
 {
     // Load source code
     const auto& sourceStr = readFile(sourceFile);
@@ -103,7 +108,7 @@ unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
     // If there is no source code
     if (sourceStr.empty())
     {
-        logCustom()->error("Failed to load shader source: {}", sourceFile);
+        logCustom()->error("Failed to load empty shader source: {}", sourceFile);
         return 0;
     }
 
@@ -112,10 +117,10 @@ unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
     gl::ShaderSource(shader, 1, &source, nullptr);
     gl::CompileShader(shader);
 
-    // If it failed to compile
+    // If it failed to compile clean up
     if (!validateShaderCompilation(shader))
     {
-        logCustom()->error("Shader has compile errors. See above!");
+        logErr("Shader has compile errors. See above!");
         gl::DeleteShader(shader);
         return 0;
     }
@@ -123,20 +128,21 @@ unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
     return shader;
 }
 
-bool Shader::validateShaderCompilation(unsigned shader)
+const bool Shader::validateShaderCompilation(unsigned shader)
 {
     // Check if shader compiled
     int didCompile;
     gl::GetShaderiv(shader, gl::COMPILE_STATUS, &didCompile);
 
     // If not, print error
-    if (didCompile != gl::TRUE_)
+    if (!didCompile)
     {
         int length;
         gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &length);
         std::unique_ptr<char> message(new char[length]);
-        gl::GetShaderInfoLog(shader, length, &length, message.get());
-        logCustom()->error("Shader Compile Error: {}", message.get());
+
+        gl::GetShaderInfoLog(shader, length, nullptr, message.get());
+        logCustom()->error("{}", message.get());
         return false;
     }
     return true;
@@ -152,12 +158,47 @@ void Shader::makeProgramAndCleanup(const unsigned vertexShader, const unsigned f
     gl::LinkProgram(mName);
     gl::ValidateProgram(mName);
 
+    // Error check the linking
+    if (!validateProgramLinkage(mName))
+    {
+        gl::DeleteProgram(mName);
+        logErr("Failed to link program. See errors above!");
+    }
+
     // Cleanup
     gl::DeleteShader(vertexShader);
     gl::DeleteShader(fragmentShader);
 }
 
-int Shader::getUniformLocation(const std::string& name)
+const bool Shader::validateProgramLinkage(const unsigned program)
+{
+    // Check if program linked successfully
+    int didLink;
+    gl::GetProgramiv(program, gl::LINK_STATUS, &didLink);
+
+    // If not, get error message and print it
+    if (!didLink)
+    {
+        int length;
+        gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &length);
+        if (length)
+        {
+            std::unique_ptr<char> message(new char[length]);
+
+            gl::GetProgramInfoLog(program, length, nullptr, message.get());
+            logCustom()->error("{}", message.get());
+        }
+        else
+        {
+            logWarn("The error log is empty, but linker errors occured!");
+        }
+        return false;
+    }
+
+    return true;
+}
+
+const int Shader::getUniformLocation(const std::string& name)
 {
     // Check Cache
     if (mUniformCache.find(name) != mUniformCache.end())
