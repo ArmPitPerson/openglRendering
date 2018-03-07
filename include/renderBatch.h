@@ -29,8 +29,9 @@ public:
 
     RenderBatch& operator=(RenderBatch&& other);
 
-    // #TODO Copy a render batch
     RenderBatch(const RenderBatch&) = delete;
+    // #TODO Copy a render batch (Requires VAO, VBO and IBO to be copyable, if possible)
+
     RenderBatch& operator=(const RenderBatch&) = delete;
 
     // Clear the batched data and draw data

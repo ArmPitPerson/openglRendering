@@ -85,7 +85,7 @@ Circle::Circle(const float radius, const unsigned points, const vec3& col)
     constexpr float PI = 3.14156f;
 
     // Loop around the circle
-    for (int i = 0; i <= points; ++i)
+    for (unsigned i = 0; i <= points; ++i)
     {
         // Add x-Coordinate
         auto x = std::cos((2 * PI / points) * i) * (radius * 2);
@@ -100,7 +100,7 @@ Circle::Circle(const float radius, const unsigned points, const vec3& col)
 
     // Set up index buffer by walking the circle and stepping into the center for each triangle
     std::vector<unsigned> indices;
-    for (int i = 0; i <= points; ++i)
+    for (unsigned i = 0; i <= points; ++i)
     {
         addIndices(0, i + 2, i + 1);
     }

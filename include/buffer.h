@@ -1,5 +1,11 @@
 /// OpenGL - Carl Findahl - 2018
 
+/*
+ * A collective file of abstracted OpenGL buffers
+ * like vertex buffers and uniform block buffers.
+ * #TODO Consider extracting buffers in separate files!
+ */
+
 #ifndef BUFFER_H
 #define BUFFER_H
 
@@ -20,11 +26,6 @@ public:
         gl::CreateBuffers(1, &mName);
     }
 
-    VertexBuffer(VertexBuffer&& other) : mName(other.mName)
-    {
-        other.mName = 0;
-    }
-
     // Construct from known data of size
     VertexBuffer(const void* data, ptrdiff_t dataSize)
     {
@@ -32,6 +33,28 @@ public:
         gl::NamedBufferStorage(mName, dataSize, data, 0);
     }
 
+    // Copy Ctor
+    VertexBuffer(const VertexBuffer& other)
+    {
+        resetBufferDataFromCopy(other);
+    }
+
+    // Copy Assignment
+    VertexBuffer& operator=(const VertexBuffer& other)
+    {
+        if (this == &other) return *this;
+        resetBufferDataFromCopy(other);
+
+        return *this;
+    }
+
+    // Move Ctor
+    VertexBuffer(VertexBuffer&& other) : mName(other.mName)
+    {
+        other.mName = 0;
+    }
+
+    // Move Assignment
     VertexBuffer& operator=(VertexBuffer&& other)
     {
         if (this == &other) return *this;
@@ -67,6 +90,19 @@ public:
     const unsigned name() const
     {
         return mName;
+    }
+
+private:
+    // Clear current buffer data and re-initialize with data copied from source
+    void resetBufferDataFromCopy(const VertexBuffer& source)
+    {
+        gl::DeleteBuffers(1, &mName);
+        gl::CreateBuffers(1, &mName);
+
+        int size;
+        gl::GetNamedBufferParameteriv(source.mName, gl::BUFFER_SIZE, &size);
+        gl::NamedBufferStorage(mName, size, nullptr, 0);
+        gl::CopyNamedBufferSubData(source.mName, mName, 0, 0, size);
     }
 
 private:
