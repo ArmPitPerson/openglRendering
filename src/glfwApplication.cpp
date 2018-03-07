@@ -22,7 +22,7 @@
 #include "imgui_glfw.h"
 
 #include <array>
-#include "batchRenderer.h"
+#include "renderBatch.h"
 #include "transformation.h"
 
 // ImGui extern for input management
@@ -186,9 +186,10 @@ void GLFWApplication::run()
     batchVao.addAttribute(3, gl::FLOAT, offsetof(Vertex, r));
     batchVao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
 
-    BatchRenderer batchRenderer(std::move(batchVao));
-    batchRenderer.clear();
-    batchRenderer.push(testCircle);
+    RenderBatch shapeBatch(std::move(batchVao));
+    shapeBatch.clear();
+    shapeBatch.push(testCircle);
+    shapeBatch.commit();
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
@@ -223,7 +224,7 @@ void GLFWApplication::run()
         
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        batchRenderer.draw(basicShader);
+        mRenderer.draw(shapeBatch);
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

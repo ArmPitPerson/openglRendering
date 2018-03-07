@@ -1,4 +1,11 @@
-/// OpenGL Rendering by Carl Findahl (C) 2018
+/// OpenGL - Carl Findahl - 2018
+
+/*
+ * This files contains a lot of linear
+ * algebra concepts and helper functions.
+ * It contains the main vector and matrix
+ * classes and relevant operations.
+ */
 
 #ifndef LINALG_H
 #define LINALG_H
@@ -103,7 +110,7 @@ public:
 	}
 
 	// Multiplication (dot product)
-	friend constexpr const T operator*(const vecM& lhs, const vecM& rhs)
+	friend const T operator*(const vecM& lhs, const vecM& rhs)
 	{
 		T sum{}; // Init to 0
 		for (unsigned i = 0; i != M; ++i)

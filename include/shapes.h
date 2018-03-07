@@ -32,7 +32,7 @@ public:
     virtual ~Shape2D() noexcept = default;
 
     // Batch renderer wants to access vertices / indices
-    friend class BatchRenderer;
+    friend class RenderBatch;
 
     // Bind to render
     void bind() const;

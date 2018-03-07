@@ -520,10 +520,20 @@
 	"buffers":
 	[
 		{
-			"file": "res/vertex.vs",
+			"file": "src/CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 495,
+				"buffer_size": 696,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "include/CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 989,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -852,7 +862,7 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/res"
+		"/E/Project Files/Visual Studio/GL_Rendering/include"
 	],
 	"file_history":
 	[
@@ -1052,29 +1062,61 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "res/vertex.vs",
-					"semi_transient": true,
+					"file": "src/CMakeLists.txt",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 495,
+						"buffer_size": 696,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								263,
-								263
+								388,
+								388
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+							"syntax": "Packages/CMake/CMake.sublime-syntax",
+							"tab_size": 5,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "include/CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 989,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								528,
+								528
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CMake/CMake.sublime-syntax",
+							"tab_size": 5,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1090,7 +1132,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "res/frag.fs",
 					"semi_transient": false,
 					"settings":
@@ -1114,7 +1156,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
