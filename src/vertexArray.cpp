@@ -1,7 +1,8 @@
 #include "vertexArray.h"
-#include "gl_cpp.hpp"
+#include "logging.h"
 #include "vertex.h"
 
+#include "gl_cpp.hpp"
 
 VertexArray::VertexArray()
 {

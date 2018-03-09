@@ -36,7 +36,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     ImGuiIO& io = ImGui::GetIO();
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
-        if(!io.WantCaptureKeyboard) // If ImGui is not reserving input
+        if (!io.WantCaptureKeyboard) // If ImGui is not reserving input
             inputManager->pressKey(key);
         io.KeysDown[key] = true; // ImGui
         logCustom()->debug("Pressed key: {}", key);
@@ -63,7 +63,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
-        if(!io.WantCaptureMouse) // If ImGui is not reserving input
+        if (!io.WantCaptureMouse) // If ImGui is not reserving input
             inputManager->pressKey(button);
         logCustom()->debug("Pressed mouse button: {}", button);
 
@@ -131,7 +131,7 @@ GLFWApplication::GLFWApplication()
 
     mWindow = glfwCreateWindow(mode->width, mode->height, "Open GL Rendering", monitor, nullptr);
     glfwMakeContextCurrent(mWindow);
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
 
     // GLFW Callbacks
     glfwSetErrorCallback(error_callback);
@@ -168,8 +168,8 @@ void GLFWApplication::run()
     basicShader.bind();
 
     UMatrices matrixUniforms;
-    matrixUniforms.modelView = mat4::translate(640.f, 360.f, 0.f);
-    matrixUniforms.projection = mat4::orthographic(0.f, 1280.f, 720.f, 0.f, -1.f, 1.f);
+    matrixUniforms.modelView = mat4::translate(0.f, -32.f, -1.5f);
+    matrixUniforms.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.01f, 256.f);
 
     UniformBuffer matrixBuffer(sizeof(UMatrices), basicShader);
     matrixBuffer.setUniformBlock("Matrices");
@@ -177,6 +177,17 @@ void GLFWApplication::run()
     matrixBuffer.bind(1);
 
     // Objects
+    Quad grassBlade{ vec2(2.f, 4.f), vec3(0.05f, 0.86f, 0.33f) };
+    
+    Texture scatterMap{ getResourcePath("noisemap.png") };
+    scatterMap.setRepeatMode(ETextureRepeatMode::MirrorRepeat);
+    scatterMap.bind(0);
+
+    Texture highRise{ getResourcePath("highrise.png") };
+    highRise.setRepeatMode(ETextureRepeatMode::MirrorRepeat);
+    highRise.bind(1);
+
+    gl::ClearColor(0.1f, 0.f, 0.05f, 1.f);
 
     // Renderer
     VertexArray batchVao;
@@ -186,12 +197,17 @@ void GLFWApplication::run()
 
     RenderBatch shapeBatch(std::move(batchVao));
     shapeBatch.clear();
+    shapeBatch.push(grassBlade);
+    shapeBatch.commit();
+
+    shapeBatch.bind();
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
     auto updateDelta = Clock::TimeUnit{ 1.f / 144.f };
     auto timeSinceUpdate = Clock::TimeUnit{ 0.f };
 
+    int instanceCount = 32768;
     while (!glfwWindowShouldClose(mWindow))
     {
         // Clock Update
@@ -206,17 +222,33 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
+        if (mInputManager.arePressed(GLFW_KEY_D))
+            matrixUniforms.modelView(0, 3) -= 25.f * deltaTime;
+        if (mInputManager.arePressed(GLFW_KEY_A))
+            matrixUniforms.modelView(0, 3) += 25.f * deltaTime;
+        if (mInputManager.arePressed(GLFW_KEY_W))
+            matrixUniforms.modelView(1, 3) -= 25.f * deltaTime;
+        if (mInputManager.arePressed(GLFW_KEY_S))
+            matrixUniforms.modelView(1, 3) += 25.f * deltaTime;
+        if (mInputManager.arePressed(GLFW_KEY_E))
+            matrixUniforms.modelView *= mat4::rotate(10.f * deltaTime, 1.f, 0.f, 0.f);
+        if (mInputManager.arePressed(GLFW_KEY_Q))
+            matrixUniforms.modelView *= mat4::rotate(-10.f * deltaTime, 1.f, 0.f, 0.f);
+        
+        matrixBuffer.setPartialBlockData("modelView", matrixUniforms.modelView.data(), 64);
 
         ImGui::Text("FPS: %.2f", 1.f / deltaTime);
+        ImGui::DragInt("Instances", &instanceCount, 4.f, 1, 32768);
 
         // Updating
         while (timeSinceUpdate > updateDelta)
         {
             timeSinceUpdate -= updateDelta;
         }
-        
+
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+        gl::DrawElementsInstancedBaseVertex(gl::TRIANGLES, shapeBatch.getIndexCount(), gl::UNSIGNED_INT, nullptr, instanceCount, 0);
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

@@ -24,9 +24,14 @@ If any OpenGL gurus stumble upon this project and would like to provide feedback
  * Textures
  * Samplers
  * Images
+ * Instanced Drawing
+ * Indexed Drawing
 
 ### 1.2 Example Renders
 This section contains a few example screenshots of what I've achieved with this project so far. There is no particular order, and is mostly provided to see progress. The images are dated.
+
+![Instanced City](https://i.imgur.com/jg09H4f.png)
+*March 9th 2018 - Instanced City with Variations from a Texture*
 
 ![Dear ImGui Integration](https://i.imgur.com/xWYdnpv.png)
 *March 3rd 2018 - Texture Filtering Demo using [Dear ImGui](https://github.com/ocornut/imgui)*
