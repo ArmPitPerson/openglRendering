@@ -61,7 +61,7 @@ const unsigned VertexArray::name() const
     return mName;
 }
 
-void VertexArray::addAttribute(int size, unsigned type, unsigned offset, bool normalize)
+void VertexArray::addAttribute(int size, unsigned type, unsigned offset, bool normalize /*= false*/)
 {
     gl::VertexArrayAttribBinding(mName, mNextAttribute, 0);
     gl::VertexArrayAttribFormat(mName, mNextAttribute, size, type, (normalize ? gl::TRUE_ : gl::FALSE_), offset);
@@ -69,10 +69,25 @@ void VertexArray::addAttribute(int size, unsigned type, unsigned offset, bool no
     ++mNextAttribute;
 }
 
+void VertexArray::addIntegerAttribute(int size, unsigned type, unsigned offset)
+{
+    gl::VertexArrayAttribBinding(mName, mNextAttribute, 0);
+    gl::VertexArrayAttribIFormat(mName, mNextAttribute, size, type, offset); // Integral Version
+    gl::EnableVertexArrayAttrib(mName, mNextAttribute);
+    ++mNextAttribute;
+}
+
 void VertexArray::removeLastAttribute()
 {
-    --mNextAttribute;
-    gl::DisableVertexArrayAttrib(mName, mNextAttribute);
+    if (mNextAttribute != 0)
+    {
+        --mNextAttribute;
+        gl::DisableVertexArrayAttrib(mName, mNextAttribute);
+    }
+    else
+    {
+        logWarn("Attempted to remove an attribute, when there are no attributes!");
+    }
 }
 
 void VertexArray::setBuffer(const VertexBuffer& vbo)
