@@ -248,7 +248,7 @@ void GLFWApplication::run()
 
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        gl::DrawElementsInstancedBaseVertex(gl::TRIANGLES, shapeBatch.getIndexCount(), gl::UNSIGNED_INT, nullptr, instanceCount, 0);
+        mRenderer.drawInstanced(shapeBatch, instanceCount);
 
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
