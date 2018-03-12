@@ -22,9 +22,9 @@ class Renderer
 public:
 
     // Draw the provided data
-    void drawInstanced(const Shape2D& shape) const;
-    void drawInstanced(const RenderBatch& batch) const;
-    void drawInstanced(const VertexArray& vao, const unsigned indexCount) const;
+    void draw(const Shape2D& shape) const;
+    void draw(const RenderBatch& batch) const;
+    void draw(const VertexArray& vao, const unsigned indexCount) const;
 
     // Draw the provided data with n instances
     void drawInstanced(const Shape2D& shape, const int instanceCount);

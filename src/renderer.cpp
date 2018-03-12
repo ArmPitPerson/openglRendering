@@ -3,19 +3,19 @@
 #include "renderBatch.h"
 #include "vertexArray.h"
 
-void Renderer::drawInstanced(const Shape2D& shape) const
+void Renderer::draw(const Shape2D& shape) const
 {
     shape.bind();
     gl::DrawElements(gl::TRIANGLES, shape.getIndexCount(), gl::UNSIGNED_INT, nullptr);
 }
 
-void Renderer::drawInstanced(const RenderBatch& batch) const
+void Renderer::draw(const RenderBatch& batch) const
 {
     batch.bind();
     gl::DrawElements(gl::TRIANGLES, batch.getIndexCount(), gl::UNSIGNED_INT, nullptr);
 }
 
-void Renderer::drawInstanced(const VertexArray& vao, const unsigned indexCount) const
+void Renderer::draw(const VertexArray& vao, const unsigned indexCount) const
 {
     vao.bind();
     gl::DrawElements(gl::TRIANGLES, indexCount, gl::UNSIGNED_INT, nullptr);
