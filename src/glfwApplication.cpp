@@ -1,7 +1,7 @@
 #include "glfwApplication.h"
 #include "gl_cpp.hpp"
 #include "GLFW/glfw3.h"
-#include "vertexArray.h"	
+#include "vertexArray.h"
 #include "serviceLocator.h"
 #include "uniformBlocks.h"
 #include "logging.h"
@@ -17,92 +17,13 @@
 #include "files.h"
 #include "clock.h"
 #include "shapes.h"
+#include "renderBatch.h"
+#include "glfwCallbacks.h"
 
 #include "imgui.h"
 #include "imgui_glfw.h"
 
 #include <array>
-#include "renderBatch.h"
-#include "transformation.h"
-
-// ImGui extern for input management
-extern bool g_MouseJustPressed[3];
-
-// GLFW Key Callback
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    static InputManager* inputManager = ServiceLocator<InputManager>::get();
-
-    ImGuiIO& io = ImGui::GetIO();
-    if (action == GLFW_PRESS || action == GLFW_REPEAT)
-    {
-        if (!io.WantCaptureKeyboard) // If ImGui is not reserving input
-            inputManager->pressKey(key);
-        io.KeysDown[key] = true; // ImGui
-        logCustom()->debug("Pressed key: {}", key);
-    }
-    else if (action == GLFW_RELEASE)
-    {
-        inputManager->releaseKey(key);
-        io.KeysDown[key] = false; // ImGui
-        logCustom()->debug("Released key: {}", key);
-    }
-
-    (void)mods; // Modifiers are not reliable across systems
-    io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-    io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-    io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-    io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
-}
-
-// GLFW Mouse Button Callback
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
-    static InputManager* inputManager = ServiceLocator<InputManager>::get();
-    ImGuiIO& io = ImGui::GetIO();
-
-    if (action == GLFW_PRESS || action == GLFW_REPEAT)
-    {
-        if (!io.WantCaptureMouse) // If ImGui is not reserving input
-            inputManager->pressKey(button);
-        logCustom()->debug("Pressed mouse button: {}", button);
-
-        // ImGui Interaction
-        if (button >= 0 && button < 3)
-            g_MouseJustPressed[button] = true;
-    }
-    else if (action == GLFW_RELEASE)
-    {
-        inputManager->releaseKey(button);
-        logCustom()->debug("Released mouse button: {}", button);
-    }
-}
-
-// GLFW Cursor Position Callback
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    static InputManager* inputManager = ServiceLocator<InputManager>::get();
-    inputManager->moveCursor({ xpos, ypos });
-    logCustom()->debug("Cursor at: X[{}] Y[{}]", xpos, ypos);
-}
-
-// GLFW Mouse Scroll Wheel Callback
-static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    static InputManager* inputManager = ServiceLocator<InputManager>::get();
-    inputManager->scrollMouse({ xoffset, yoffset });
-    logCustom()->debug("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
-
-    // ImGui Interaction
-    ImGuiIO& io = ImGui::GetIO();
-    io.MouseWheel += (float)yoffset;
-}
-
-// GLFW Error Callback
-static void error_callback(int error, const char* description)
-{
-    logCustom()->error("GLFW Error #{}: {}", error, description);
-}
 
 GLFWApplication::GLFWApplication()
 {

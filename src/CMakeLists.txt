@@ -3,9 +3,10 @@
 target_sources(${PROJECT_NAME}
                PRIVATE
                "src/glfwApplication.cpp"
-               "src/ext/stb_image.cpp"
-               "src/randomEngine.cpp"
                "src/transformation.cpp"
+               "src/ext/stb_image.cpp"
+               "src/glfwCallbacks.cpp"
+               "src/randomEngine.cpp"
                "src/vertexArray.cpp"
                "src/textureView.cpp"
                "src/renderBatch.cpp"
