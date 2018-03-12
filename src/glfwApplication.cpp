@@ -12,13 +12,13 @@
 #include "camera.h"
 #include "texture.h"
 #include "randomEngine.h"
-#include "textureView.h"
-#include "image.h"
 #include "files.h"
 #include "clock.h"
 #include "shapes.h"
 #include "renderBatch.h"
 #include "glfwCallbacks.h"
+
+#include "curve.h"
 
 #include "imgui.h"
 #include "imgui_glfw.h"
@@ -38,19 +38,8 @@ GLFWApplication::GLFWApplication()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 2); // 2x MSAA
 
-    // Context Creation [Windowed Full screen Mode]
-    auto monitor = glfwGetPrimaryMonitor();
-    auto mode = glfwGetVideoMode(monitor);
-    auto monitorName = glfwGetMonitorName(monitor);
-
-    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-
-    logCustom()->info("Starting on {} in {}x{}", monitorName, mode->width, mode->height);
-
-    mWindow = glfwCreateWindow(mode->width, mode->height, "Open GL Rendering", monitor, nullptr);
+    // Context Creation
+    mWindow = glfwCreateWindow(1024, 1024, "Open GL Rendering", nullptr, nullptr);
     glfwMakeContextCurrent(mWindow);
     glfwSwapInterval(1);
 
@@ -64,6 +53,7 @@ GLFWApplication::GLFWApplication()
     // GL Setup
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
+    gl::PointSize(64.f);
 
     // ImGui Setup
     mImGuiContext = ImGui::CreateContext();
@@ -89,8 +79,8 @@ void GLFWApplication::run()
     basicShader.bind();
 
     UMatrices matrixUniforms;
-    matrixUniforms.modelView = mat4::translate(0.f, -32.f, -1.5f);
-    matrixUniforms.projection = mat4::perspective(59.f, 1280.f / 720.f, 0.01f, 256.f);
+    matrixUniforms.modelView = mat4::translate(0.f, 0.f, 0.f);
+    matrixUniforms.projection = mat4::orthographic(0.f, 1024.f, 0.f, 1024.f, -1.f, 1.f);
 
     UniformBuffer matrixBuffer(sizeof(UMatrices), basicShader);
     matrixBuffer.setUniformBlock("Matrices");
@@ -98,18 +88,8 @@ void GLFWApplication::run()
     matrixBuffer.bind(1);
 
     // Objects
-    Quad grassBlade{ vec2(2.f, 4.f), vec3(0.05f, 0.86f, 0.33f) };
+    Circle circle{ 16.f, 64, vec3(0.85f, 0.06f, 0.33f) };
     
-    Texture scatterMap{ getResourcePath("noisemap.png") };
-    scatterMap.setRepeatMode(ETextureRepeatMode::MirrorRepeat);
-    scatterMap.bind(0);
-
-    Texture highRise{ getResourcePath("highrise.png") };
-    highRise.setRepeatMode(ETextureRepeatMode::MirrorRepeat);
-    highRise.bind(1);
-
-    gl::ClearColor(0.1f, 0.f, 0.05f, 1.f);
-
     // Renderer
     VertexArray batchVao;
     batchVao.addAttribute(3, gl::FLOAT, offsetof(Vertex, x));
@@ -117,18 +97,24 @@ void GLFWApplication::run()
     batchVao.addAttribute(2, gl::FLOAT, offsetof(Vertex, u));
 
     RenderBatch shapeBatch(std::move(batchVao));
+    shapeBatch.push(circle);
     shapeBatch.clear();
-    shapeBatch.push(grassBlade);
-    shapeBatch.commit();
-
-    shapeBatch.bind();
 
     // Delta Time Measurement
     auto deltaClock = Clock{};
     auto updateDelta = Clock::TimeUnit{ 1.f / 144.f };
     auto timeSinceUpdate = Clock::TimeUnit{ 0.f };
 
-    int instanceCount = 32768;
+    vec3 point1{ 200.f, 100.f };
+    vec3 point2{ 1000.f, 500.f };
+    vec3 point3{ 100.f, 1000.f };
+    vec3 point4{ 700.f, 1000.f };
+
+    vec3 position;
+
+    float interpolationFactor = 0.f;
+    float velocity = 0.05f;
+
     while (!glfwWindowShouldClose(mWindow))
     {
         // Clock Update
@@ -156,21 +142,42 @@ void GLFWApplication::run()
         if (mInputManager.arePressed(GLFW_KEY_Q))
             matrixUniforms.modelView *= mat4::rotate(-10.f * deltaTime, 1.f, 0.f, 0.f);
         
-        matrixBuffer.setPartialBlockData("modelView", matrixUniforms.modelView.data(), 64);
-
         ImGui::Text("FPS: %.2f", 1.f / deltaTime);
-        ImGui::DragInt("Instances", &instanceCount, 4.f, 1, 32768);
+        ImGui::DragFloat3("Point 01", point1.data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 02", point2.data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 03", point3.data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 04", point4.data(), 1.f, 0.f, 1024.f);
 
         // Updating
         while (timeSinceUpdate > updateDelta)
         {
             timeSinceUpdate -= updateDelta;
+            
+            interpolationFactor += velocity * updateDelta.count();
+
+            if (interpolationFactor > 1.f)
+            {
+                interpolationFactor = 1.f;
+                velocity = -velocity;
+            }
+            else if (interpolationFactor < 0.f)
+            {
+                interpolationFactor = 0.f;
+                velocity = -velocity;
+            }
+
+            position = cubic(point1, point2, point3, point4, interpolationFactor);
+            matrixUniforms.modelView(0, 3) = position[0];
+            matrixUniforms.modelView(1, 3) = position[1];
+            matrixUniforms.modelView(2, 3) = position[2];
+            matrixBuffer.setPartialBlockData("modelView", matrixUniforms.modelView.data(), 64);
         }
+
+        ImGui::DragFloat("Velocity", &velocity, 0.01f, 0.f, 1.f, "%.2f");
 
         // Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        mRenderer.drawInstanced(shapeBatch, instanceCount);
-
+        mRenderer.draw(circle);
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(mWindow);

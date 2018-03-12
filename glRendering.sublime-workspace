@@ -523,7 +523,7 @@
 			"file": "res/vertex.vs",
 			"settings":
 			{
-				"buffer_size": 1549,
+				"buffer_size": 495,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -551,23 +551,6 @@
 			"settings":
 			{
 				"buffer_size": 737,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "include/CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 1030,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "res/frag.fs",
-			"settings":
-			{
-				"buffer_size": 387,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -895,12 +878,13 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/include"
+		"/E/Project Files/Visual Studio/GL_Rendering/src"
 	],
 	"file_history":
 	[
-		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/frag.fs",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/Oblig_03/save.dat",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
@@ -1025,8 +1009,7 @@
 		"/E/Project Files/Visual Studio/NoseClicker/.gitignore",
 		"/D/Google Drive/Dokumenter/NTNU/GameDesign/Assignment_02/Prototyping/pirate.py",
 		"/C/Users/Carl/Desktop/AFFINITY.DESIGNER.V1.5.3-XFORCE/Crack/install.txt",
-		"/D/Google Drive/Dokumenter/NTNU/GameDesign/Assignment_02/Prototyping/pvpCards.txt",
-		"/C/C++/imgui-1.50/imconfig.h"
+		"/D/Google Drive/Dokumenter/NTNU/GameDesign/Assignment_02/Prototyping/pvpCards.txt"
 	],
 	"find":
 	{
@@ -1097,7 +1080,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1106,15 +1089,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1549,
+						"buffer_size": 495,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								780,
-								780
+								292,
+								292
 							]
 						],
 						"settings":
@@ -1124,10 +1107,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 207.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1212,64 +1195,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "include/CMakeLists.txt",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1030,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								339,
-								339
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax",
-							"tab_size": 5,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "res/frag.fs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 387,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								387,
-								387
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
 					"type": "text"
 				}
 			]

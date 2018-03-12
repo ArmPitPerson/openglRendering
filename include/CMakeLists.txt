@@ -23,6 +23,7 @@ target_sources(${PROJECT_NAME}
                "include/shapes.h"
                "include/vertex.h"
                "include/linalg.h"
+               "include/curve.h"
                "include/files.h"
                "include/image.h"
                "include/clock.h"

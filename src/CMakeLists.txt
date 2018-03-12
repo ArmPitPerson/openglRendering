@@ -19,5 +19,6 @@ target_sources(${PROJECT_NAME}
                "src/files.cpp"
                "src/clock.cpp"
                "src/image.cpp"
+               "src/curve.cpp"
                "src/main.cpp"
                )
