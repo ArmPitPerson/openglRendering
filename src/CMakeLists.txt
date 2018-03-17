@@ -6,6 +6,7 @@ target_sources(${PROJECT_NAME}
                "src/transformation.cpp"
                "src/ext/stb_image.cpp"
                "src/glfwCallbacks.cpp"
+               "src/interpolation.cpp"
                "src/randomEngine.cpp"
                "src/vertexArray.cpp"
                "src/textureView.cpp"

@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"sp",
+				"span\tfunction"
+			],
+			[
 				"ran",
 				"randomNumber"
 			],
@@ -510,47 +514,26 @@
 			[
 				"Grap",
 				"GraphicColor\t(JJWorld.py)"
-			],
-			[
-				"appe",
-				"AppendCreature\tfunction"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "res/vertex.vs",
+			"file": "res/curve.vs",
 			"settings":
 			{
-				"buffer_size": 495,
+				"buffer_size": 520,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "README.md",
+			"file": "res/curve.fs",
 			"settings":
 			{
-				"buffer_size": 1903,
+				"buffer_size": 181,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/save.dat",
-			"settings":
-			{
-				"buffer_size": 537,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 737,
 				"line_ending": "Windows"
 			}
 		}
@@ -670,10 +653,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 281.0,
-		"last_filter": "ssgl",
+		"height": 357.0,
+		"last_filter": "pep",
 		"selected_items":
 		[
+			[
+				"pep",
+				"Anaconda: Autoformat PEP8 Errors"
+			],
 			[
 				"ssgl",
 				"Set Syntax: GLSL"
@@ -689,10 +676,6 @@
 			[
 				"remove pac",
 				"Package Control: Remove Package"
-			],
-			[
-				"pep",
-				"Anaconda: Autoformat PEP8 Errors"
 			],
 			[
 				"pep8",
@@ -855,7 +838,7 @@
 				"Package Control: Remove Package"
 			]
 		],
-		"width": 462.0
+		"width": 430.0
 	},
 	"console":
 	{
@@ -878,21 +861,25 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/src"
+		"/E/Project Files/Visual Studio/GL_Rendering/res"
 	],
 	"file_history":
 	[
+		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/save.dat",
+		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
+		"/C/Users/Carl/Desktop/test.html",
+		"/D/Google Drive/Programmer/Utility/pythonTools/autoRombestilling/rombestilling.py",
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/frag.fs",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/Oblig_03/save.dat",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
 		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
-		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/ext/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/extra_fonts/README.txt",
@@ -1005,11 +992,7 @@
 		"/E/Project Files/Visual Studio/GravityPong/GravityPong/res/sha/ball.vert",
 		"/C/Users/Carl/Desktop/test.py",
 		"/E/Project Files/Visual Studio/GLFW_EngineTut/Core/src/shaders/basic.frag",
-		"/E/Project Files/Visual Studio/GLFW_EngineTut/Core/src/shaders/basic.vert",
-		"/E/Project Files/Visual Studio/NoseClicker/.gitignore",
-		"/D/Google Drive/Dokumenter/NTNU/GameDesign/Assignment_02/Prototyping/pirate.py",
-		"/C/Users/Carl/Desktop/AFFINITY.DESIGNER.V1.5.3-XFORCE/Crack/install.txt",
-		"/D/Google Drive/Dokumenter/NTNU/GameDesign/Assignment_02/Prototyping/pvpCards.txt"
+		"/E/Project Files/Visual Studio/GLFW_EngineTut/Core/src/shaders/basic.vert"
 	],
 	"find":
 	{
@@ -1027,6 +1010,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"SAMLID",
+			"SamlResponse",
+			"response",
 			"uint64_t",
 			"uint32_t",
 			"GL::",
@@ -1085,19 +1071,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "res/vertex.vs",
+					"file": "res/curve.vs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 495,
+						"buffer_size": 520,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								292,
-								292
+								153,
+								153
 							]
 						],
 						"settings":
@@ -1115,80 +1101,24 @@
 				},
 				{
 					"buffer": 1,
-					"file": "README.md",
+					"file": "res/curve.fs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1903,
+						"buffer_size": 181,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1050,
-								1050
+								181,
+								181
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 207.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/save.dat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 537,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								96,
-								96
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 737,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax"
+							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1273,12 +1203,12 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{

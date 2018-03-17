@@ -1,33 +1,72 @@
 /// OpenGL - by Carl Findahl - 2018
 
 /* 
- * Contains implementation of various curves
- * and interpolations. Linear, quadratic,
- * cubic etc.
+ * Contains implementation of various curves that
+ * can be drawn using control points. Examples are
+ * quadratic and cubic bezier curves.
  */
 
 #ifndef CURVE_H
 #define CURVE_H
 
-// Lerp all numeric types that support multiplication / subtraction / addition
-template <typename T>
-constexpr T lerp(const T a, const T b, const float t)
-{
-    return a * (1 - t) + b * t;
-}
+#include "linalg.h"
+#include "vertex.h"
+#include "buffer.h"
+#include "vertexArray.h"
 
-// Make a quadratic blend between points a, b and c
-template <typename T>
-constexpr T quadratic(const T a, const T b, const T c, const float t)
-{
-    return lerp<T>(lerp<T>(a, b, t), lerp<T>(b, c, t), t);
-}
+#include <vector>
+#include <memory>
 
-// Make a quadratic blend between points a, b and c
-template <typename T>
-constexpr T cubic(const T a, const T b, const T c, const T d, const float t)
+class Curve
 {
-    return quadratic<T>(lerp<T>(a, b, t), lerp<T>(b, c, t), lerp<T>(c, d, t), t);
-}
+public:
+    Curve();
+
+    // Add a control point to the curve
+    void addControlPoint(const vec3& point);
+
+    // Subscript the idx'th control point
+    const vec3& operator[](std::size_t idx) const
+    {
+        return mControlPoints[idx];
+    }
+    
+    // Subscript the idx'th control point
+    vec3& operator[](std::size_t idx)
+    {
+        return mControlPoints[idx];
+    }
+
+    // Set the presiscion at which to draw the curve ( 16 * val ) points
+    void setPresiscion(const int val);
+
+    // Call to prepare OpenGL Draw Data
+    void prepareDrawData();
+
+    // Get the number of points in the curve
+    const int getPointCount() const;
+
+    // Bind curve for drawing
+    void bind() const;
+
+    // Unbind curve from drawing
+    void unbind() const;
+
+private:
+    // The presicion of the curve (number of points is 16 * mPresiscion)
+    int mPresiscion = 8;
+
+    // The control points of the curve
+    std::vector<vec3> mControlPoints;
+
+    // The points along the curve
+    std::vector<Vertex> mPoints;
+
+    // The vertex buffer object
+    std::unique_ptr<VertexBuffer> mVbo;
+
+    // The vertex array object
+    VertexArray mVao;
+};
 
 #endif // CURVE_H

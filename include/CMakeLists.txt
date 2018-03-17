@@ -8,6 +8,7 @@ target_sources(${PROJECT_NAME}
                "include/ext/stb_image.h"
                "include/uniformBlocks.h"
                "include/glfwCallbacks.h"
+               "include/interpolation.h"
                "include/randomEngine.h"
                "include/inputManager.h"
                "include/vertexArray.h"

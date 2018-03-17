@@ -24,6 +24,7 @@
 #include "imgui_glfw.h"
 
 #include <array>
+#include "interpolation.h"
 
 GLFWApplication::GLFWApplication()
 {
@@ -53,7 +54,7 @@ GLFWApplication::GLFWApplication()
     // GL Setup
     gl::Enable(gl::DEPTH_TEST);
     gl::DepthFunc(gl::LEQUAL);
-    gl::PointSize(64.f);
+    gl::PointSize(2.f);
 
     // ImGui Setup
     mImGuiContext = ImGui::CreateContext();
@@ -78,9 +79,13 @@ void GLFWApplication::run()
     Shader basicShader(getResourcePath("vertex.vs"), getResourcePath("frag.fs"));
     basicShader.bind();
 
+    Shader curveShader(getResourcePath("curve"));
+
     UMatrices matrixUniforms;
-    matrixUniforms.modelView = mat4::translate(0.f, 0.f, 0.f);
+    matrixUniforms.modelView = mat4::translate(0.f, 0.f, -1.5f);
     matrixUniforms.projection = mat4::orthographic(0.f, 1024.f, 0.f, 1024.f, -1.f, 1.f);
+
+    mat4 cproj = mat4::orthographic(0.f, 1024.f, 0.f, 1024.f, -10.f, 10.f);
 
     UniformBuffer matrixBuffer(sizeof(UMatrices), basicShader);
     matrixBuffer.setUniformBlock("Matrices");
@@ -109,6 +114,13 @@ void GLFWApplication::run()
     vec3 point2{ 1000.f, 500.f };
     vec3 point3{ 100.f, 1000.f };
     vec3 point4{ 700.f, 1000.f };
+
+    Curve curve;
+    curve.addControlPoint(point1);
+    curve.addControlPoint(point2);
+    curve.addControlPoint(point3);
+    curve.addControlPoint(point4);
+    curve.prepareDrawData();
 
     vec3 position;
 
@@ -143,10 +155,10 @@ void GLFWApplication::run()
             matrixUniforms.modelView *= mat4::rotate(-10.f * deltaTime, 1.f, 0.f, 0.f);
         
         ImGui::Text("FPS: %.2f", 1.f / deltaTime);
-        ImGui::DragFloat3("Point 01", point1.data(), 1.f, 0.f, 1024.f);
-        ImGui::DragFloat3("Point 02", point2.data(), 1.f, 0.f, 1024.f);
-        ImGui::DragFloat3("Point 03", point3.data(), 1.f, 0.f, 1024.f);
-        ImGui::DragFloat3("Point 04", point4.data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 01", curve[0].data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 02", curve[1].data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 03", curve[2].data(), 1.f, 0.f, 1024.f);
+        ImGui::DragFloat3("Point 04", curve[3].data(), 1.f, 0.f, 1024.f);
 
         // Updating
         while (timeSinceUpdate > updateDelta)
@@ -166,20 +178,32 @@ void GLFWApplication::run()
                 velocity = -velocity;
             }
 
-            position = cubic(point1, point2, point3, point4, interpolationFactor);
+            position = cubic(curve[0], curve[1], curve[2], curve[3], interpolationFactor);
+
             matrixUniforms.modelView(0, 3) = position[0];
             matrixUniforms.modelView(1, 3) = position[1];
             matrixUniforms.modelView(2, 3) = position[2];
             matrixBuffer.setPartialBlockData("modelView", matrixUniforms.modelView.data(), 64);
         }
 
+        curve.prepareDrawData();
+
         ImGui::DragFloat("Velocity", &velocity, 0.01f, 0.f, 1.f, "%.2f");
 
-        // Drawing
+        // Application Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+        
+        curveShader.bind();
+        curveShader.setUniformMat4("uProj", cproj);
+        mRenderer.draw(curve);
+
+        basicShader.bind();
         mRenderer.draw(circle);
+        
+        // ImGui Drawing
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+        
         glfwSwapBuffers(mWindow);
     }
 }

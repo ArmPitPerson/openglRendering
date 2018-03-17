@@ -23,6 +23,7 @@ endif()
 # Until I bother with add_subdirectory, add those manually
 add_executable(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/ext/gl/src/gl_cpp.cpp"
                "${CMAKE_SOURCE_DIR}/ext/gl/include/gl_cpp.hpp")
+
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 
 ##############################################################################
@@ -50,9 +51,9 @@ include("src/CMakeLists.txt")
 include("include/CMakeLists.txt")
 
 if(WIN32)
-target_link_libraries(${PROJECT_NAME} "opengl32.lib")
+  target_link_libraries(${PROJECT_NAME} "opengl32.lib")
 else()
-target_link_libraries(${PROJECT_NAME} "OpenGL")
+  target_link_libraries(${PROJECT_NAME} "OpenGL")
 endif()
 
 ##############################################################################
