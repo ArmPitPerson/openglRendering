@@ -12,7 +12,7 @@ const float blendQuadratic(const float t)
 
 const float blendSquareRoot(const float t)
 {
-    return std::sqrtf(t);
+    return std::sqrt(t);
 }
 
 const float blendSmoothStepI(const float t)

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"APP",
+				"APPLICATION_NAME\tline 2"
+			],
+			[
+				"AP",
+				"APPLICATION_NAME\tline 2"
+			],
+			[
+				"target_",
+				"target_link_libraries\tcommand"
+			],
+			[
 				"sp",
 				"span\tfunction"
 			],
@@ -502,37 +514,25 @@
 			[
 				"Popup",
 				"PopupSelection"
-			],
-			[
-				"slection",
-				"selectionPopup"
-			],
-			[
-				"Confi",
-				"ConfirmEngagement"
-			],
-			[
-				"Grap",
-				"GraphicColor\t(JJWorld.py)"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "res/curve.vs",
+			"file": "CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 520,
+				"buffer_size": 1315,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "res/curve.fs",
+			"file": "glRendering/CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 181,
+				"buffer_size": 3396,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -861,10 +861,21 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/res"
+		"/E/Project Files/Visual Studio/GL_Rendering/glRendering"
 	],
 	"file_history":
 	[
+		"/E/Project Files/Visual Studio/GL_Rendering/glRendering/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/ext/PCG/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/ext/gl/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/utility/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation/src/interpolation.cpp",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/computaion/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/glRendering/src/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/curve.fs",
+		"/E/Project Files/Visual Studio/GL_Rendering/res/curve.vs",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/save.dat",
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
@@ -877,7 +888,6 @@
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/Oblig_03/save.dat",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
 		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/ext/imgui_glfw.cpp",
@@ -982,17 +992,7 @@
 		"/E/Project Files/Visual Studio/GravityPong/GravityPong/res/sha/ball.frag",
 		"/E/Project Files/Visual Studio/GravityPong/GravityPong/res/sha/paddle.frag",
 		"/D/Documents/Unreal Projects/Clatterclang/Source/Clatterclang.Target.cs",
-		"/D/Documents/Unreal Projects/Clatterclang/Source/ClatterclangEditor.Target.cs",
-		"/D/Documents/Unreal Projects/Clatterclang/Source/Hell_UE4Editor.Target.cs",
-		"/D/Documents/Unreal Projects/Clatterclang/Source/Hell_UE4.Target.cs",
-		"/D/Google Drive/Dokumenter/NTNU/GameDesign/GameDesignAssignment/GameDesignAssignment/res/levels/testLevel.json",
-		"/C/C++/glew210/LICENSE.txt",
-		"/C/C++/Json/LicensePage.txt",
-		"/E/Project Files/Visual Studio/NoseClicker/NoseClicker/res/config/resources.json",
-		"/E/Project Files/Visual Studio/GravityPong/GravityPong/res/sha/ball.vert",
-		"/C/Users/Carl/Desktop/test.py",
-		"/E/Project Files/Visual Studio/GLFW_EngineTut/Core/src/shaders/basic.frag",
-		"/E/Project Files/Visual Studio/GLFW_EngineTut/Core/src/shaders/basic.vert"
+		"/D/Documents/Unreal Projects/Clatterclang/Source/ClatterclangEditor.Target.cs"
 	],
 	"find":
 	{
@@ -1010,6 +1010,25 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"imgui",
+			".cpp",
+			"PROJECT_NAME",
+			"APPLICATION_NAME",
+			"PROJECT_NAME",
+			"APPLICATION_NAME",
+			"target_link_libraries",
+			"TARGET_LINK_LIBRARIES",
+			"libcomputation",
+			".cp",
+			"linalg",
+			"MODULE_EXPORT_NAME",
+			"MODULE_NAME",
+			"ModNameHere",
+			".h",
+			"linalg",
+			"ModNameHere",
+			"robustIO",
+			"SRC_ROOT",
 			"SAMLID",
 			"SamlResponse",
 			"response",
@@ -1066,65 +1085,65 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "res/curve.vs",
+					"file": "CMakeLists.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 520,
+						"buffer_size": 1315,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								153,
-								153
+								471,
+								471
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "res/curve.fs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 181,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								181,
-								181
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/OpenGL Shading Language (GLSL)/GLSL.sublime-syntax"
+							"syntax": "Packages/CMake/CMake.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "glRendering/CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3396,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3396,
+								3396
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CMake/CMake.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1311.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

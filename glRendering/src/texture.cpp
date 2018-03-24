@@ -5,7 +5,7 @@
 #include <memory>
 #include <experimental/filesystem>
 
-#include "ext/stb_image.h"
+#include "stb_image.h"
 
 using namespace std::experimental;
 

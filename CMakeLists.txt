@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-project("OpenGL")
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+project("OpenGL-Rendering")
 
 ##############################################################################
 # Varaibles
@@ -8,7 +7,6 @@ project("OpenGL")
 
 set(cmake_cxx_standard 17)
 set(cmake_cxx_standard REQUIRED ON)
-set(INCLUDE_DIRS "include")
 
 # MSVC C++ 17
 if(MSVC)
@@ -17,17 +15,13 @@ add_definitions(-D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
 endif()
 
 ##############################################################################
-# Build Targets
+# Main Application
 ##############################################################################
 
-# Until I bother with add_subdirectory, add those manually
-add_executable(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/ext/gl/src/gl_cpp.cpp"
-               "${CMAKE_SOURCE_DIR}/ext/gl/include/gl_cpp.hpp")
-
-target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
+add_subdirectory(glRendering)
 
 ##############################################################################
-# Libraries
+# Libraries / Dependencies
 ##############################################################################
 
 # GLFW
@@ -40,29 +34,19 @@ set(INCLUDE_DIRS ${INCLUDE_DIRS} "ext/spdlog/include")
 include_directories(${INCLUDE_DIRS} "ext/gl/include")
 
 # PCG
-include_directories(${INCLUDE_DIRS} "ext/PCG")
+add_subdirectory("ext/PCG")
 
 # ImGui
-include_directories(${INCLUDE_DIRS} "ext/imgui")
-include("ext/imgui/CMakeLists.txt")
+add_subdirectory("ext/imgui")
 
-# Main Project Files
-include("src/CMakeLists.txt")
-include("include/CMakeLists.txt")
+# Computation / Math Library
+add_subdirectory("modules/computation")
 
-if(WIN32)
-  target_link_libraries(${PROJECT_NAME} "opengl32.lib")
-else()
-  target_link_libraries(${PROJECT_NAME} "OpenGL")
-endif()
+# GL Load Gen
+add_subdirectory("ext/gl")
 
-##############################################################################
-# Resource Management
-##############################################################################
+# Utility Library
+add_subdirectory("modules/utility")
 
-# Move resource folder to binary dir
-add_custom_command(
-  TARGET ${PROJECT_NAME} PRE_BUILD
-  COMMAND python ${CMAKE_SOURCE_DIR}/resourceCopy.py ${CMAKE_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/res
-  COMMENT "Copy resource files into ${CMAKE_BINARY_DIR}/res"
-)
+# Find OpenGL
+find_package(OpenGL)

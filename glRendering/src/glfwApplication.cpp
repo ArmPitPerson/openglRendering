@@ -9,7 +9,6 @@
 #include "buffer.h"
 #include "shader.h"
 #include "linalg.h"
-#include "camera.h"
 #include "texture.h"
 #include "randomEngine.h"
 #include "files.h"
@@ -62,8 +61,8 @@ GLFWApplication::GLFWApplication()
     ImGui_ImplGlfwGL3_Init(mWindow);
     ImGui::StyleColorsDark();
 
-    auto fontPath = getResourcePath("ProggyTiny.ttf");
-    io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 10.f);
+    //auto fontPath = getResourcePath("ProggyTiny.ttf");
+    //io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 10.f);
 }
 
 GLFWApplication::~GLFWApplication()
@@ -125,7 +124,7 @@ void GLFWApplication::run()
     vec3 position;
 
     float interpolationFactor = 0.f;
-    float velocity = 0.05f;
+    float velocity = 0.95f;
 
     while (!glfwWindowShouldClose(mWindow))
     {

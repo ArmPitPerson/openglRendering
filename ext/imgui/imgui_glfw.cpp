@@ -31,8 +31,6 @@
 //  2016-09-05: OpenGL: Fixed save and restore of current scissor rectangle.
 //  2016-04-30: OpenGL: Fixed save and restore of current gl::ACTIVE_TEXTURE.
 
-#include "vertexArray.h"
-
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "imgui_glfw.h"
