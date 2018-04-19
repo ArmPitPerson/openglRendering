@@ -110,7 +110,7 @@ const unsigned Shader::compileShader(const std::string& sourceFile, unsigned typ
     // If there is no source code
     if (sourceStr.empty())
     {
-        logCustom()->error("Failed to load empty shader source: {}", sourceFile);
+        logErr("Failed to load empty shader source: {}", sourceFile);
         return 0;
     }
 
@@ -144,7 +144,7 @@ const bool Shader::validateShaderCompilation(unsigned shader)
         std::unique_ptr<char> message(new char[length]);
 
         gl::GetShaderInfoLog(shader, length, nullptr, message.get());
-        logCustom()->error("{}", message.get());
+        logErr("{}", message.get());
         return false;
     }
     return true;
@@ -188,7 +188,7 @@ const bool Shader::validateProgramLinkage(const unsigned program)
             std::unique_ptr<char> message(new char[length]);
 
             gl::GetProgramInfoLog(program, length, nullptr, message.get());
-            logCustom()->error("{}", message.get());
+            logErr("{}", message.get());
         }
         else
         {
@@ -211,7 +211,7 @@ const int Shader::getUniformLocation(const std::string& uniformName)
 
     // If invalid log error
     if (location == -1)
-        logCustom()->warn("Uniform {} does not exist or is not in use!", uniformName);
+        logWarn("Uniform {} does not exist or is not in use!", uniformName);
 
     // Cache for future calls
     mUniformCache[uniformName] = location;

@@ -8,42 +8,54 @@
 
 #include <functional>
 
-/* LOGGING FUNCTIONS*/
+namespace detail {
+    const std::string logName = "DEBUG";
+}
 
-//************************************
-// Method:    logCustom
-// Access:    public 
-// Brief:     Get the underlying debug logger for custom and formatted logging
-// Example:   logCustom()->info("There are {0} men alive", menAlive)
-//************************************
-std::shared_ptr<spdlog::logger> logCustom();
+/* LOGGING FUNCTIONS*/
 
 //************************************
 // Method:    logInfo
 // Parameter: const std::string & msg
 // Brief:     Log the message at debug level
 //************************************
-void logDebug(const std::string& msg);
+template<typename... T>
+void logDebug(const std::string& msg, T&&... fmtargs)
+{
+    spdlog::get(detail::logName)->debug(msg.c_str(), std::forward<T>(fmtargs)...);
+}
 
 //************************************
 // Method:    logInfo
 // Parameter: const std::string & msg
 // Brief:     Log the message at info level
 //************************************
-void logInfo(const std::string& msg);
+template<typename... T>
+void logInfo(const std::string& msg, T&&... fmtargs)
+{
+    spdlog::get(detail::logName)->info(msg.c_str(), std::forward<T>(fmtargs)...);
+}
 
 //************************************
 // Method:    logInfo
 // Parameter: const std::string & msg
 // Brief:     Log the message at warning level
 //************************************
-void logWarn(const std::string& msg);
+template<typename... T>
+void logWarn(const std::string& msg, T&&... fmtargs)
+{
+    spdlog::get(detail::logName)->warn(msg.c_str(), std::forward<T>(fmtargs)...);
+}
 
 //************************************
 // Method:    logInfo
 // Parameter: const std::string & msg
 // Brief:     Log the message at error level
 //************************************
-void logErr(const std::string& msg);
+template<typename... T>
+void logErr(const std::string& msg, T&&... fmtargs)
+{
+    spdlog::get(detail::logName)->error(msg.c_str(), std::forward<T>(fmtargs)...);
+}
 
 #endif // LOGGING_H

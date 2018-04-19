@@ -10,19 +10,19 @@
 void APIENTRY cppGLDebug(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) {
 	switch (severity) {
 	case gl::DEBUG_SEVERITY_NOTIFICATION:
-		logCustom()->debug("OpenGL Debug Info: {}", message);
+		logDebug("OpenGL Debug Info: {}", message);
 		break;
 	case gl::DEBUG_SEVERITY_LOW:
-        logCustom()->info("OpenGL Info: {}", message);
+        logInfo("OpenGL Info: {}", message);
         break;
 	case gl::DEBUG_SEVERITY_MEDIUM:
-		logCustom()->warn("OpenGL Warning: {}", message);
+        logWarn ("OpenGL Warning: {}", message);
 		break;
 	case gl::DEBUG_SEVERITY_HIGH:
-		logCustom()->error("OpenGL Error: {}", message);
+		logErr("OpenGL Error: {}", message);
 		break;
 	default:
-		logCustom()->error("OpenGL Unknown Severity: {}", message);
+		logErr("OpenGL Unknown Severity: {}", message);
 		break;
 	}
 }

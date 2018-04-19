@@ -25,7 +25,6 @@ TARGET_SOURCES(${MODULE_NAME}
                ${CMAKE_CURRENT_SOURCE_DIR}/include/randomEngine.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/clock.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/src/files.cpp
-               ${CMAKE_CURRENT_SOURCE_DIR}/src/logging.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/src/randomEngine.cpp
                )
 

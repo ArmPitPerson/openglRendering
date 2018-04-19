@@ -16,7 +16,7 @@ const std::string readFile(const std::string& filepath) {
     }
     else
     {
-        logCustom()->warn("Failed to read file: {}", filepath);
+        logWarn("Failed to read file: {}", filepath);
         return std::string("");
     }
 }

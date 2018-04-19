@@ -225,7 +225,7 @@ void Texture::loadFromFile(const std::string& basePath)
         else
         {
             // If path is invalid, then rely on auto-generated mip maps
-            logCustom()->warn("Failed to load: {} auto-generating mip maps instead!", mipPath);
+            logWarn("Failed to load: {} auto-generating mip maps instead!", mipPath);
             gl::GenerateTextureMipmap(mName);
             break;
         }

@@ -19,13 +19,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         if (!io.WantCaptureKeyboard) // If ImGui is not reserving input
             inputManager->pressKey(key);
         io.KeysDown[key] = true; // ImGui
-        logCustom()->debug("Pressed key: {}", key);
+        logDebug("Pressed key: {}", key);
     }
     else if (action == GLFW_RELEASE)
     {
         inputManager->releaseKey(key);
         io.KeysDown[key] = false; // ImGui
-        logCustom()->debug("Released key: {}", key);
+        logDebug("Released key: {}", key);
     }
 
     (void)mods; // Modifiers are not reliable across systems
@@ -44,7 +44,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     {
         if (!io.WantCaptureMouse) // If ImGui is not reserving input
             inputManager->pressKey(button);
-        logCustom()->debug("Pressed mouse button: {}", button);
+        logDebug("Pressed mouse button: {}", button);
 
         // ImGui Interaction
         if (button >= 0 && button < 3)
@@ -53,7 +53,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     else if (action == GLFW_RELEASE)
     {
         inputManager->releaseKey(button);
-        logCustom()->debug("Released mouse button: {}", button);
+        logDebug("Released mouse button: {}", button);
     }
 }
 
@@ -61,14 +61,14 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     inputManager->moveCursor({ xpos, ypos });
-    logCustom()->debug("Cursor at: X[{}] Y[{}]", xpos, ypos);
+    logDebug("Cursor at: X[{}] Y[{}]", xpos, ypos);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
     inputManager->scrollMouse({ xoffset, yoffset });
-    logCustom()->debug("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
+    logDebug("Scrolldelta: X[{}] Y[{}]", xoffset, yoffset);
 
     // ImGui Interaction
     ImGuiIO& io = ImGui::GetIO();
@@ -77,5 +77,5 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void error_callback(int error, const char* description)
 {
-    logCustom()->error("GLFW Error #{}: {}", error, description);
+    logErr("GLFW Error #{}: {}", error, description);
 }
