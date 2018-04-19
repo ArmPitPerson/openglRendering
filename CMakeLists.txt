@@ -24,12 +24,6 @@ add_subdirectory(glRendering)
 # Libraries / Dependencies
 ##############################################################################
 
-# GLFW
-add_subdirectory("ext/glfw")
-
-# SPDLOG
-set(INCLUDE_DIRS ${INCLUDE_DIRS} "ext/spdlog/include")
-
 # GL LOAD GEN
 include_directories(${INCLUDE_DIRS} "ext/gl/include")
 
@@ -47,6 +41,3 @@ add_subdirectory("ext/gl")
 
 # Utility Library
 add_subdirectory("modules/utility")
-
-# Find OpenGL
-find_package(OpenGL)

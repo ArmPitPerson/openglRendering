@@ -30,7 +30,9 @@ TARGET_SOURCES(${MODULE_NAME}
                )
 
 # Dependencies
-TARGET_LINK_LIBRARIES(${MODULE_NAME} PCG::PCG)
+find_package(spdlog REQUIRED)
+
+TARGET_LINK_LIBRARIES(${MODULE_NAME} PCG::PCG spdlog::spdlog)
 
 # Set Install Targets
 INSTALL(TARGETS ${MODULE_NAME} EXPORT ${MODULE_EXPORT_NAME}

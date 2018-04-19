@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"APPL",
+				"APPLICATION_NAME\tline 2"
+			],
+			[
 				"APP",
 				"APPLICATION_NAME\tline 2"
 			],
@@ -510,30 +514,16 @@
 			[
 				"Se",
 				"SelectionPopup"
-			],
-			[
-				"Popup",
-				"PopupSelection"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 1315,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "glRendering/CMakeLists.txt",
 			"settings":
 			{
 				"buffer_size": 3396,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -861,11 +851,13 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
+		"/E/Project Files/Visual Studio/GL_Rendering/ext",
 		"/E/Project Files/Visual Studio/GL_Rendering/glRendering"
 	],
 	"file_history":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering/glRendering/CMakeLists.txt",
+		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/PCG/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
@@ -878,7 +870,6 @@
 		"/E/Project Files/Visual Studio/GL_Rendering/res/curve.vs",
 		"/D/Google Drive/Dokumenter/NTNU/02 - ObjektOrientertProgrammering/Oblig_03/save.dat",
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/C/Users/Carl/Desktop/test.html",
 		"/D/Google Drive/Programmer/Utility/pythonTools/autoRombestilling/rombestilling.py",
 		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
@@ -1085,41 +1076,13 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1315,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								471,
-								471
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CMake/CMake.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "glRendering/CMakeLists.txt",
-					"semi_transient": false,
+					"semi_transient": true,
 					"settings":
 					{
 						"buffer_size": 3396,
@@ -1129,8 +1092,8 @@
 						"selection":
 						[
 							[
-								3396,
-								3396
+								832,
+								832
 							]
 						],
 						"settings":
@@ -1140,7 +1103,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1311.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
