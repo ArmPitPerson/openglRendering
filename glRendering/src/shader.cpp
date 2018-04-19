@@ -1,10 +1,12 @@
 #include "shader.h"
 #include "files.h"
-#include "linalg.h"
 #include "logging.h"
 #include "gl_cpp.hpp"
-#include "spdlog/fmt/fmt.h"
+
 #include <memory>
+
+#include "glm/gtc/type_ptr.hpp"
+#include "spdlog/fmt/fmt.h"
 
 
 Shader::Shader(const std::string& shaderName)
@@ -50,53 +52,53 @@ const unsigned Shader::name() const
     return mName;
 }
 
-void Shader::setUniform1f(const std::string& name, float value)
+void Shader::setUniform1f(const std::string& uniformName, float value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
         gl::Uniform1f(location, value);
 }
 
-void Shader::setUniform2f(const std::string& name, const vec2& value)
+void Shader::setUniform2f(const std::string& uniformName, const glm::vec2& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::Uniform2fv(location, 1, value.data());
+        gl::Uniform2fv(location, 1, glm::value_ptr(value));
 }
 
-void Shader::setUniform3f(const std::string& name, const vec3& value)
+void Shader::setUniform3f(const std::string& uniformName, const glm::vec3& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::Uniform3fv(location, 1, value.data());
+        gl::Uniform3fv(location, 1, glm::value_ptr(value));
 }
 
-void Shader::setUniform4f(const std::string& name, const vec4& value)
+void Shader::setUniform4f(const std::string& uniformName, const glm::vec4& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::Uniform4fv(location, 1, value.data());
+        gl::Uniform4fv(location, 1, glm::value_ptr(value));
 }
 
-void Shader::setUniformMat2(const std::string& name, const matM<float, 2>& value)
+void Shader::setUniformMat2(const std::string& uniformName, const glm::mat2& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::UniformMatrix2fv(location, 1, gl::FALSE_, value.data());
+        gl::UniformMatrix2fv(location, 1, gl::FALSE_, glm::value_ptr(value));
 }
 
-void Shader::setUniformMat3(const std::string& name, const matM<float, 3>& value)
+void Shader::setUniformMat3(const std::string& uniformName, const glm::mat3& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::UniformMatrix3fv(location, 1, gl::FALSE_, value.data());
+        gl::UniformMatrix3fv(location, 1, gl::FALSE_, glm::value_ptr(value));
 }
 
-void Shader::setUniformMat4(const std::string& name, const matM<float, 4>& value)
+void Shader::setUniformMat4(const std::string& uniformName, const glm::mat4& value)
 {
-    const auto location = getUniformLocation(name);
+    const auto location = getUniformLocation(uniformName);
     if (location != -1)
-        gl::UniformMatrix4fv(location, 1, gl::FALSE_, value.data());
+        gl::UniformMatrix4fv(location, 1, gl::FALSE_, glm::value_ptr(value));
 }
 
 const unsigned Shader::compileShader(const std::string& sourceFile, unsigned type)
@@ -198,21 +200,21 @@ const bool Shader::validateProgramLinkage(const unsigned program)
     return true;
 }
 
-const int Shader::getUniformLocation(const std::string& name)
+const int Shader::getUniformLocation(const std::string& uniformName)
 {
     // Check Cache
-    if (mUniformCache.find(name) != mUniformCache.end())
-        return mUniformCache.at(name);
+    if (mUniformCache.find(uniformName) != mUniformCache.end())
+        return mUniformCache.at(uniformName);
 
     // Get Location
-    const int location = gl::GetUniformLocation(mName, name.data());
+    const int location = gl::GetUniformLocation(mName, uniformName.data());
 
     // If invalid log error
     if (location == -1)
-        logCustom()->warn("Uniform {} does not exist or is not in use!", name);
+        logCustom()->warn("Uniform {} does not exist or is not in use!", uniformName);
 
     // Cache for future calls
-    mUniformCache[name] = location;
+    mUniformCache[uniformName] = location;
 
     return location;
 }

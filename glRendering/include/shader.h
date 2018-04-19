@@ -12,13 +12,12 @@
 #include <map>
 #include <string>
 
-
-template<typename T, unsigned M>
-class vecM;
-
-template<typename T, unsigned M>
-class matM;
-
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
+#include "glm/mat2x2.hpp"
+#include "glm/mat3x3.hpp"
+#include "glm/mat4x4.hpp"
 
 class Shader final
 {
@@ -39,19 +38,19 @@ public:
     // Get the OpenGL name
     const unsigned name() const;
 
-    void setUniform1f(const std::string& name, float value);
+    void setUniform1f(const std::string& uniformName, float value);
 
-    void setUniform2f(const std::string& name, const vecM<float, 2>& value);
+    void setUniform2f(const std::string& uniformName, const glm::vec2& value);
 
-    void setUniform3f(const std::string& name, const vecM<float, 3>& value);
+    void setUniform3f(const std::string& uniformName, const glm::vec3& value);
 
-    void setUniform4f(const std::string& name, const vecM<float, 4>& value);
+    void setUniform4f(const std::string& uniformName, const glm::vec4& value);
 
-    void setUniformMat2(const std::string& name, const matM<float, 2>& value);
+    void setUniformMat2(const std::string& uniformName, const glm::mat2& value);
 
-    void setUniformMat3(const std::string& name, const matM<float, 3>& value);
+    void setUniformMat3(const std::string& uniformName, const glm::mat3& value);
 
-    void setUniformMat4(const std::string& name, const matM<float, 4>& value);
+    void setUniformMat4(const std::string& uniformName, const glm::mat4& value);
 
 
 private:
@@ -67,7 +66,7 @@ private:
     // Validate linking, true if all is good
     const bool validateProgramLinkage(const unsigned program);
 
-    const int getUniformLocation(const std::string& name);
+    const int getUniformLocation(const std::string& uniformName);
 
 private:
     // OpenGL Name
