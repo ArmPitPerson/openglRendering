@@ -11,8 +11,8 @@
 
 Shader::Shader(const std::string& shaderName)
 {
-    const auto& vertFile = fmt::format("{}.vs", shaderName);
-    const auto& fragFile = fmt::format("{}.fs", shaderName);
+    const auto& vertFile = fmt::format("{}.vert", shaderName);
+    const auto& fragFile = fmt::format("{}.frag", shaderName);
 
     unsigned vShader = compileShader(vertFile, gl::VERTEX_SHADER);
     unsigned fShader = compileShader(fragFile, gl::FRAGMENT_SHADER);

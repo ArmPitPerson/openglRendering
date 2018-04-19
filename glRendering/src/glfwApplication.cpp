@@ -20,7 +20,9 @@
 #include "gl_cpp.hpp"
 #include "imgui.h"
 #include "imgui_glfw.h"
-#include "glm/vec2.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include "GLFW/glfw3.h"
 
 
@@ -83,6 +85,19 @@ void GLFWApplication::run()
     auto updateDelta = Clock::TimeUnit{ 1.f / 144.f };
     auto timeSinceUpdate = Clock::TimeUnit{};
 
+    Shader basicShader(getResourcePath("vertex.vert"), getResourcePath("frag.frag"));
+    basicShader.bind();
+
+    Quad square({ 50.f, 50.f }, { 0.78f, 0.4f, 0.1f });
+    Quad square2({ 50.f, 50.f }, { 0.9f, 0.1f, 0.3f });
+    Quad square3({ 50.f, 50.f }, { 0.1f, 0.9f, 0.4f });
+
+    glm::mat4 model1 = glm::rotate(glm::mat4(1.f), glm::radians(-55.f), glm::vec3(1.f, 0.f, 0.f));
+    glm::mat4 model2 = glm::rotate(glm::mat4(1.f), glm::radians(-55.f), glm::vec3(1.f, 1.f, 0.f));
+    glm::mat4 model3 = glm::rotate(glm::mat4(1.f), glm::radians(-55.f), glm::vec3(0.f, 1.f, 0.f));
+    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -100.f));
+    glm::mat4 proj = glm::perspective(glm::radians(60.f), 16.f / 9.f, 0.1f, 512.f);    
+
     while (!glfwWindowShouldClose(mWindow))
     {
         // Clock Update
@@ -97,16 +112,36 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
+        if (mInputManager.arePressed(GLFW_KEY_W))
+            view = glm::translate(view, glm::vec3(0.f, -1.f, 0.f));
+        if (mInputManager.arePressed(GLFW_KEY_A))
+            view = glm::translate(view, glm::vec3(1.f, 0.f, 0.f));
+        if (mInputManager.arePressed(GLFW_KEY_S))
+            view = glm::translate(view, glm::vec3(0.f, 1.f, 0.f));
+        if (mInputManager.arePressed(GLFW_KEY_D))
+            view = glm::translate(view, glm::vec3(-1.f, 0.f, 0.f));
 
         // Updating
         while (timeSinceUpdate > updateDelta)
         {
-            timeSinceUpdate -= updateDelta;            
+            timeSinceUpdate -= updateDelta;                  
         }
 
         // Application Drawing
         gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);             
         
+        glm::mat4 mvpMatrix = proj * view * model1;
+        basicShader.setUniformMat4("mvpMatrix", mvpMatrix);
+        mRenderer.draw(square);
+
+        mvpMatrix = proj * view * model2;
+        basicShader.setUniformMat4("mvpMatrix", mvpMatrix);
+        mRenderer.draw(square2);
+
+        mvpMatrix = proj * view * model3;
+        basicShader.setUniformMat4("mvpMatrix", mvpMatrix);
+        mRenderer.draw(square3);
+
         // ImGui Drawing
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
