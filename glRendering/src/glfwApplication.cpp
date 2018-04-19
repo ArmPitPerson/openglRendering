@@ -39,7 +39,7 @@ GLFWApplication::GLFWApplication()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     // Context Creation
-    mWindow = glfwCreateWindow(1024, 1024, "Open GL Rendering", nullptr, nullptr);
+    mWindow = glfwCreateWindow(1280, 720, "Open GL Rendering", nullptr, nullptr);
     glfwMakeContextCurrent(mWindow);
     glfwSwapInterval(1);
 
@@ -63,8 +63,10 @@ GLFWApplication::GLFWApplication()
     ImGui_ImplGlfwGL3_Init(mWindow);
     ImGui::StyleColorsDark();
 
-    //auto fontPath = getResourcePath("ProggyTiny.ttf");
-    //io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 10.f);
+    auto fontPath = getResourcePath("ProggyTiny.ttf");
+    io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 10.f);
+
+    gl::ClearColor(.2f, 0.3f, 0.3f, 1.0f);
 }
 
 GLFWApplication::~GLFWApplication()
@@ -95,8 +97,6 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
-
-        ImGui::Text("My FPS is %.2f", 1.f / deltaTime);
 
         // Updating
         while (timeSinceUpdate > updateDelta)

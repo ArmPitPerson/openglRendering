@@ -4,7 +4,7 @@ This repository contains my implementations of a graphics rendering pipeline fro
 
 * GLFW is used for context creation
 * The target OpenGL version for this project is OpenGL *4.5*
-* My learning material is the *OpenGL Superbible 7th edition*
+* My learning material is the *OpenGL Superbible 7th edition* and *OpenGL Programming Guide 9th Edition*
 * It is a personal project where I will constantly improve my OpenGL skills and attempt to improve the code.
 * It does not *currently* represent final quality code
 

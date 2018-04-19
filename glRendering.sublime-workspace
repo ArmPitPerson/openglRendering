@@ -520,10 +520,29 @@
 	"buffers":
 	[
 		{
+			"file": "CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 1177,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "glRendering/CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 3396,
+				"buffer_size": 3579,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ext/imgui/CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 1464,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -851,18 +870,21 @@
 	"expanded_folders":
 	[
 		"/E/Project Files/Visual Studio/GL_Rendering",
-		"/E/Project Files/Visual Studio/GL_Rendering/ext",
-		"/E/Project Files/Visual Studio/GL_Rendering/glRendering"
+		"/E/Project Files/Visual Studio/GL_Rendering/glRendering",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation"
 	],
 	"file_history":
 	[
+		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
+		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
+		"/E/Project Files/Visual Studio/GL_Rendering/modules/utility/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/glRendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/PCG/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/gl/CMakeLists.txt",
-		"/E/Project Files/Visual Studio/GL_Rendering/modules/utility/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/modules/computation/src/interpolation.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/modules/computaion/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/glRendering/src/CMakeLists.txt",
@@ -872,7 +894,6 @@
 		"/D/Google Drive/Dokumenter/NTNU/02 - MatteForProgrammering/HandinModule_04/CMakeLists.txt",
 		"/C/Users/Carl/Desktop/test.html",
 		"/D/Google Drive/Programmer/Utility/pythonTools/autoRombestilling/rombestilling.py",
-		"/E/Project Files/Visual Studio/GL_Rendering/README.md",
 		"/E/Project Files/Visual Studio/GL_Rendering/res/frag.fs",
 		"/E/Project Files/Visual Studio/GL_Rendering/include/CMakeLists.txt",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/CMakeLists.txt",
@@ -880,7 +901,6 @@
 		"/E/Project Files/Visual Studio/GL_Rendering/res/vertex.vs",
 		"/E/Project Files/Visual Studio/AReno/AReno/testText.txt",
 		"/C/C++/imgui-1.53/imconfig.h",
-		"/E/Project Files/Visual Studio/GL_Rendering/.gitignore",
 		"/E/Project Files/Visual Studio/GL_Rendering/src/ext/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/imgui_glfw.cpp",
 		"/E/Project Files/Visual Studio/GL_Rendering/ext/imgui/extra_fonts/README.txt",
@@ -1076,37 +1096,101 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "glRendering/CMakeLists.txt",
-					"semi_transient": true,
+					"file": "CMakeLists.txt",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3396,
+						"buffer_size": 1177,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								832,
-								832
+								1080,
+								1080
 							]
 						],
 						"settings":
 						{
+							"glslvalidator_configured": true,
+							"glslvalidator_enabled": 1,
+							"syntax": "Packages/CMake/CMake.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 207.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "glRendering/CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3579,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								774,
+								774
+							]
+						],
+						"settings":
+						{
+							"glslvalidator_configured": true,
+							"glslvalidator_enabled": 1,
 							"syntax": "Packages/CMake/CMake.sublime-syntax",
 							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 345.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ext/imgui/CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1464,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1452,
+								1452
+							]
+						],
+						"settings":
+						{
+							"glslvalidator_configured": true,
+							"glslvalidator_enabled": 1,
+							"syntax": "Packages/CMake/CMake.sublime-syntax",
+							"tab_size": 3,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]

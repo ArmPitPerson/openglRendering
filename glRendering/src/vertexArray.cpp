@@ -22,7 +22,8 @@ VertexArray::VertexArray(const VertexBuffer& vbo, const IndexBuffer& ibo)
     setIndexBuffer(ibo);
 }
 
-VertexArray::VertexArray(VertexArray&& other) : mName(other.mName), mNextAttribute(other.mNextAttribute)
+VertexArray::VertexArray(VertexArray&& other) : mName(other.mName), mNextAttributeBinding(other.mNextAttributeBinding),
+                                                mBufferBinding(other.mBufferBinding)
 {
     other.mName = 0;
 }
@@ -36,7 +37,8 @@ VertexArray& VertexArray::operator=(VertexArray&& other)
 
     // Steal Resources
     mName = other.mName;
-    mNextAttribute = other.mNextAttribute;
+    mBufferBinding = other.mBufferBinding;
+    mNextAttributeBinding = other.mNextAttributeBinding;
     other.mName = 0;
 
     return *this;
@@ -64,26 +66,26 @@ const unsigned VertexArray::name() const
 
 void VertexArray::addAttribute(int size, unsigned type, unsigned offset, bool normalize /*= false*/)
 {
-    gl::VertexArrayAttribBinding(mName, mNextAttribute, 0);
-    gl::VertexArrayAttribFormat(mName, mNextAttribute, size, type, (normalize ? gl::TRUE_ : gl::FALSE_), offset);
-    gl::EnableVertexArrayAttrib(mName, mNextAttribute);
-    ++mNextAttribute;
+    gl::VertexArrayAttribBinding(mName, mNextAttributeBinding, mBufferBinding);
+    gl::VertexArrayAttribFormat(mName, mNextAttributeBinding, size, type, (normalize ? gl::TRUE_ : gl::FALSE_), offset);
+    gl::EnableVertexArrayAttrib(mName, mNextAttributeBinding);
+    ++mNextAttributeBinding;
 }
 
 void VertexArray::addIntegerAttribute(int size, unsigned type, unsigned offset)
 {
-    gl::VertexArrayAttribBinding(mName, mNextAttribute, 0);
-    gl::VertexArrayAttribIFormat(mName, mNextAttribute, size, type, offset); // Integral Version
-    gl::EnableVertexArrayAttrib(mName, mNextAttribute);
-    ++mNextAttribute;
+    gl::VertexArrayAttribBinding(mName, mNextAttributeBinding, mBufferBinding);
+    gl::VertexArrayAttribIFormat(mName, mNextAttributeBinding, size, type, offset); // Integral Version
+    gl::EnableVertexArrayAttrib(mName, mNextAttributeBinding);
+    ++mNextAttributeBinding;
 }
 
 void VertexArray::removeLastAttribute()
 {
-    if (mNextAttribute != 0)
+    if (mNextAttributeBinding != 0)
     {
-        --mNextAttribute;
-        gl::DisableVertexArrayAttrib(mName, mNextAttribute);
+        --mNextAttributeBinding;
+        gl::DisableVertexArrayAttrib(mName, mNextAttributeBinding);
     }
     else
     {
@@ -93,10 +95,15 @@ void VertexArray::removeLastAttribute()
 
 void VertexArray::setBuffer(const VertexBuffer& vbo)
 {
-    gl::VertexArrayVertexBuffer(mName, 0, vbo.name(), 0, sizeof(Vertex));
+    gl::VertexArrayVertexBuffer(mName, mBufferBinding, vbo.name(), 0, sizeof(Vertex));
 }
 
 void VertexArray::setIndexBuffer(const IndexBuffer& ibo)
 {
     gl::VertexArrayElementBuffer(mName, ibo.name());
+}
+
+void VertexArray::setBufferBinding(unsigned binding)
+{
+    mBufferBinding = binding;
 }

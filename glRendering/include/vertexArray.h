@@ -1,11 +1,9 @@
-///  by Carl Findahl (C) 2018
-/// A Kukon Development Project
+/// OpenGL-Rendering by Carl Findahl (C) 2018
 
 #ifndef VERTEXARRAY_H
 #define VERTEXARRAY_H
 
 #include "buffer.h"
-
 
 class VertexArray
 {
@@ -44,12 +42,18 @@ public:
     // Set the index buffer to use for indexed drawing
     void setIndexBuffer(const IndexBuffer& ibo);
 
+    // Set the binding id to use for the next attribute / buffer binding
+    void setBufferBinding(unsigned binding);
+
 private:
     // The OpenGL Name
     unsigned mName = 0;
 
     // Next Attribute to set
-    unsigned mNextAttribute = 0;
+    unsigned mNextAttributeBinding = 0;
+
+    // The current buffer binding to use
+    unsigned mBufferBinding = 0;
 
 };
 
