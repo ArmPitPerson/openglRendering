@@ -4,10 +4,10 @@
 #define TEXTURE_H
 
 #include "enums.h"
-#include "linalg.h"
 
 #include <string>
 
+#include "glm/vec2.hpp"
 
 /*
  * For loading and binding Textures to the OpenGL context.
@@ -49,7 +49,7 @@ public:
 	void unbind() const;
 
     // Get width and height of the texture at the given mipmap level
-    const vec2i getSize(const unsigned level = 0) const;
+    const glm::ivec2 getSize(const unsigned level = 0) const;
 
 	// Set the repeat mode of the texture
 	void setRepeatMode(ETextureRepeatMode mode);

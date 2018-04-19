@@ -104,11 +104,11 @@ void Texture::unbind() const
     gl::BindTextureUnit(mBindingPoint, 0);
 }
 
-const vec2i Texture::getSize(const unsigned level /*= 0*/) const
+const glm::ivec2 Texture::getSize(const unsigned level /*= 0*/) const
 {
-    vec2i dimensions;
-    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_WIDTH, &dimensions[0]);
-    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_HEIGHT, &dimensions[1]);
+    glm::ivec2 dimensions;
+    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_WIDTH, &dimensions.x);
+    gl::GetTextureLevelParameteriv(mName, level, gl::TEXTURE_HEIGHT, &dimensions.y);
     return dimensions;
 }
 
@@ -183,7 +183,7 @@ void Texture::init()
 void Texture::copyTextureData(const Texture& other)
 {
     auto size = other.getSize();
-    gl::TextureStorage2D(mName, mLevels, gl::RGBA8, size[0], size[1]);
+    gl::TextureStorage2D(mName, mLevels, gl::RGBA8, size.x, size.y);
 
     // #TODO support Array Texture copying (with and without mipmaps)
 
@@ -192,12 +192,12 @@ void Texture::copyTextureData(const Texture& other)
     {
         // Get size info and allocate space for the texture
         size = other.getSize(i);
-        const auto dataSize = size[0] * size[1] * 4;
+        const auto dataSize = size.x * size.y * 4;
         std::unique_ptr<unsigned char[]> imageData = std::make_unique<unsigned char[]>(dataSize);
 
         // Retrieve texture data and copy it to the new texture
         gl::GetTextureImage(other.mName, i, gl::RGBA, gl::UNSIGNED_BYTE, dataSize, imageData.get());
-        gl::TextureSubImage2D(mName, i, 0, 0, size[0], size[1], gl::RGBA, gl::UNSIGNED_BYTE, imageData.get());
+        gl::TextureSubImage2D(mName, i, 0, 0, size.x, size.y, gl::RGBA, gl::UNSIGNED_BYTE, imageData.get());
     }
 }
 
@@ -256,5 +256,4 @@ void Texture::loadArrayFromFile(const std::string& basePath)
         gl::TextureSubImage3D(mName, 0, 0, 0, i, width, height, 1, gl::RGBA, gl::UNSIGNED_BYTE, imageData);
         stbi_image_free(imageData);
     }
-
 }
