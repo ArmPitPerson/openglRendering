@@ -1,14 +1,7 @@
 #include "renderer.h"
-#include "curve.h"
 #include "shapes.h"
 #include "renderBatch.h"
 #include "vertexArray.h"
-
-void Renderer::draw(const Curve& curve) const
-{
-    curve.bind();
-    gl::DrawArrays(gl::POINTS, 0, curve.getPointCount());
-}
 
 void Renderer::draw(const Shape2D& shape) const
 {

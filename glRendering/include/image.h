@@ -4,12 +4,13 @@
 #define IMAGE_H
 
 #include "enums.h"
-#include "linalg.h"
+
+#include "glm/vec2.hpp"
 
 class Image
 {
 public:
-    Image(const vec2i& size, EImageMode mode);
+    Image(const glm::ivec2& size, EImageMode mode);
     
     Image(const Image& other);
     
@@ -22,7 +23,7 @@ public:
     ~Image();
 
     // Get the size of the image
-    const vec2i getSize() const;
+    const glm::ivec2 getSize() const;
 
     // Bind the image to the given image binding point
     void bind(const unsigned bindingPoint = 0) const;
@@ -32,10 +33,10 @@ public:
 
 private:
     // Create and allocate storage for an image of size
-    void init(const vec2i& size);
+    void init(const glm::ivec2& size);
 
     // Copy size pixels from the texture source (works with textures and images alike)
-    void copyPixelDataFrom(const Image& source, const vec2i& size);
+    void copyPixelDataFrom(const Image& source, const glm::ivec2& size);
 
 private:
     // The read/write mode used by this image

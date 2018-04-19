@@ -19,8 +19,6 @@ TARGET_INCLUDE_DIRECTORIES(${APPLICATION_NAME}
 TARGET_SOURCES(${APPLICATION_NAME}
                PRIVATE
                ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-               ${CMAKE_CURRENT_SOURCE_DIR}/include/curve.h
-               ${CMAKE_CURRENT_SOURCE_DIR}/src/curve.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h
                ${CMAKE_CURRENT_SOURCE_DIR}/include/glfwApplication.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/glfwApplication.cpp

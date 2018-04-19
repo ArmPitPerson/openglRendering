@@ -23,7 +23,6 @@ class Renderer
 public:
 
     // Draw the provided data
-    void draw(const Curve& curve) const;
     void draw(const Shape2D& shape) const;
     void draw(const RenderBatch& batch) const;
     void draw(const VertexArray& vao, const unsigned indexCount) const;

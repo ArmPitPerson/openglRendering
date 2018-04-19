@@ -4,7 +4,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
-#include "linalg.h"
+#include "glm/vec2.hpp"
 
 #include <array>
 #include <type_traits>
@@ -19,16 +19,16 @@ public:
     void clear() { mPressedKeyMask.fill(0); }
 
     // Tell input manager that the wheel was scrolled with the given delta
-    void scrollMouse(const vec2d& delta) { mScrollDelta = delta; }
+    void scrollMouse(const glm::dvec2& delta) { mScrollDelta = delta; }
 
     // Get the latest scroll delta
-    const vec2d& getScrollDelta() const { return mScrollDelta; }
+    const glm::dvec2& getScrollDelta() const { return mScrollDelta; }
 
     // Tell input manager that the cursor has moved
-    void moveCursor(const vec2d& newPosition) { mCursorPosition = newPosition; }
+    void moveCursor(const glm::dvec2& newPosition) { mCursorPosition = newPosition; }
 
     // Get the latest polled cursor position
-    const vec2d& getCursorPosition() const { return mCursorPosition; }
+    const glm::dvec2& getCursorPosition() const { return mCursorPosition; }
 
     // Tell input manager that the given key / mouse button has been pressed
     void pressKey(unsigned key) { ++mInputMask[key]; mPressedKeyMask[key] = 1u; }
@@ -54,10 +54,10 @@ private:
     std::array<unsigned, 512> mPressedKeyMask;
 
     // The current position of the cursor
-    vec2d mCursorPosition;
+    glm::dvec2 mCursorPosition;
 
     // Stores the latest scroll delta
-    vec2d mScrollDelta;
+    glm::dvec2 mScrollDelta;
 };
 
 
