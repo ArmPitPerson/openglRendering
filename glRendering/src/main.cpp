@@ -34,11 +34,13 @@ int main() {
 
 	GLFWApplication application;
 
+#ifndef NDEBUG
 	// OpenGL Debug Messages
 	unsigned unusedID = 0;
 	gl::Enable(gl::DEBUG_OUTPUT_SYNCHRONOUS);
 	gl::DebugMessageCallback(cppGLDebug, nullptr);
 	gl::DebugMessageControl(gl::DONT_CARE, gl::DONT_CARE, gl::DONT_CARE, 0, &unusedID, gl::TRUE_);
+#endif
 
 	application.run();
 	

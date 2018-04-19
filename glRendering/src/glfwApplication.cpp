@@ -1,6 +1,4 @@
 #include "glfwApplication.h"
-#include "gl_cpp.hpp"
-#include "GLFW/glfw3.h"
 #include "vertexArray.h"
 #include "serviceLocator.h"
 #include "uniformBlocks.h"
@@ -9,6 +7,7 @@
 #include "buffer.h"
 #include "shader.h"
 #include "texture.h"
+#include "interpolation.h"
 #include "randomEngine.h"
 #include "files.h"
 #include "clock.h"
@@ -16,12 +15,14 @@
 #include "renderBatch.h"
 #include "glfwCallbacks.h"
 
+#include <array>
+
+#include "gl_cpp.hpp"
 #include "imgui.h"
 #include "imgui_glfw.h"
 #include "glm/vec2.hpp"
+#include "GLFW/glfw3.h"
 
-#include <array>
-#include "interpolation.h"
 
 GLFWApplication::GLFWApplication()
 {
@@ -31,10 +32,11 @@ GLFWApplication::GLFWApplication()
     // Context Hints
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+#ifndef NDEBUG
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    glfwWindowHint(GLFW_SAMPLES, 2); // 2x MSAA
 
     // Context Creation
     mWindow = glfwCreateWindow(1024, 1024, "Open GL Rendering", nullptr, nullptr);
@@ -42,7 +44,9 @@ GLFWApplication::GLFWApplication()
     glfwSwapInterval(1);
 
     // GLFW Callbacks
+#ifndef NDEBUG
     glfwSetErrorCallback(error_callback);
+#endif
     glfwSetKeyCallback(mWindow, key_callback);
     glfwSetMouseButtonCallback(mWindow, mouse_button_callback);
     glfwSetCursorPosCallback(mWindow, cursor_position_callback);
@@ -91,6 +95,8 @@ void GLFWApplication::run()
         // Input Handling
         if (mInputManager.wasPressed(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(mWindow, true);
+
+        ImGui::Text("My FPS is %.2f", 1.f / deltaTime);
 
         // Updating
         while (timeSinceUpdate > updateDelta)
