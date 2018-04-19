@@ -10,12 +10,14 @@
 
 #include "vertex.h"
 #include "buffer.h"
-#include "linalg.h"
 #include "vertexArray.h"
 
 #include <vector>
 #include <memory>
 #include <utility>
+
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
 
 struct ShapeGLData
 {
@@ -45,7 +47,7 @@ public:
 
 protected:
     // Add a vertex to the shape
-    void addVertex(const vec2& pos, const vec3& col, const vec2& tc);
+    void addVertex(const glm::vec2& pos, const glm::vec3& col, const glm::vec2& tc);
 
     // Add an index to be rendered
     void addIndex(const unsigned idx);
@@ -77,14 +79,14 @@ void Shape2D::addIndices(const Is... i)
 class Quad : public Shape2D
 {
 public:
-    Quad(const vec2& size, const vec3& col);
+    Quad(const glm::vec2& size, const glm::vec3& col);
 
 };
 
 class Circle : public Shape2D
 {
 public:
-    Circle(const float radius, const unsigned points, const vec3& col);
+    Circle(const float radius, const unsigned points, const glm::vec3& col);
 };
 
 #endif // SHAPES_H

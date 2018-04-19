@@ -37,9 +37,9 @@ const unsigned Shape2D::getIndexCount() const
     }
 }
 
-void Shape2D::addVertex(const vec2& pos, const vec3& col, const vec2& tc)
+void Shape2D::addVertex(const glm::vec2& pos, const glm::vec3& col, const glm::vec2& tc)
 {
-    mVertices.push_back({ pos[0], pos[1], 0.f, col[0], col[1], col[2], tc[0], tc[1] });
+    mVertices.push_back({ pos.x, pos.y, 0.f, col.r, col.g, col.b, tc.x, tc.y });
 }
 
 void Shape2D::addIndex(const unsigned idx)
@@ -64,22 +64,22 @@ void Shape2D::init()
 /// RECTANGLE
 //////
 
-Quad::Quad(const vec2& size, const vec3& col)
+Quad::Quad(const glm::vec2& size, const glm::vec3& col)
 {
-    addVertex(size / -2.f, col, vec2{ 0.f, 0.f });
-    addVertex(vec2{ size[0] / 2.f, size[1] / -2.f }, col, vec2{ 1.f, 0.f });
-    addVertex(size / 2.f, col, vec2{ 1.f, 1.f });
-    addVertex(vec2{ size[0] / -2.f, size[1] / 2.f }, col, vec2{ 0.f, 1.f });
+    addVertex(size / -2.f, col, glm::vec2{ 0.f, 0.f });
+    addVertex(glm::vec2{ size.x / 2.f, size.y / -2.f }, col, glm::vec2{ 1.f, 0.f });
+    addVertex(size / 2.f, col, glm::vec2{ 1.f, 1.f });
+    addVertex(glm::vec2{ size.x / -2.f, size.y / 2.f }, col, glm::vec2{ 0.f, 1.f });
 
     addIndices(0, 1, 2, 2, 3, 0);
 
     init();
 }
 
-Circle::Circle(const float radius, const unsigned points, const vec3& col)
+Circle::Circle(const float radius, const unsigned points, const glm::vec3& col)
 {
     // The center point
-    addVertex(vec2(0.f, 0.f), col, vec2(0.5f, 0.5f));
+    addVertex(glm::vec2(0.f, 0.f), col, glm::vec2(0.5f, 0.5f));
 
     // #TODO Create a proper math header with consts like this
     constexpr float PI = 3.14156f;
@@ -95,7 +95,7 @@ Circle::Circle(const float radius, const unsigned points, const vec3& col)
         auto u = std::cos(((2 * PI / points) * i) + 1.f) / 2.f;
         auto v = std::sin(((2 * PI / points) * i) + 1.f) / 2.f;
 
-        addVertex(vec2(x, y), col, vec2(u, v));
+        addVertex(glm::vec2(x, y), col, glm::vec2(u, v));
     }
 
     // Set up index buffer by walking the circle and stepping into the center for each triangle
