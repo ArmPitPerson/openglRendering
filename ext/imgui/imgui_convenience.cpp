@@ -1,6 +1,7 @@
 #include "imgui_convenience.h"
 
 #include <vector>
+#include <string>
 
 void ImGui::Value(const char* prefix, const glm::vec2& v)
 {

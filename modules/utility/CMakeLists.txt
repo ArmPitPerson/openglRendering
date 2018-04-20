@@ -31,7 +31,13 @@ TARGET_SOURCES(${MODULE_NAME}
 # Dependencies
 find_package(spdlog REQUIRED)
 
-TARGET_LINK_LIBRARIES(${MODULE_NAME} PCG::PCG spdlog::spdlog)
+# Must explicitly add FS on Linux
+if(UNIX)
+    target_link_libraries(${MODULE_NAME} stdc++fs)
+endif()
+
+# Always link PCG / Spdlog
+target_link_libraries(${MODULE_NAME} PCG::PCG spdlog::spdlog)
 
 # Set Install Targets
 INSTALL(TARGETS ${MODULE_NAME} EXPORT ${MODULE_EXPORT_NAME}
