@@ -60,7 +60,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
     static InputManager* inputManager = ServiceLocator<InputManager>::get();
-    inputManager->moveCursor({ xpos, ypos });
+    inputManager->moveCursor(glm::dvec2{ xpos, ypos });
     logDebug("Cursor at: X[{}] Y[{}]", xpos, ypos);
 }
 
