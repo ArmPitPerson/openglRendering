@@ -88,7 +88,7 @@ void GLFWApplication::run()
     Shader basicShader(getResourcePath("vertex.vert"), getResourcePath("frag.frag"));
     basicShader.bind();
 
-    Quad square({ 50.f, 50.f }, { 0.78f, 0.4f, 0.1f });
+    Quad square({ 50.f, 50.f }, { 0.88f, 0.4f, 0.1f });
     Quad square2({ 50.f, 50.f }, { 0.9f, 0.1f, 0.3f });
     Quad square3({ 50.f, 50.f }, { 0.1f, 0.9f, 0.4f });
 
@@ -120,6 +120,10 @@ void GLFWApplication::run()
             view = glm::translate(view, glm::vec3(0.f, 1.f, 0.f));
         if (mInputManager.arePressed(GLFW_KEY_D))
             view = glm::translate(view, glm::vec3(-1.f, 0.f, 0.f));
+        if (mInputManager.arePressed(GLFW_KEY_UP))
+            view = glm::rotate(view, 0.05f, glm::vec3{ 1.f, 0.f, 0.f });
+        if (mInputManager.arePressed(GLFW_KEY_DOWN))
+            view = glm::rotate(view, -0.05f, glm::vec3{ 1.f, 0.f, 0.f });
 
         // Updating
         while (timeSinceUpdate > updateDelta)

@@ -17,6 +17,7 @@ layout(std140, binding=1) uniform Matrices {
 out vec4 fs_color;
 out vec2 fs_texCoord;
 
+// Main Func
 void main() {
     gl_Position = mvpMatrix * vec4(aPosition.xy, 0.f, 1.f);
     fs_color = vec4(aColor, 1);
