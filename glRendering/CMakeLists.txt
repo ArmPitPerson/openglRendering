@@ -23,6 +23,8 @@ TARGET_SOURCES(${APPLICATION_NAME}
                ${CMAKE_CURRENT_SOURCE_DIR}/include/glfwApplication.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/glfwApplication.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/src/glfwCallbacks.cpp
+               ${CMAKE_CURRENT_SOURCE_DIR}/include/camera.h
+               ${CMAKE_CURRENT_SOURCE_DIR}/src/camera.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/include/image.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/image.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/include/inputManager.h
