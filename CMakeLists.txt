@@ -5,14 +5,8 @@ project("OpenGL-Rendering")
 # Varaibles
 ##############################################################################
 
-set(cmake_cxx_standard 17)
-set(cmake_cxx_standard REQUIRED ON)
-
-# MSVC C++ 17
-if(MSVC)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-add_definitions(-D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
-endif()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ##############################################################################
 # Main Application

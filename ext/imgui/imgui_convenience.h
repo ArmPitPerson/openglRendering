@@ -1,6 +1,6 @@
 /// OpenGL - by Carl Findahl - 2018
 
-/* 
+/*
  * Utility functions to work with
  * ImGui more easily.
  */
@@ -9,6 +9,7 @@
 #define IMGUI_CONVENIENCE_H
 
 #include <vector>
+#include <string>
 
 #include "imgui.h"
 #include "glm/vec2.hpp"

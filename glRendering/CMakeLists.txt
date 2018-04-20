@@ -58,7 +58,14 @@ find_package(OpenGL REQUIRED)
 # Find OpenGL Mathematics
 find_package(glm REQUIRED)
 
+# SPDLOG for Logging
 find_package(spdlog REQUIRED)
+
+# P-Thread on Linux
+if(UNIX)
+    find_package(Threads REQUIRED)
+    target_link_libraries(${APPLICATION_NAME} ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 target_link_libraries(${APPLICATION_NAME}
                       spdlog::spdlog
