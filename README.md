@@ -26,6 +26,7 @@ If any OpenGL gurus stumble upon this project and would like to provide feedback
  * Images
  * Instanced Drawing
  * Indexed Drawing
+ * Framebuffers
 
 ### 1.2 Example Renders
 This section contains a few example screenshots of what I've achieved with this project so far. There is no particular order, and is mostly provided to see progress. The images are dated.
