@@ -32,6 +32,8 @@ TARGET_SOURCES(${APPLICATION_NAME}
                ${CMAKE_CURRENT_SOURCE_DIR}/src/renderBatch.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/include/renderer.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/renderer.cpp
+               ${CMAKE_CURRENT_SOURCE_DIR}/include/framebuffer.h
+               ${CMAKE_CURRENT_SOURCE_DIR}/src/framebuffer.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/include/serviceLocator.h
                ${CMAKE_CURRENT_SOURCE_DIR}/include/shader.h
                ${CMAKE_CURRENT_SOURCE_DIR}/src/shader.cpp
